@@ -1,17 +1,17 @@
 import Communications
 import Foundation
 
-struct GetLastUpdatedEndpoint: Endpoint {
+struct TestEndpoint: Endpoint {
     
     // MARK: Properties
     
-    let scheme: String = .Scheme.https
-    let host: String = .Host.amiiboApi
+    let scheme: String = "http"
+    let host: String = "www.something.com"
     let port: Int? = nil
-    let path: String = .Path.lastUpdated
+    let path: String = "/path/to/endpoint"
     let parameters: Parameters = [:]
     let method: HTTPRequestMethod = .get
     let headers: [String : String] = [:]
     let body: Data? = nil
-    
+
 }

@@ -32,7 +32,8 @@ let package = Package(
         .testTarget(
             name: "AmiiboServiceTests",
             dependencies: [
-                "AmiiboService"
+                "AmiiboService",
+                .product(name: "SwiftLibs", package: "swift-libs")
             ],
             path: "Tests"
         ),

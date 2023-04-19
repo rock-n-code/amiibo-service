@@ -1,0 +1,14 @@
+{
+  "pins" : [
+    {
+      "identity" : "swift-libs",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/rock-n-code/swift-libs.git",
+      "state" : {
+        "revision" : "2ba3e33a0e8c0ffc2b69efa906b03364a9d53a51",
+        "version" : "0.1.2"
+      }
+    }
+  ],
+  "version" : 2
+}
