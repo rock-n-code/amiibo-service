@@ -9,7 +9,7 @@ extension Result: Decodable {
     // MARK: Enumerations
     
     enum CodingKeys: String, CodingKey {
-        case items = "amiibo"
+        case amiibo
     }
     
     // MARK: Initialisers
@@ -18,9 +18,9 @@ extension Result: Decodable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
         do {
-            self.items = try container.decode([Model].self, forKey: .items)
+            self.items = try container.decode([Model].self, forKey: .amiibo)
         } catch {
-            self.items = [try container.decode(Model.self, forKey: .items)]
+            self.items = [try container.decode(Model.self, forKey: .amiibo)]
         }
     }
     
