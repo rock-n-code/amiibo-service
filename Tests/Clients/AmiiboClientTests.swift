@@ -38,7 +38,7 @@ final class AmiiboClientTests: XCTestCase {
         
         MockURLProtocol.mockData[.init(url: url)] = .init(
             status: .ok,
-            data: .Seed.dataWithoutTimestamp
+            data: .Client.Seed.dataWithoutTimestamp
         )
 
         // WHEN
@@ -58,7 +58,7 @@ final class AmiiboClientTests: XCTestCase {
         
         MockURLProtocol.mockData[.init(url: url)] = .init(
             status: .ok,
-            data: .Seed.dataWithDateAndTime
+            data: .Client.Seed.dataWithDateAndTime
         )
         
         client.setDateDecodingStrategy(.formatted(.dateAndTime))
@@ -80,7 +80,7 @@ final class AmiiboClientTests: XCTestCase {
         
         MockURLProtocol.mockData[.init(url: url)] = .init(
             status: .ok,
-            data: .Seed.dataUnrelated
+            data: .Client.Seed.dataUnrelated
         )
 
         // WHEN & THEN
@@ -102,7 +102,7 @@ final class AmiiboClientTests: XCTestCase {
         
         MockURLProtocol.mockData[.init(url: url)] = .init(
             status: .ok,
-            data: .Seed.dataWithDateAndTime
+            data: .Client.Seed.dataWithDateAndTime
         )
         
         client.setDateDecodingStrategy(.formatted(.dateOnly))
@@ -126,7 +126,7 @@ final class AmiiboClientTests: XCTestCase {
         
         MockURLProtocol.mockData[.init(url: url)] = .init(
             status: .notFound,
-            data: .Seed.dataWithoutTimestamp
+            data: .Client.Seed.dataWithoutTimestamp
         )
 
         // WHEN & THEN
