@@ -1,3 +1,15 @@
+//===----------------------------------------------------------------------===//
+//
+// This source file is part of the AmiiboService open source project
+//
+// Copyright (c) 2023 Röck+Cöde VoF. and the AmiiboService project authors
+// Licensed under the EUPL 1.2 or later.
+//
+// See LICENSE.txt for license information
+// See CONTRIBUTORS.txt for the list of AmiiboService project authors
+//
+//===----------------------------------------------------------------------===//
+
 extension String {
     enum Amiibo {
         static let withoutGameOrUsage = "{\"amiibo\":[{\"amiiboSeries\":\"Super Smash Bros.\",\"character\":\"Mario\",\"gameSeries\":\"Super Mario\",\"head\":\"00000000\",\"image\":\"https://raw.githubusercontent.com/N3evin/AmiiboAPI/master/images/icon_00000000-00000002.png\",\"name\":\"Mario\",\"release\":{\"au\":\"2014-11-29\",\"eu\":\"2014-11-28\",\"jp\":\"2014-12-06\",\"na\":\"2014-11-21\"},\"tail\":\"00000002\",\"type\":\"Figure\"},{\"amiiboSeries\":\"Super Mario Bros.\",\"character\":\"Mario\",\"gameSeries\":\"Super Mario\",\"head\":\"00000000\",\"image\":\"https://raw.githubusercontent.com/N3evin/AmiiboAPI/master/images/icon_00000000-00340102.png\",\"name\":\"Mario\",\"release\":{\"au\":\"2015-03-21\",\"eu\":\"2015-03-20\",\"jp\":\"2015-03-12\",\"na\":\"2015-03-20\"},\"tail\":\"00340102\",\"type\":\"Figure\"}]}"
