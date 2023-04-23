@@ -1,3 +1,4 @@
+/// This filter provides all the possible parameters (and combinations) available at the remote API applies when filtering amiibos.
 public struct AmiiboFilter {
     
     // MARK: Properties
@@ -14,6 +15,17 @@ public struct AmiiboFilter {
     
     // MARK: Initialisers
     
+    /// Initialises this filter.
+    /// - Parameters:
+    ///   - id: An amiibo `id` value to match against.
+    ///   - head: An amiibo `head` value to match against.
+    ///   - tail: An amiibo `tail` value to match against.
+    ///   - name: An amiibo `name` value to match against.
+    ///   - type: An amiibo `type` key or name value to match against.
+    ///   - gameSeries: An amiibo `gameSeries` key or name value to match against.
+    ///   - amiiboSeries: An amiibo `amiiboSeries` key or name value to match against.
+    ///   - character: An amiibo `character` key or name value to match against.
+    ///   - showExtras: A ``ShowExtras`` enumeration that indicates whether amiibo extra information need to be retrieved or not.
     public init(
         id: String? = nil,
         head: String? = nil,
@@ -95,10 +107,16 @@ extension AmiiboFilter: Filter {
 
 // MARK: - Enumerations
 
-public enum ShowExtras {
-    case none
-    case games
-    case usage
+extension AmiiboFilter {
+    /// This enumeration indicates if extra information for amiibos need to be retrieved.
+    public enum ShowExtras {
+        /// No extra information needs to be retrieved.
+        case none
+        /// Amiibo games information needs to be retrieved.
+        case games
+        /// Amiibo games and its usage information needs to be retrieved.
+        case usage
+    }
 }
 
 // MARK: - String+Key

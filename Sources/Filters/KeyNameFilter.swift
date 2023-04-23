@@ -1,3 +1,4 @@
+/// This filter provides all the possible parameters (and combinations) available at the remote API applies when filtering amiibos series (``AmiiboSeriesFilter``), amiibo types (``AmiiboTypeFilter``), characters (``CharacterFilter``), or game series (``GameSeriesFilter``).
 public struct KeyNameFilter {
     
     // MARK: Properties
@@ -7,6 +8,10 @@ public struct KeyNameFilter {
     
     // MARK: Initialisers
     
+    /// Initialises this filter.
+    /// - Parameters:
+    ///   - key: A `key` value to match against.
+    ///   - name: A `name` value to match against.
     public init(
         key: String? = nil,
         name: String? = nil
@@ -16,6 +21,20 @@ public struct KeyNameFilter {
     }
 
 }
+
+// MARK: - Type aliases
+
+/// This filter provides all the possible parameters (and combinations) available at the remote API applies when filtering amiibos series.
+public typealias AmiiboSeriesFilter = KeyNameFilter
+
+/// This filter provides all the possible parameters (and combinations) available at the remote API applies when filtering amiibo types.
+public typealias AmiiboTypeFilter = KeyNameFilter
+
+/// This filter provides all the possible parameters (and combinations) available at the remote API applies when filtering characters.
+public typealias CharacterFilter = KeyNameFilter
+
+/// This filter provides all the possible parameters (and combinations) available at the remote API applies when filtering game series.
+public typealias GameSeriesFilter = KeyNameFilter
 
 // MARK: - Filter
 
@@ -38,13 +57,6 @@ extension KeyNameFilter: Filter {
     }
     
 }
-
-// MARK: - Type aliases
-
-public typealias AmiiboSeriesFilter = KeyNameFilter
-public typealias AmiiboTypeFilter = KeyNameFilter
-public typealias CharacterFilter = KeyNameFilter
-public typealias GameSeriesFilter = KeyNameFilter
 
 // MARK: - String+Key
 
