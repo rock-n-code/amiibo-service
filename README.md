@@ -1,6 +1,13 @@
+<center style="margin: 48px 96px;">
+    <picture>
+        <source srcset="imgs/amiiboservice-logo-dark.svg" media="(prefers-color-scheme: dark)">
+        <img src="imgs/amiiboservice-logo-light.svg" alt="Shows the hand-drawn AmiiboService package logo centered in the page.">
+    </picture>
+</center>
+
 # AmiiboService: Amiibo API service written in Swift
 
-This package contains a ready-to-use service that can retrieve data as decoded models/entities from any of the [Amiibo API](https://www.amiiboapi.com) available endpoints.
+Ready-to-use service that retrieves data as decoded models from any of the [Amiibo API](https://www.amiiboapi.com) available endpoints.
 
 ## Installation
 
@@ -29,11 +36,11 @@ Then it is required to add the package to your target, like this:
 ```swift
 targets: [
     .target(
-        ...
+        // ...
         dependencies: [
             .product(name: "AmiiboService", package: "amiibo-service")
         ],
-        ...
+        // ...
     ),
 ]
 ```
@@ -51,7 +58,6 @@ In an opened Xcode project, it is required to do these steps:
 8. select the target to which the dependency will be applied (if required);
 9. wait for the package to be resolved and included in the project;
 10. done!
- 
 
 ### Other considerations
 
@@ -66,5 +72,7 @@ This package provides an actor called `AmiiboService` which, after is initialise
 It is needless to say, all the necessary filters, models/entities, and enumerations are also provided in this package. 
 
 ## Further documentation
+
+For further information about this package, please refer to the [AmiiboService documentation](https://rock-n-code.github.io/amiibo-service/documentation/amiiboservice/) available online.
 
 For further information about the API, please refer to the [Amiibo API documentation](https://www.amiiboapi.com/docs/) available online.
