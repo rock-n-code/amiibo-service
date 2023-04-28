@@ -10,6 +10,7 @@
 //
 //===----------------------------------------------------------------------===//
 
+#if os(iOS) || os(macOS) || os(tvOS) || os(watchOS)
 import Communications
 import Foundation
 import XCTest
@@ -521,3 +522,4 @@ final class AmiiboServiceTests: XCTestCase {
     }
     
 }
+#endif

@@ -6,45 +6,110 @@ environment_vars ?= .env
 include $(environment_vars)
 export $(shell sed 's/=.*//' $(environment_vars))
 
+# --- ARGUMENTS ---
+
+override docker?=${CLI_USE_DOCKER}
+override tag?=${DOCKER_IMAGE_TAG}
+override platform?=${DOCKER_IMAGE_PLATFORM}
+override config?=${SWIFT_BUILD_CONFIGURATION}
+override clean?=${DOCKER_IMAGE_CLEAN}
+
+# --- DEPENDENCIES ---
+
+outdated: ## List the package dependencies that can be updated.
+	@swift package update --dry-run
+
+update: ## Update the package dependencies.
+	@swift package update
+
+# --- DEVELOPMENT ---
+
+build: ## Build this package with Swift either locally or in a Docker image.
+ifeq ($(docker),yes)
+	@-docker run \
+		--rm \
+		--volume ${PWD}:${DOCKER_VOLUME_TARGET} \
+		--workdir ${DOCKER_VOLUME_TARGET} \
+		--platform ${platform} \
+		${DOCKER_IMAGE_NAME}:${tag} \
+		swift build --configuration ${config}
+    ifeq ($(clean),yes)
+		@docker rmi ${DOCKER_IMAGE_NAME}:${tag}
+    endif
+else
+	@swift build --configuration ${config}
+endif
+
+# --- TESTING ---
+
+test: ## Test this package with Swift either locally or in a Docker image.
+ifeq ($(docker),yes)
+	@-docker run \
+		--rm \
+		--volume ${PWD}:${DOCKER_VOLUME_TARGET} \
+		--workdir ${DOCKER_VOLUME_TARGET} \
+		--platform ${platform} \
+		${DOCKER_IMAGE_NAME}:${tag} \
+		swift test --configuration ${config}
+    ifeq ($(clean),yes)
+		@docker rmi ${DOCKER_IMAGE_NAME}:${tag}
+    endif
+else
+	@swift test --configuration ${config}
+endif
+
 # --- DOCUMENTATION ---
 
-preview-doc: ## Previews the project documentation for web.
-	@open -a safari $(SWIFT_DOC_PREVIEW_URL)
+preview-doc: ## Preview the documentation in Safari.
+	@open -a safari $(DOCC_PREVIEW_URL)
 	@swift package \
 		--disable-sandbox \
 		preview-documentation \
 		--target $(SWIFT_TARGET_NAME)
 
-generate-docs: generate-doc-xcode generate-doc-github ## Generates the project documentation for Xcode and Github.
+generate-docs: generate-doc-xcode generate-doc-github ## Generate the documentation for Xcode and Github pages.
 
 generate-doc-xcode:
-	@echo Generating documentation for Xcode...
 	@swift package \
-		--allow-writing-to-directory $(SWIFT_DOC_XCODE_OUTPUT) \
+		--allow-writing-to-directory $(DOCC_XCODE_OUTPUT) \
 		generate-documentation \
 		--target $(SWIFT_TARGET_NAME) \
-		--output-path $(SWIFT_DOC_XCODE_OUTPUT)
+		--output-path $(DOCC_XCODE_OUTPUT)
 
 generate-doc-github:
-	@echo Generating documentation for Github pages...
 	@swift package \
-		--allow-writing-to-directory $(SWIFT_DOC_GITHUB_OUTPUT) \
+		--allow-writing-to-directory $(DOCC_GITHUB_OUTPUT) \
 		generate-documentation \
 		--target $(SWIFT_TARGET_NAME) \
 		--disable-indexing \
 		--transform-for-static-hosting \
-		--hosting-base-path $(SWIFT_DOC_GITHUB_BASE_PATH) \
-		--output-path $(SWIFT_DOC_GITHUB_OUTPUT)
+		--hosting-base-path $(DOCC_GITHUB_BASE_PATH) \
+		--output-path $(DOCC_GITHUB_OUTPUT)
 
-clean-docs: ## Cleans up the generated documentation for Xcode and Github pages.
-ifeq ("$(shell test -e ${SWIFT_DOC_GITHUB_OUTPUT} && echo yes)","yes")
-	@echo Cleaning up the Github pages folder...
-	@rm -rf ${SWIFT_DOC_GITHUB_OUTPUT}
+# --- HOUSE-KEEPING ---
+
+clean: ## Clean the build artifacts.
+	@swift package clean
+
+reset: ## Reset the build folder.
+	@swift package reset
+
+flush-docs: ## Flush the documentation for Xcode and Github pages.
+ifeq ("$(shell test -e ${DOCC_GITHUB_OUTPUT} && echo yes)","yes")
+	@rm -rf ${DOCC_GITHUB_OUTPUT}
 endif
-ifeq ("$(shell test -e ${SWIFT_DOC_XCODE_OUTPUT} && echo yes)","yes")
-	@echo Cleaning up the Xcode documentation archive...
-	@rm -rf ${SWIFT_DOC_XCODE_OUTPUT}
+ifeq ("$(shell test -e ${DOCC_XCODE_OUTPUT} && echo yes)","yes")
+	@rm -rf ${DOCC_XCODE_OUTPUT}
 endif
+
+flush-images: ## Flush all outstanding Swift docker images.
+	@docker images \
+		--all | grep ${DOCKER_IMAGE_NAME} | awk '{print $$3}' | xargs docker rmi --force
+
+# --- MISCELLANEOUS ---
+
+xcode: ## Open this package in Xcode.
+	@open -a Xcode Package.swift
 
 # --- HELP ---
 

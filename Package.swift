@@ -1,4 +1,4 @@
-// swift-tools-version: 5.5
+// swift-tools-version: 5.7
 //
 // This source file is part of the AmiiboService open source project
 //
@@ -28,7 +28,7 @@ let package = Package(
         ),
     ],
     dependencies: [
-        .package(url: "https://github.com/rock-n-code/swift-libs.git", from: "0.1.0"),
+        .package(url: "https://github.com/rock-n-code/swift-libs.git", from: "0.1.5"),
         .package(url: "https://github.com/apple/swift-docc-plugin", from: "1.1.0"),
     ],
     targets: [

@@ -10,6 +10,7 @@
 //
 //===----------------------------------------------------------------------===//
 
+#if os(iOS) || os(macOS) || os(tvOS) || os(watchOS)
 import Communications
 import Foundation
 
@@ -76,3 +77,4 @@ private extension AmiiboClient {
     }
     
 }
+#endif
