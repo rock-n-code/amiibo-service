@@ -10,8 +10,11 @@
 //
 //===----------------------------------------------------------------------===//
 
-#if os(iOS) || os(macOS) || os(tvOS) || os(watchOS)
 import Foundation
+
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 
 /// This service provides the interface to make remote API calls to the [Amiibo API](https://www.amiiboapi.com) and, subsequently, handle its responses.
 ///
@@ -126,4 +129,3 @@ extension AmiiboService: Service {
     }
     
 }
-#endif

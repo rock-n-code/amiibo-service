@@ -10,10 +10,13 @@
 //
 //===----------------------------------------------------------------------===//
 
-#if os(iOS) || os(macOS) || os(tvOS) || os(watchOS)
 import Communications
 import Foundation
 import XCTest
+
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 
 @testable import AmiiboService
 
@@ -522,4 +525,3 @@ final class AmiiboServiceTests: XCTestCase {
     }
     
 }
-#endif

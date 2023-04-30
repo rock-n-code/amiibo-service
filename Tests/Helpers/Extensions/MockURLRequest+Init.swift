@@ -10,9 +10,12 @@
 //
 //===----------------------------------------------------------------------===//
 
-#if os(iOS) || os(macOS) || os(tvOS) || os(watchOS)
 import Communications
 import Foundation
+
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 
 extension MockURLRequest {
     
@@ -23,4 +26,3 @@ extension MockURLRequest {
     }
 
 }
-#endif

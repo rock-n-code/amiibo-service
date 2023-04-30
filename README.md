@@ -26,7 +26,7 @@ In the intended `Package.swift` file, it is required to add the following depend
 ```swift
 dependencies: [
     // ...
-    .package(url: "https://github.com/rock-n-code/amiibo-service.git", from: "1.0.2")
+    .package(url: "https://github.com/rock-n-code/amiibo-service.git", from: "1.0.3")
     // ...
 ],
 ```
@@ -55,14 +55,14 @@ In an opened Xcode project, it is required to follow these steps to install the 
 4. press on the *+* (plus) button to add dependencies to the project;
 5. enter the URL `https://github.com/rock-n-code/amiibo-service` into the *Search or Enter Package URL* located in the upper right corner;
 6. select the retrieved option;
-7. define the dependency rule (the *Up to Next Major Version* option and the *1.0.2* text are recommended);
+7. define the dependency rule (the *Up to Next Major Version* option and the *1.0.3* text are recommended);
 8. select the target to which the dependency will be applied (if required);
 9. wait for the package to be resolved and included in the project;
 10. now you should be ready to start using this package!
 
 ### Other considerations
 
-This library is fully supported on Apple platforms only for the time being: *iOS*, *macOS*, *tvOS*, and *watchOS*. Support for other platforms such as *Linux* or *Windows* might be added in the future, depending on the type of changes those platforms require but this needs to be researched first. 
+This library is fully supported not only on Apple platforms such as *iOS*, *macOS*, *tvOS*, and *watchOS*, but also *Linux*.
 
 ⚠️ Please notice that this library only supports the [Swift Package Manager](https://www.swift.org/package-manager/), and that support for other dependency managers such as *Cocoapods* and *Carthage* has not been prioritised. 
 

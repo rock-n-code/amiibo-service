@@ -4,7 +4,7 @@ Ready-to-use service that retrieves decoded entities from any of the [Amiibo API
 
 ## Overview
 
-**AmiiboService** provides a service, filters and models for retrieving data from the remote [Amiibo API](https://www.amiiboapi.com) endpoints to use in libraries and applications targeting Apple platforms, such as *iOS*, *macOS*, *tvOS*, and *watchOS*. This package provides structures that can be used to include filters to the requests to send to the remote service if required. In addition, the structures to model the kinds of data coming in from those responses into entities are also provided.
+**AmiiboService** provides a service, filters and models for retrieving data from the remote [Amiibo API](https://www.amiiboapi.com) endpoints to use in libraries and applications targeting not only Apple platforms, such as *iOS*, *macOS*, *tvOS*, and *watchOS*, but also *Linux*. This package provides structures that can be used to include filters to the requests to send to the remote service if required. In addition, the structures to model the kinds of data coming in from those responses into entities are also provided.
 
 ## Topics
 

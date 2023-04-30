@@ -10,16 +10,18 @@
 //
 //===----------------------------------------------------------------------===//
 
-#if os(iOS) || os(macOS) || os(tvOS) || os(watchOS)
 import Communications
 import Foundation
+
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 
 struct AmiiboClient {
     
     // MARK: Properties
     
     private let session: URLSession
-    
     private let decoder = JSONDecoder()
     private let makeURLRequest = MakeURLRequestUseCase()
     
@@ -48,7 +50,7 @@ extension AmiiboClient: Client {
         as model: Model.Type
     ) async throws -> Model where Model : Decodable {
         let urlRequest = try makeURLRequest(endpoint: endpoint)
-        let (data, response) = try await session.data(for: urlRequest)
+        let (data, response) = try await data(from: session, for: urlRequest)
 
         try check(response)
 
@@ -62,6 +64,27 @@ extension AmiiboClient: Client {
 private extension AmiiboClient {
     
     // MARK: Functions
+
+    func data(
+        from session: URLSession,
+        for urlRequest: URLRequest
+    ) async throws -> (Data, URLResponse) {
+        #if canImport(FoundationNetworking)
+            try await withCheckedThrowingContinuation { continuation in
+                session.dataTask(with: urlRequest) { data, response, error in
+                    if let error {
+                        continuation.resume(with: .failure(error))
+                    } else if let data, let response {
+                        continuation.resume(with: .success((data, response)))
+                    } else {
+                        continuation.resume(with: .failure(AmiiboClientError.dataOrResponseNotFound))
+                    }
+                }
+            }
+        #else
+            try await session.data(for: urlRequest)
+        #endif
+    }
     
     func check(_ response: URLResponse) throws {
         guard
@@ -77,4 +100,3 @@ private extension AmiiboClient {
     }
     
 }
-#endif
