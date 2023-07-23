@@ -27,11 +27,15 @@ extension DTO.Amiibo.Game {
 
 }
 
-// MARK: - Decodable
+// MARK: - Codable
 
-extension DTO.Amiibo.Game.Usage: Decodable {
+extension DTO.Amiibo.Game.Usage: Codable {
+    
+    // MARK: Keys
+    
     enum CodingKeys: String, CodingKey {
         case explanation = "Usage"
         case isWritable = "write"
     }
+
 }

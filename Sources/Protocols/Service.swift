@@ -14,7 +14,7 @@ import Foundation
 
 protocol Service {
     
-    // MARK:  Functions
+    // MARK: Functions
     
     func amiibos(filter: AmiiboFilter) async throws -> [DTO.Amiibo]
     func amiiboSeries(filter: AmiiboSeriesFilter) async throws -> [DTO.AmiiboSeries]

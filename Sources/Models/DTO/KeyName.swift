@@ -45,6 +45,6 @@ extension DTO {
 
 }
 
-// MARK: - Decodable
+// MARK: - Codable
 
-extension DTO.KeyName: Decodable {}
+extension DTO.KeyName: Codable {}

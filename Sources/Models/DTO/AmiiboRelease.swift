@@ -35,13 +35,17 @@ extension DTO.Amiibo {
 
 }
 
-// MARK: - Decodable
+// MARK: - Codable
 
-extension DTO.Amiibo.Release: Decodable {
+extension DTO.Amiibo.Release: Codable {
+    
+    // MARK: Keys
+    
     enum CodingKeys: String, CodingKey {
         case australia = "au"
         case europe = "eu"
         case japan = "jp"
         case america = "na"
     }
+
 }

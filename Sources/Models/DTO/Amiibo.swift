@@ -53,6 +53,7 @@ extension DTO {
 // MARK: - Structs
 
 extension DTO.Amiibo {
+    
     /// This model represents the list of games related to a particular amiibo, grouped by system.
     public struct Games: Decodable {
         
@@ -67,13 +68,14 @@ extension DTO.Amiibo {
         /// /// A list of [Nintendo Switch system](https://en.wikipedia.org/wiki/Nintendo_Switch) games the amiibo can be used with.
         public let `switch`: [Game]
     }
+
 }
 
-// MARK: - Decodable
+// MARK: - Codable
 
-extension DTO.Amiibo: Decodable {
+extension DTO.Amiibo: Codable {
     
-    // MARK: Enumerations
+    // MARK: Keys
     
     enum CodingKeys: String, CodingKey {
         case type
@@ -90,7 +92,7 @@ extension DTO.Amiibo: Decodable {
         case gamesSwitch
     }
     
-    // MARK: Initialisers
+    // MARK: Decoding
     
     /// Initialises this model by decoding from the given decoder.
     /// - Parameter decoder: The decoder to read data from.
@@ -121,6 +123,28 @@ extension DTO.Amiibo: Decodable {
                 return nil
             }
         }()
+    }
+    
+    // MARK: Encoding
+    
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        
+        try container.encode(type, forKey: .type)
+        try container.encode(head, forKey: .head)
+        try container.encode(tail, forKey: .tail)
+        try container.encode(name, forKey: .name)
+        try container.encode(character, forKey: .character)
+        try container.encode(series, forKey: .series)
+        try container.encode(gameSeries, forKey: .gameSeries)
+        try container.encode(image, forKey: .image)
+        try container.encode(release, forKey: .release)
+        
+        if let games {
+            try container.encode(games.n3ds, forKey: .games3DS)
+            try container.encode(games.wiiu, forKey: .gamesWiiU)
+            try container.encode(games.switch, forKey: .gamesSwitch)
+        }
     }
 
 }

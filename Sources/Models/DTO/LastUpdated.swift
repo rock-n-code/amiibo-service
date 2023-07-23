@@ -26,10 +26,14 @@ public extension DTO {
 
 }
 
-// MARK: - Decodable
+// MARK: - Codable
 
-extension DTO.LastUpdated: Decodable {
+extension DTO.LastUpdated: Codable {
+    
+    // MARK: Keys
+    
     enum CodingKeys: String, CodingKey {
         case timestamp = "lastUpdated"
     }
+
 }
