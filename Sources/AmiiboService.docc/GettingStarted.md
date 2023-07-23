@@ -80,5 +80,5 @@ This service provides these following functions, which all basically are meant t
 
 It is certainly important to highlight two points here:
 
-1. these functions support the `async/await` feature of the Swift programming language, thus they should be called within a context that already uses this feature;
+1. these functions support the `Swift concurrency` (or `async/await`)  feature of the Swift programming language, thus they should be called within a context that already uses this feature;
 2. these functions would throw an error in case any issue occurred while they are executing, so it is recommendable to handle the error appropriately to guarantee the proper continuation of the application and also, a proper user experience.

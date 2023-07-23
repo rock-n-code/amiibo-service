@@ -43,89 +43,89 @@ extension AmiiboService: Service {
     
     /// Retrieves a list of amiibos from a remote location that matches a given filter criteria.
     /// - Parameter filter: A ``AmiiboFilter`` instance that contains the filtering criteria.
-    /// - Returns: A list of decoded ``Amiibo`` instances that matches the given filter criteria.
+    /// - Returns: A list of decoded ``DTO.Amiibo`` instances that matches the given filter criteria.
     /// - Throws: A ``AmiiboClientError`` is thrown in case a request failed, or a `DecodingError` is thrown in case the decoding of some object failed.
     public func amiibos(
         filter: AmiiboFilter = .init()
-    ) async throws -> [Amiibo] {
+    ) async throws -> [DTO.Amiibo] {
         client.setDateDecodingStrategy(.formatted(.dateOnly))
         
         return try await client.request(
             endpoint: GetAmiiboEndpoint(parameters: filter.makeParameters()),
-            as: Result<Amiibo>.self
+            as: Result<DTO.Amiibo>.self
         ).items
     }
     
     /// Retrieves a list of amiibo series from a remote location that matches a given filter criteria.
     /// - Parameter filter: A ``AmiiboSeriesFilter`` instance that contains the filtering criteria.
-    /// - Returns: A list of decoded ``AmiiboSeries`` instances that matches the given filter criteria.
+    /// - Returns: A list of decoded ``DTO.AmiiboSeries`` instances that matches the given filter criteria.
     /// - Throws: A ``AmiiboClientError`` is thrown in case a request failed, or a `DecodingError` is thrown in case the decoding of some object failed.
     public func amiiboSeries(
         filter: AmiiboSeriesFilter = .init()
-    ) async throws -> [AmiiboSeries] {
+    ) async throws -> [DTO.AmiiboSeries] {
         client.setDateDecodingStrategy(.deferredToDate)
         
         return try await client.request(
             endpoint: GetSeriesEndpoint(parameters: filter.makeParameters()),
-            as: Result<AmiiboSeries>.self
+            as: Result<DTO.AmiiboSeries>.self
         ).items
     }
     
     /// Retrieves a list of amiibo types from a remote location that matches a given filter criteria.
     /// - Parameter filter: A ``AmiiboTypeFilter`` instance that contains the filtering criteria.
-    /// - Returns: A list of decoded ``AmiiboType`` instances that matches the given filter criteria.
+    /// - Returns: A list of decoded ``DTO.AmiiboType`` instances that matches the given filter criteria.
     /// - Throws: A ``AmiiboClientError`` is thrown in case a request failed, or a `DecodingError` is thrown in case the decoding of some object failed.
     public func amiiboTypes(
         filter: AmiiboTypeFilter = .init()
-    ) async throws -> [AmiiboType] {
+    ) async throws -> [DTO.AmiiboType] {
         client.setDateDecodingStrategy(.deferredToDate)
         
         return try await client.request(
             endpoint: GetTypeEndpoint(parameters: filter.makeParameters()),
-            as: Result<AmiiboType>.self
+            as: Result<DTO.AmiiboType>.self
         ).items
     }
     
     /// Retrieves a list of characters from a remote location that matches a given filter criteria.
     /// - Parameter filter: A ``CharacterFilter`` instance that contains the filtering criteria.
-    /// - Returns: A list of decoded ``Character`` instances that matches the given filter criteria.
+    /// - Returns: A list of decoded ``DTO.Character`` instances that matches the given filter criteria.
     /// - Throws: A ``AmiiboClientError`` is thrown in case a request failed, or a `DecodingError` is thrown in case the decoding of some object failed.
     public func characters(
         filter: CharacterFilter = .init()
-    ) async throws -> [Character] {
+    ) async throws -> [DTO.Character] {
         client.setDateDecodingStrategy(.deferredToDate)
         
         return try await client.request(
             endpoint: GetCharacterEndpoint(parameters: filter.makeParameters()),
-            as: Result<Character>.self
+            as: Result<DTO.Character>.self
         ).items
     }
     
     /// Retrieves a list of game series from a remote location that matches a given filter criteria.
     /// - Parameter filter: A ``GameSeriesFilter`` instance that contains the filtering criteria.
-    /// - Returns: A list of decoded ``GameSeries`` instances that matches the given filter criteria.
+    /// - Returns: A list of decoded ``DTO.GameSeries`` instances that matches the given filter criteria.
     /// - Throws: A ``AmiiboClientError`` is thrown in case a request failed, or a `DecodingError` is thrown in case the decoding of some object failed.
     public func gameSeries(
         filter: GameSeriesFilter = .init()
-    ) async throws -> [GameSeries] {
+    ) async throws -> [DTO.GameSeries] {
         client.setDateDecodingStrategy(.deferredToDate)
         
         return try await client.request(
             endpoint: GetGameSeriesEndpoint(parameters: filter.makeParameters()),
-            as: Result<GameSeries>.self
+            as: Result<DTO.GameSeries>.self
         ).items
     }
 
     /// Retrieves the date in which the remote API was last updated.
-    /// - Returns: A `Date` instance that represents the date in which the remote API was last updated.
+    /// - Returns: A decoded `DTO.LastUpdated` instance that represents the date in which the remote API was last updated.
     /// - Throws: A ``AmiiboClientError`` is thrown in case a request failed, or a `DecodingError` is thrown in case the decoding of some object failed.
-    public func lastUpdated() async throws -> Date {
+    public func lastUpdated() async throws -> DTO.LastUpdated {
         client.setDateDecodingStrategy(.formatted(.dateAndTime))
         
         return try await client.request(
             endpoint: GetLastUpdatedEndpoint(),
-            as: LastUpdated.self
-        ).timestamp
+            as: DTO.LastUpdated.self
+        )
     }
     
 }
