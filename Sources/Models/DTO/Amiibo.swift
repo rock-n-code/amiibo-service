@@ -10,6 +10,8 @@
 //
 //===----------------------------------------------------------------------===//
 
+import Foundation
+
 extension DTO {
     
     /// This model struct represents an amiibo that is retrieved from the respective [remote API endpoint](https://www.amiiboapi.com/docs/#amiibo).
@@ -39,7 +41,7 @@ extension DTO {
         public let gameSeries: String
         
         /// The URL to an image of the amiibo.
-        public let image: String
+        public let imageURL: URL
         
         /// The release dates of the amiibo (if released) in Australia, Europe, Japan and North America.
         public let release: Release
@@ -85,7 +87,7 @@ extension DTO.Amiibo: Codable {
         case character
         case series = "amiiboSeries"
         case gameSeries
-        case image
+        case imageURL = "image"
         case release
         case games3DS
         case gamesWiiU
@@ -110,7 +112,7 @@ extension DTO.Amiibo: Codable {
         self.character = try container.decode(String.self, forKey: .character)
         self.series = try container.decode(String.self, forKey: .series)
         self.gameSeries = try container.decode(String.self, forKey: .gameSeries)
-        self.image = try container.decode(String.self, forKey: .image)
+        self.imageURL = try container.decode(URL.self, forKey: .imageURL)
         self.release = try container.decode(Release.self, forKey: .release)
         self.games = {
             if let games3ds, let gamesWiiU, let gamesSwitch {
@@ -137,7 +139,7 @@ extension DTO.Amiibo: Codable {
         try container.encode(character, forKey: .character)
         try container.encode(series, forKey: .series)
         try container.encode(gameSeries, forKey: .gameSeries)
-        try container.encode(image, forKey: .image)
+        try container.encode(imageURL, forKey: .imageURL)
         try container.encode(release, forKey: .release)
         
         if let games {
