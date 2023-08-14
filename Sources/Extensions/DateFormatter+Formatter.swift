@@ -10,8 +10,8 @@
 //
 //===----------------------------------------------------------------------===//
 
-import Core
 import Foundation
+import SwiftLibsFoundation
 
 extension DateFormatter {
     

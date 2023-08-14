@@ -10,7 +10,7 @@
 //
 //===----------------------------------------------------------------------===//
 
-import Communications
+import SwiftLibsCommunication
 
 protocol Filter {
     

@@ -23,8 +23,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/rock-n-code/swift-libs.git",
       "state" : {
-        "revision" : "060d8a84a9e4b5a7d8bb7520c61b009480fb1c9e",
-        "version" : "0.1.9"
+        "revision" : "fca5e034d60bafeb450c9f23ab70c0712acc0c97",
+        "version" : "0.2.2"
       }
     }
   ],

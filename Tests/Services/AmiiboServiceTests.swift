@@ -10,8 +10,8 @@
 //
 //===----------------------------------------------------------------------===//
 
-import Communications
 import Foundation
+import SwiftLibsCommunication
 import XCTest
 
 #if canImport(FoundationNetworking)

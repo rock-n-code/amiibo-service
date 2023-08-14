@@ -10,8 +10,8 @@
 //
 //===----------------------------------------------------------------------===//
 
-import Communications
 import Foundation
+import SwiftLibsCommunication
 
 struct TestEndpoint: Endpoint {
     
