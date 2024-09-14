@@ -1,0 +1,376 @@
+# ===----------------------------------------------------------------------===
+# 
+# This source file is part of the AmiiboAPI open source project
+# 
+# Copyright (c) 2024 Röck+Cöde VoF. and the AmiiboAPI project authors
+# Licensed under the EUPL 1.2 or later.
+# 
+# See LICENSE for license information
+# See CONTRIBUTORS for the list of AmiiboAPI project authors
+# 
+# ===----------------------------------------------------------------------===
+
+openapi: '3.1.0'
+info:
+  title: Amiibo API service
+  description: The Amiibo API RESTful service.
+  version: 1.0.0
+servers:
+  - url: https://www.amiiboapi.com/api
+    description: Amiibo API service (live)
+paths:
+  /amiibo:
+    get:
+      description: Get a list of all the Amiibo items available in the database.
+      operationId: getAmiibos
+      responses:
+        '200':
+          description: Successful response returning the object that contains a list of Amiibo items.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AmiiboWrapper'
+        '400':
+          description: Bad Amiibo request.
+      parameters:
+        - name: amiiboSeries
+          in: query
+          description: The Amiibo series identifier or name to filter the response.
+          required: false
+          schema:
+            type: string
+          style: form
+        - name: character
+          in: query
+          description: The game character identifier or name to filter the response.
+          required: false
+          schema:
+            type: string
+          style: form
+        - name: gameseries
+          in: query
+          description: The game series identifier or name to filter the response.
+          required: false
+          schema:
+            type: string
+          style: form
+        - name: id
+          in: query
+          description: The Amiibo identifier to filter the response.
+          required: false
+          schema:
+            type: string
+          style: form
+        - name: name
+          in: query
+          description: The Amiibo name to filter the response.
+          required: false
+          schema:
+            type: string
+          style: form
+        - name: showgames
+          in: query
+          description: The flag that indicates whether to include information about related games.
+          required: false
+          schema:
+            type: boolean
+          style: form
+        - name: showusage
+          in: query
+          description: The flag that indicates whether to include information about Amiibo usage in related games.
+          required: false
+          schema:
+            type: boolean
+          style: form
+        - name: type
+          in: query
+          description: The Amiibo type to filter the response.
+          required: false
+          schema:
+            type: string
+          style: form
+
+  /amiiboseries:
+    get:
+      description: Get a list of all the Amiibo series available in the database.
+      operationId: getAmiiboSeries
+      responses:
+        '200':
+          description: Successful response returning the object that contains a list of Amiibo series.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TupleWrapper'
+        '400':
+          description: Bad Amiibo series request.
+        '404':
+          description: Amiibo series not found.
+        '500':
+          description: Service currently not available.
+    parameters:
+      - name: key
+        in: query
+        description: The Amiibo series key to filter the response.
+        required: false
+        schema:
+          type: string
+        style: form
+      - name: name
+        in: query
+        description: The Amiibo series name to filter the response.
+        required: false
+        schema:
+          type: string
+        style: form
+
+  /character:
+    get:
+      description: Get a list of all the game characters available in the database.
+      operationId: getGameCharacters
+      responses:
+        '200':
+          description: Successful response returning the object that contains a list of game characters.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TupleWrapper'
+        '400':
+          description: Bad game character request.
+        '404':
+          description: Game character not found.
+        '500':
+          description: Service currently not available.
+    parameters:
+      - name: key
+        in: query
+        description: The game character key to filter the response.
+        required: false
+        schema:
+          type: string
+        style: form
+      - name: name
+        in: query
+        description: The game character name to filter the response.
+        required: false
+        schema:
+          type: string
+        style: form
+
+  /gameseries:
+    get:
+      description: Gets a list of all the game series available in the database.
+      operationId: getGameSeries
+      responses:
+        '200':
+          description: Successful response returning the object that contains a list of game series.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TupleWrapper'
+        '400':
+          description: Bad game series request.
+        '404':
+          description: Game series not found.
+        '500':
+          description: Service currently not available.
+    parameters:
+      - name: key
+        in: query
+        description: The game series key to filter the response.
+        required: false
+        schema:
+          type: string
+        style: form
+      - name: name
+        in: query
+        description: The game series name to filter the response.
+        required: false
+        schema:
+          type: string
+        style: form
+
+  /type:
+    get:
+      description: Gets a list of all the Amiibo types available in the database.
+      operationId: getAmiiboTypes
+      responses:
+        '200':
+          description: Successful response returning the object that contains a list of Amiibo types.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TupleWrapper'
+        '400':
+          description: Bad Amiibo type request.
+        '404':
+          description: Amiibo type not found.
+        '500':
+          description: Service currently not available.
+    parameters:
+      - name: key
+        in: query
+        description: The Amiibo type key to filter the response.
+        required: false
+        schema:
+          type: string
+        style: form
+      - name: name
+        in: query
+        description: The Amiibo type name to filter the response.
+        required: false
+        schema:
+          type: string
+        style: form
+
+  /lastupdated:
+    get:
+      description: Gets a timestamp when the Amiibo data was last updated.
+      operationId: getLastUpdated
+      responses:
+        '200':
+          description: Successful response returning the object that contains the date and time when the database was last updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LastUpdated'
+
+components:
+  schemas:
+    Amiibo:
+      type: object
+      properties:
+        amiiboSeries:
+          type: string
+        character:
+          type: string
+        gameSeries:
+          type: string
+        games3DS:
+          type: array
+          items:
+            $ref: '#/components/schemas/AmiiboGame'
+        gamesSwitch:
+          type: array
+          items:
+            $ref: '#/components/schemas/AmiiboGame'
+        gamesWiiU:
+          type: array
+          items:
+            $ref: '#/components/schemas/AmiiboGame'
+        head:
+          type: string
+        image:
+          type: string
+        name:
+          type: string
+        release:
+          type: object
+          $ref: '#/components/schemas/AmiiboRelease'
+        tail:
+          type: string
+        type:
+          type: string
+      required:
+        - amiiboSeries
+        - character
+        - gameSeries
+        - head
+        - image
+        - name
+        - release
+        - tail
+        - type
+
+    AmiiboGame:
+      type: object
+      properties:
+        amiiboUsage:
+          type: array
+          items:
+            $ref: '#/components/schemas/AmiiboUsage'
+        gameID:
+          type: array
+          items:
+            type: string
+        gameName:
+          type: string
+      required:
+        - gameID
+        - gameName
+
+    AmiiboList:
+      type: array
+      items:
+        $ref: '#/components/schemas/Amiibo'
+
+    AmiiboRelease:
+      type: object
+      properties:
+        au:
+          type: string
+          format: date-time
+        eu:
+          type: string
+          format: date-time
+        jp:
+          type: string
+          format: date-time
+        na:
+          type: string
+          format: date-time
+
+    AmiiboUsage:
+      type: object
+      properties:
+        Usage:
+          type: string
+        write:
+          type: boolean
+      required:
+        - Usage
+        - write
+
+    AmiiboWrapper:
+      type: object
+      properties:
+        amiibo:
+          oneOf:
+            - $ref: '#/components/schemas/Amiibo'
+            - $ref: '#/components/schemas/AmiiboList'
+      required:
+        - amiibo
+
+    LastUpdated:
+      type: object
+      properties:
+        lastUpdated:
+          type: string
+          format: date-time
+      required:
+        - lastUpdated
+
+    Tuple:
+      type: object
+      properties:
+        key:
+          type: string
+        name:
+          type: string
+      required:
+        - key
+        - name
+
+    TupleList:
+      type: array
+      items:
+        $ref: '#/components/schemas/Tuple'
+
+    TupleWrapper:
+      type: object
+      properties:
+        amiibo:
+          oneOf:
+            - $ref: '#/components/schemas/Tuple'
+            - $ref: '#/components/schemas/TupleList'
+      required:
+        - amiibo

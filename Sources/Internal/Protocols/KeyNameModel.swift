@@ -1,0 +1,24 @@
+//===----------------------------------------------------------------------===
+//
+// This source file is part of the AmiiboAPI open source project
+//
+// Copyright (c) 2024 Röck+Cöde VoF. and the AmiiboAPI project authors
+// Licensed under the EUPL 1.2 or later.
+//
+// See LICENSE for license information
+// See CONTRIBUTORS for the list of AmiiboAPI project authors
+//
+//===----------------------------------------------------------------------===
+
+protocol KeyNameModel: Sendable {
+    
+    // MARK: Properties
+    
+    var key: String { get }
+    var name: String { get }
+    
+    // MARK: Initialisers
+    
+    init(_ payload: Components.Schemas.Tuple)
+    
+}
