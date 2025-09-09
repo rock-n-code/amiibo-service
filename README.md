@@ -31,4 +31,4 @@ It is also possible to use this library with your app in Xcode, then add it as a
 
 ## Documentation
 
-Please refer to the [online documentation](https://rock-n-code.github.io/rock-n-code/amiibo-service) for further details about this library.
+Please refer to the [online documentation](https://rock-n-code.github.io/amiibo-service/documentation/amiiboservice/) for further informations about this library.
