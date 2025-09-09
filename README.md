@@ -1,1 +1,34 @@
-#  Amiibo Service
+# Amiibo Service
+
+A library written entirely with [Swift](https://www.swift.org) that provides everything the developer needs to interacts with the [Amiibo API](https://www.amiiboapi.com) backend service.
+
+## Installation
+
+To use this library with your package, then add it as a dependency in the `Package.swift` file:
+
+```swift
+let package = Package(
+    // name, platforms, products, etc.
+    dependencies: [
+        .package(url: "https://github.com/rock-n-code/amiibo-service", from: "1.0.0"),
+        // other dependencies
+    ],
+    targets: [
+        .target(
+            name: "SomeTarget", 
+            dependencies: [
+                .product(name: "AmiiboService", package: "amiibo-service"),
+            ]
+        )
+        // other targets
+    ]
+)
+```
+
+It is also possible to use this library with your app in Xcode, then add it as a dependency in your Xcode project.
+
+> important: Swift 5.9 or higher is required in order to compile this library.
+
+## Documentation
+
+Please refer to the [online documentation](https://rock-n-code.github.io/rock-n-code/amiibo-service) for further details about this library.

@@ -1,6 +1,6 @@
 # ``AmiiboService``
 
-A library that provides everything the developer needs to interacts with the **Amiibo API** online service.
+A library that provides everything the developer needs to interacts with the **Amiibo API** backend service.
 
 ## Overview
 
@@ -8,7 +8,7 @@ The `AmiiboService` library is a Swift Package Manager package dependency aims a
 
 ## Design
 
-Although it could have been possible to generate a one-to-one RESTful client based on the Open API specification document that describe the available endpoints, it was decided to design a ``AmiiboService`` service that removes the complexities of the service's backend API, and provides the developer with a simple interface, and a seamless experience.
+Although it could have been possible to generate a one-to-one RESTful client based on the Open API specification document that describe the available endpoints at the backend, it was decided to design a ``AmiiboService`` service that removes the complexities of the backend service's API design, and provides the developer with a simple interface, and a seamless experience.
 
 ## Instalation
 
