@@ -1,8 +1,8 @@
 //===----------------------------------------------------------------------===
 //
-// This source file is part of the AmiiboAPI open source project
+// This source file is part of the AmiiboService open source project
 //
-// Copyright (c) 2024 Röck+Cöde VoF. and the AmiiboAPI project authors
+// Copyright (c) 2024-2025 Röck+Cöde VoF. and the AmiiboAPI project authors
 // Licensed under the EUPL 1.2 or later.
 //
 // See LICENSE for license information
@@ -24,7 +24,7 @@ public struct AmiiboLiveClient {
     
     public init() throws {
         self.client = .init(
-            serverURL: try Servers.server1(),
+            serverURL: try Servers.Server1.url(),
             configuration: .init(dateTranscoder: ISODateTranscoder()),
             transport: URLSessionTransport()
         )

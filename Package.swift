@@ -2,9 +2,9 @@
 
 //===----------------------------------------------------------------------===
 //
-// This source file is part of the AmiiboAPI open source project
+// This source file is part of the AmiiboService open source project
 //
-// Copyright (c) 2024 Röck+Cöde VoF. and the AmiiboAPI project authors
+// Copyright (c) 2024-2025 Röck+Cöde VoF. and the AmiiboAPI project authors
 // Licensed under the EUPL 1.2 or later.
 //
 // See LICENSE for license information
@@ -15,7 +15,7 @@
 import PackageDescription
 
 let package = Package(
-    name: AmiiboAPI.package,
+    name: AmiiboService.package,
     platforms: [
         .iOS(.v13),
         .macOS(.v10_15),
@@ -25,9 +25,9 @@ let package = Package(
     ],
     products: [
         .library(
-            name: AmiiboAPI.package,
+            name: AmiiboService.package,
             targets: [
-                AmiiboAPI.target
+                AmiiboService.target
             ]
         )
     ],
@@ -47,7 +47,7 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: AmiiboAPI.target,
+            name: AmiiboService.target,
             dependencies: [
                 .product(
                     name: "OpenAPIRuntime",
@@ -67,9 +67,9 @@ let package = Package(
             ]
         ),
         .testTarget(
-            name: AmiiboAPI.test,
+            name: AmiiboService.test,
             dependencies: [
-                .byName(name: AmiiboAPI.target)
+                .byName(name: AmiiboService.target)
             ],
             path: "Tests"
         ),
@@ -78,8 +78,8 @@ let package = Package(
 
 // MARK: - Constants
 
-enum AmiiboAPI {
-    static let package = "amiibo-api"
-    static let target = "AmiiboAPI"
-    static let test = "\(AmiiboAPI.target)Tests"
+enum AmiiboService {
+    static let package = "amiibo-service"
+    static let target = "AmiiboService"
+    static let test = "\(AmiiboService.target)Tests"
 }

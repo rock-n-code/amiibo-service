@@ -1,8 +1,8 @@
 //===----------------------------------------------------------------------===
 //
-// This source file is part of the AmiiboAPI open source project
+// This source file is part of the AmiiboService open source project
 //
-// Copyright (c) 2024 Röck+Cöde VoF. and the AmiiboAPI project authors
+// Copyright (c) 2024-2025 Röck+Cöde VoF. and the AmiiboAPI project authors
 // Licensed under the EUPL 1.2 or later.
 //
 // See LICENSE for license information
@@ -10,10 +10,11 @@
 //
 //===----------------------------------------------------------------------===
 
-import AmiiboAPI
+import AmiiboService
 import Foundation
 import Testing
 
+@Suite("Live service")
 struct AmiiboServiceLiveTests {
     
     // MARK: Properties
@@ -30,23 +31,23 @@ struct AmiiboServiceLiveTests {
     
     // MARK: Functions tests
     
-    @Test("Get Amiibo items")
-    func getAmiibos() async throws {
+    @Test
+    func `get Amiibo items`() async throws {
         // GIVEN
         // WHEN
         let amiibos = try await service.getAmiibos()
         
         // THEN
         #expect(!amiibos.isEmpty)
-        #expect(amiibos.count == 853)
+        #expect(amiibos.count == 885)
         #expect(amiibos.first?.identifier == "0000000000000002")
         #expect(amiibos.first?.platform == nil)
         #expect(amiibos.last?.identifier == "3f000000042e0002")
         #expect(amiibos.last?.platform == nil)
     }
     
-    @Test("Get Amiibo items by an existing identifier")
-    func getAmiibos_byExistingIdentifier() async throws {
+    @Test
+    func `get Amiibo items by an existing identifier`() async throws {
         // GIVEN
         let identifier = "0000000000000002"
         
@@ -60,8 +61,8 @@ struct AmiiboServiceLiveTests {
         #expect(amiibos.first?.platform == nil)
     }
     
-    @Test("Get Amiibo items by a non-existing identifier")
-    func getAmiibos_byNonExistingIdentifier() async throws {
+    @Test
+    func `get Amiibo items by a non-existing identifier`() async throws {
         // GIVEN
         let identifier = "0000000000000000"
         
@@ -72,8 +73,8 @@ struct AmiiboServiceLiveTests {
         }
     }
     
-    @Test("Get Amiibo items by an incomplete identifier")
-    func getAmiibos_byIncompleteIdentifier() async throws {
+    @Test
+    func `get Amiibo items by an incomplete identifier`() async throws {
         // GIVEN
         let identifier = "0000000"
         
@@ -84,8 +85,8 @@ struct AmiiboServiceLiveTests {
         }
     }
     
-    @Test("Get Amiibo items by an empty identifier")
-    func getAmiibos_byEmptyIdentifier() async throws {
+    @Test
+    func `get Amiibo items by an empty identifier`() async throws {
         // GIVEN
         let identifier = ""
         
@@ -96,8 +97,8 @@ struct AmiiboServiceLiveTests {
         }
     }
     
-    @Test("Get Amiibo items by an existing name")
-    func getAmiibos_byExistingName() async throws {
+    @Test
+    func `get Amiibo items by an existing name`() async throws {
         // GIVEN
         let name = "zelda"
         
@@ -117,8 +118,8 @@ struct AmiiboServiceLiveTests {
         #expect(nameLast.contains(name))
     }
     
-    @Test("Get Amiibo items by a non-existing name")
-    func getAmiibos_byNonExistingName() async throws {
+    @Test
+    func `get Amiibo items by a non-existing name`() async throws {
         // GIVEN
         let name = "Something"
         
@@ -129,8 +130,8 @@ struct AmiiboServiceLiveTests {
         #expect(amiibos.isEmpty)
     }
     
-    @Test("Get Amiibo items by an incomplete name")
-    func getAmiibos_byIncompleteName() async throws {
+    @Test
+    func `get Amiibo items by an incomplete name`() async throws {
         // GIVEN
         let name = "zel"
         
@@ -150,8 +151,8 @@ struct AmiiboServiceLiveTests {
         #expect(nameLast.contains(name))
     }
     
-    @Test("Get Amiibo items by an empty name")
-    func getAmiibos_byEmptyName() async throws {
+    @Test
+    func `get Amiibo items by an empty name`() async throws {
         // GIVEN
         let name = ""
         
@@ -160,11 +161,11 @@ struct AmiiboServiceLiveTests {
         
         // THEN
         #expect(!amiibos.isEmpty)
-        #expect(amiibos.count == 853)
+        #expect(amiibos.count == 885)
     }
     
-    @Test("Get Amiibo items by an existing type key")
-    func getAmiibos_byExistingTypeKey() async throws {
+    @Test
+    func `get Amiibo items by an existing type key`() async throws {
         // GIVEN
         let key = "0x00"
         
@@ -173,15 +174,15 @@ struct AmiiboServiceLiveTests {
         
         // THEN
         #expect(!amiibos.isEmpty)
-        #expect(amiibos.count == 227)
+        #expect(amiibos.count == 235)
         #expect(amiibos.first?.type == "Figure")
         #expect(amiibos.first?.platform == nil)
         #expect(amiibos.last?.type == "Figure")
         #expect(amiibos.last?.platform == nil)
     }
     
-    @Test("Get Amiibo items by an existing type name")
-    func getAmiibos_byExistingTypeName() async throws {
+    @Test
+    func `get Amiibo items by an existing type name`() async throws {
         // GIVEN
         let name = "figure"
         
@@ -190,15 +191,15 @@ struct AmiiboServiceLiveTests {
         
         // THEN
         #expect(!amiibos.isEmpty)
-        #expect(amiibos.count == 227)
+        #expect(amiibos.count == 235)
         #expect(amiibos.first?.type == "Figure")
         #expect(amiibos.first?.platform == nil)
         #expect(amiibos.last?.type == "Figure")
         #expect(amiibos.last?.platform == nil)
     }
     
-    @Test("Get Amiibo items by a non-existing type key")
-    func getAmiibos_byNonExistingTypeKey() async throws {
+    @Test
+    func `get Amiibo items by a non-existing type key`() async throws {
         // GIVEN
         let key = "0x0f"
         
@@ -209,8 +210,8 @@ struct AmiiboServiceLiveTests {
         #expect(amiibos.isEmpty)
     }
     
-    @Test("Get Amiibo items by a non-existing type name")
-    func getAmiibos_byNonExistingTypeName() async throws {
+    @Test
+    func `get Amiibo items by a non-existing type name`() async throws {
         // GIVEN
         let name = "something"
         
@@ -221,8 +222,8 @@ struct AmiiboServiceLiveTests {
         #expect(amiibos.isEmpty)
     }
     
-    @Test("Get Amiibo items by an incomplete type key")
-    func getAmiibos_byIncompleteTypeKey() async throws {
+    @Test
+    func `get Amiibo items by an incomplete type key`() async throws {
         // GIVEN
         let key = "0x"
         
@@ -233,8 +234,8 @@ struct AmiiboServiceLiveTests {
         }
     }
     
-    @Test("Get Amiibo items by an incomplete type name")
-    func getAmiibos_byIncompleteTypeName() async throws {
+    @Test
+    func `get Amiibo items by an incomplete type name`() async throws {
         // GIVEN
         let name = "fig"
         
@@ -245,8 +246,8 @@ struct AmiiboServiceLiveTests {
         #expect(amiibos.isEmpty)
     }
     
-    @Test("Get Amiibo items by an empty type key")
-    func getAmiibos_byEmptyTypeKey() async throws {
+    @Test
+    func `get Amiibo items by an empty type key`() async throws {
         // GIVEN
         let key = ""
         
@@ -257,8 +258,8 @@ struct AmiiboServiceLiveTests {
         #expect(amiibos.isEmpty)
     }
     
-    @Test("Get Amiibo items by an empty type name")
-    func getAmiibos_byEmptyTypeName() async throws {
+    @Test
+    func `get Amiibo items by an empty type name`() async throws {
         // GIVEN
         let name = ""
         
@@ -269,8 +270,8 @@ struct AmiiboServiceLiveTests {
         #expect(amiibos.isEmpty)
     }
     
-    @Test("Get Amiibo items by an existing series key")
-    func getAmiibos_byExistingSeriesKey() async throws {
+    @Test
+    func `get Amiibo items by an existing series key`() async throws {
         // GIVEN
         let key = "0x00"
         
@@ -286,8 +287,8 @@ struct AmiiboServiceLiveTests {
         #expect(amiibos.last?.platform == nil)
     }
     
-    @Test("Get Amiibo items by an existing series name")
-    func getAmiibos_byExistingSeriesName() async throws {
+    @Test
+    func `get Amiibo items by an existing series name`() async throws {
         // GIVEN
         let name = "Legend Of Zelda"
         
@@ -296,15 +297,15 @@ struct AmiiboServiceLiveTests {
         
         // THEN
         #expect(!amiibos.isEmpty)
-        #expect(amiibos.count == 22)
+        #expect(amiibos.count == 26)
         #expect(amiibos.first?.series == name)
         #expect(amiibos.first?.platform == nil)
         #expect(amiibos.last?.series == name)
         #expect(amiibos.last?.platform == nil)
     }
     
-    @Test("Get Amiibo items by a non-existing series key")
-    func getAmiibos_byNonExistingSeriesKey() async throws {
+    @Test
+    func `get Amiibo items by a non-existing series key`() async throws {
         // GIVEN
         let key = "0xf9"
         
@@ -315,8 +316,8 @@ struct AmiiboServiceLiveTests {
         #expect(amiibos.isEmpty)
     }
     
-    @Test("Get Amiibo items by a non-existing series name")
-    func getAmiibos_byNonExistingSeriesName() async throws {
+    @Test
+    func `get Amiibo items by a non-existing series name`() async throws {
         // GIVEN
         let name = "something"
         
@@ -327,8 +328,8 @@ struct AmiiboServiceLiveTests {
         #expect(amiibos.isEmpty)
     }
     
-    @Test("Get Amiibo items by an incomplete series key")
-    func getAmiibos_byIncompleteSeriesKey() async throws {
+    @Test
+    func `get Amiibo items by an incomplete series key`() async throws {
         // GIVEN
         let key = "0x"
         
@@ -339,8 +340,8 @@ struct AmiiboServiceLiveTests {
         }
     }
     
-    @Test("Get Amiibo items by an incomplete series name")
-    func getAmiibos_byIncompleteSeriesName() async throws {
+    @Test
+    func `get Amiibo items by an incomplete series name`() async throws {
         // GIVEN
         let name = "fig"
         
@@ -348,11 +349,12 @@ struct AmiiboServiceLiveTests {
         let amiibos = try await service.getAmiibos(.init(series: name))
         
         // THEN
-        #expect(amiibos.isEmpty)
+        #expect(!amiibos.isEmpty)
+        #expect(amiibos.count == 25)
     }
     
-    @Test("Get Amiibo items by an empty series key")
-    func getAmiibos_byEmptySeriesKey() async throws {
+    @Test
+    func `get Amiibo items by an empty series key`() async throws {
         // GIVEN
         let key = ""
         
@@ -361,11 +363,11 @@ struct AmiiboServiceLiveTests {
         
         // THEN
         #expect(!amiibos.isEmpty)
-        #expect(amiibos.count == 853)
+        #expect(amiibos.count == 885)
     }
     
-    @Test("Get Amiibo items by an empty series name")
-    func getAmiibos_byEmptySeriesName() async throws {
+    @Test
+    func `get Amiibo items by an empty series name`() async throws {
         // GIVEN
         let name = ""
         
@@ -374,11 +376,11 @@ struct AmiiboServiceLiveTests {
         
         // THEN
         #expect(!amiibos.isEmpty)
-        #expect(amiibos.count == 853)
+        #expect(amiibos.count == 885)
     }
     
-    @Test("Get Amiibo items by an existing game character key")
-    func getAmiibos_byExistingGameCharacterKey() async throws {
+    @Test
+    func `get Amiibo items by an existing game character key`() async throws {
         // GIVEN
         let key = "0x00"
         
@@ -394,8 +396,8 @@ struct AmiiboServiceLiveTests {
         #expect(amiibos.last?.platform == nil)
     }
     
-    @Test("Get Amiibo items by an existing game character name")
-    func getAmiibos_byExistingGameCharacterName() async throws {
+    @Test
+    func `get Amiibo items by an existing game character name`() async throws {
         // GIVEN
         let name = "Zelda"
         
@@ -411,8 +413,8 @@ struct AmiiboServiceLiveTests {
         #expect(amiibos.last?.platform == nil)
     }
     
-    @Test("Get Amiibo items by a non-existing game character key")
-    func getAmiibos_byNonExistingGameCharacterKey() async throws {
+    @Test
+    func `get Amiibo items by a non-existing game character key`() async throws {
         // GIVEN
         let key = "0xf9"
         
@@ -423,8 +425,8 @@ struct AmiiboServiceLiveTests {
         #expect(amiibos.isEmpty)
     }
     
-    @Test("Get Amiibo items by a non-existing game character name")
-    func getAmiibos_byNonExistingGameCharacterName() async throws {
+    @Test
+    func `get Amiibo items by a non-existing game character name`() async throws {
         // GIVEN
         let name = "something"
         
@@ -435,8 +437,8 @@ struct AmiiboServiceLiveTests {
         #expect(amiibos.isEmpty)
     }
     
-    @Test("Get Amiibo items by an incomplete game character key")
-    func getAmiibos_byIncompleteGameCharacterKey() async throws {
+    @Test
+    func `get Amiibo items by an incomplete game character key`() async throws {
         // GIVEN
         let key = "0x"
         
@@ -447,8 +449,8 @@ struct AmiiboServiceLiveTests {
         }
     }
     
-    @Test("Get Amiibo items by an incomplete game character name")
-    func getAmiibos_byIncompleteGameCharacterName() async throws {
+    @Test
+    func `get Amiibo items by an incomplete game character name`() async throws {
         // GIVEN
         let name = "fig"
         
@@ -459,8 +461,8 @@ struct AmiiboServiceLiveTests {
         #expect(amiibos.isEmpty)
     }
     
-    @Test("Get Amiibo items by an empty game character key")
-    func getAmiibos_byEmptyGameCharacterKey() async throws {
+    @Test
+    func `get Amiibo items by an empty game character key`() async throws {
         // GIVEN
         let key = ""
         
@@ -469,11 +471,11 @@ struct AmiiboServiceLiveTests {
         
         // THEN
         #expect(!amiibos.isEmpty)
-        #expect(amiibos.count == 853)
+        #expect(amiibos.count == 885)
     }
     
-    @Test("Get Amiibo items by an empty game character name")
-    func getAmiibos_byEmptyGameCharacterName() async throws {
+    @Test
+    func `get Amiibo items by an empty game character name`() async throws {
         // GIVEN
         let name = ""
         
@@ -482,11 +484,11 @@ struct AmiiboServiceLiveTests {
         
         // THEN
         #expect(!amiibos.isEmpty)
-        #expect(amiibos.count == 853)
+        #expect(amiibos.count == 885)
     }
     
-    @Test("Get Amiibo items by an existing game series key")
-    func getAmiibos_byExistingGameSeriesKey() async throws {
+    @Test
+    func `get Amiibo items by an existing game series key`() async throws {
         // GIVEN
         let key = "0x00"
         
@@ -495,15 +497,15 @@ struct AmiiboServiceLiveTests {
         
         // THEN
         #expect(!amiibos.isEmpty)
-        #expect(amiibos.count == 42)
+        #expect(amiibos.count == 45)
         #expect(amiibos.first?.gameSeries == "Super Mario")
         #expect(amiibos.first?.platform == nil)
         #expect(amiibos.last?.gameSeries == "Super Mario")
         #expect(amiibos.last?.platform == nil)
     }
     
-    @Test("Get Amiibo items by an existing game series name")
-    func getAmiibos_byExistingGameSeriesName() async throws {
+    @Test
+    func `get Amiibo items by an existing game series name`() async throws {
         // GIVEN
         let name = "The Legend of Zelda"
         
@@ -512,15 +514,15 @@ struct AmiiboServiceLiveTests {
         
         // THEN
         #expect(!amiibos.isEmpty)
-        #expect(amiibos.count == 28)
+        #expect(amiibos.count == 32)
         #expect(amiibos.first?.gameSeries == name)
         #expect(amiibos.first?.platform == nil)
         #expect(amiibos.last?.gameSeries == name)
         #expect(amiibos.last?.platform == nil)
     }
     
-    @Test("Get Amiibo items by a non-existing game series key")
-    func getAmiibos_byNonExistingGameSeriesKey() async throws {
+    @Test
+    func `get Amiibo items by a non-existing game series key`() async throws {
         // GIVEN
         let key = "0xf9"
         
@@ -531,8 +533,8 @@ struct AmiiboServiceLiveTests {
         #expect(amiibos.isEmpty)
     }
     
-    @Test("Get Amiibo items by a non-existing game series name")
-    func getAmiibos_byNonExistingGameSeriesName() async throws {
+    @Test
+    func `get Amiibo items by a non-existing game series name`() async throws {
         // GIVEN
         let name = "something"
         
@@ -543,8 +545,8 @@ struct AmiiboServiceLiveTests {
         #expect(amiibos.isEmpty)
     }
     
-    @Test("Get Amiibo items by an incomplete game series key")
-    func getAmiibos_byIncompleteGameSeriesKey() async throws {
+    @Test
+    func `get Amiibo items by an incomplete game series key`() async throws {
         // GIVEN
         let key = "0x"
         
@@ -555,8 +557,8 @@ struct AmiiboServiceLiveTests {
         }
     }
     
-    @Test("Get Amiibo items by an incomplete game series name")
-    func getAmiibos_byIncompleteGameSeriesName() async throws {
+    @Test
+    func `get Amiibo items by an incomplete game series name`() async throws {
         // GIVEN
         let name = "Super"
         
@@ -565,11 +567,11 @@ struct AmiiboServiceLiveTests {
         
         // THEN
         #expect(!amiibos.isEmpty)
-        #expect(amiibos.count == 140)
+        #expect(amiibos.count == 143)
     }
     
-    @Test("Get Amiibo items by an empty game series key")
-    func getAmiibos_byEmptyGameSeriesKey() async throws {
+    @Test
+    func `get Amiibo items by an empty game series key`() async throws {
         // GIVEN
         let key = ""
         
@@ -578,11 +580,11 @@ struct AmiiboServiceLiveTests {
         
         // THEN
         #expect(!amiibos.isEmpty)
-        #expect(amiibos.count == 853)
+        #expect(amiibos.count == 885)
     }
     
-    @Test("Get Amiibo items by an empty game series name")
-    func getAmiibos_byEmptyGameSeriesName() async throws {
+    @Test
+    func `get Amiibo items by an empty game series name`() async throws {
         // GIVEN
         let name = ""
         
@@ -591,18 +593,18 @@ struct AmiiboServiceLiveTests {
         
         // THEN
         #expect(!amiibos.isEmpty)
-        #expect(amiibos.count == 853)
+        #expect(amiibos.count == 885)
     }
     
-    @Test("Get Amiibo items with games data")
-    func getAmiibos_withGamesData() async throws {
+    @Test
+    func `get Amiibo items with games data`() async throws {
         // GIVEN
         // WHEN
         let amiibos = try await service.getAmiibos(.init(showGames: true))
         
         // THEN
         #expect(!amiibos.isEmpty)
-        #expect(amiibos.count == 853)
+        #expect(amiibos.count == 885)
         #expect(amiibos.first?.platform != nil)
         #expect(amiibos.first?.platform?.switch.isEmpty == false)
         #expect(amiibos.first?.platform?.switch.first?.usages == nil)
@@ -613,15 +615,15 @@ struct AmiiboServiceLiveTests {
         #expect(amiibos.last?.platform != nil)
     }
     
-    @Test("Get Amiibo items with games and usages data")
-    func getAmiibos_withGamesAndUsagesData() async throws {
+    @Test
+    func `get Amiibo items with games and usages data`() async throws {
         // GIVEN
         // WHEN
         let amiibos = try await service.getAmiibos(.init(showUsage: true))
         
         // THEN
         #expect(!amiibos.isEmpty)
-        #expect(amiibos.count == 853)
+        #expect(amiibos.count == 885)
         #expect(amiibos.first?.platform != nil)
         #expect(amiibos.first?.platform?.switch.isEmpty == false)
         #expect(amiibos.first?.platform?.switch.first?.usages?.isEmpty == false)
@@ -632,21 +634,21 @@ struct AmiiboServiceLiveTests {
         #expect(amiibos.last?.platform != nil)
     }
     
-    @Test("Get Amiibo series")
-    func getAmiiboSeries() async throws {
+    @Test
+    func `get Amiibo series`() async throws {
         // GIVEN
         // WHEN
         let amiiboSeries = try await service.getAmiiboSeries()
         
         // THEN
         #expect(!amiiboSeries.isEmpty)
-        #expect(amiiboSeries.count == 26)
+        #expect(amiiboSeries.count == 28)
         #expect(amiiboSeries.first?.key == "0x00")
         #expect(amiiboSeries.last?.key == "0xff")
     }
     
-    @Test("Get Amiibo series by an existing key")
-    func getAmiiboSeries_byExistingKey() async throws {
+    @Test
+    func `get Amiibo series by an existing key`() async throws {
         // GIVEN
         let key = "0x01"
         
@@ -659,8 +661,8 @@ struct AmiiboServiceLiveTests {
         #expect(amiiboSeries.first?.key == key)
     }
     
-    @Test("Get Amiibo series by a non-existing key")
-    func getAmiiboSeries_byNonExistingKey() async throws {
+    @Test
+    func `get Amiibo series by a non-existing key`() async throws {
         // GIVEN
         let key = "0xf9"
         
@@ -671,8 +673,8 @@ struct AmiiboServiceLiveTests {
         }
     }
     
-    @Test("Get Amiibo series by an incomplete key")
-    func getAmiiboSeries_byIncompleteKey() async throws {
+    @Test
+    func `get Amiibo series by an incomplete key`() async throws {
         // GIVEN
         let key = "0x"
         
@@ -683,8 +685,8 @@ struct AmiiboServiceLiveTests {
         }
     }
     
-    @Test("Get Amiibo series by an empty key")
-    func getAmiiboSeries_byEmptyKey() async throws {
+    @Test
+    func `get Amiibo series by an empty key`() async throws {
         // GIVEN
         let key = ""
         
@@ -695,8 +697,8 @@ struct AmiiboServiceLiveTests {
         }
     }
     
-    @Test("Get Amiibo series by an existing name")
-    func getAmiiboSeries_byExistingName() async throws {
+    @Test
+    func `get Amiibo series by an existing name`() async throws {
         // GIVEN
         let name = "Legend Of Zelda"
         
@@ -709,8 +711,8 @@ struct AmiiboServiceLiveTests {
         #expect(amiiboSeries.first?.name == name)
     }
     
-    @Test("Get Amiibo series by a non-existing name")
-    func getAmiiboSeries_byNonExistingName() async throws {
+    @Test
+    func `get Amiibo series by a non-existing name`() async throws {
         // GIVEN
         let name = "Something"
         
@@ -721,8 +723,8 @@ struct AmiiboServiceLiveTests {
         }
     }
     
-    @Test("Get Amiibo series by an incomplete name")
-    func getAmiiboSeries_byIncompleteName() async throws {
+    @Test
+    func `get Amiibo series by an incomplete name`() async throws {
         // GIVEN
         let name = "Zelda"
         
@@ -738,8 +740,8 @@ struct AmiiboServiceLiveTests {
         #expect(amiiboSeriesName.name.contains(name))
     }
     
-    @Test("Get Amiibo series by an empty name")
-    func getAmiiboSeries_byEmptyName() async throws {
+    @Test
+    func `get Amiibo series by an empty name`() async throws {
         // GIVEN
         let name = ""
         
@@ -748,13 +750,13 @@ struct AmiiboServiceLiveTests {
         
         // THEN
         #expect(!amiiboSeries.isEmpty)
-        #expect(amiiboSeries.count == 26)
+        #expect(amiiboSeries.count == 28)
         #expect(amiiboSeries.first?.key == "0x00")
         #expect(amiiboSeries.last?.key == "0xff")
     }
     
-    @Test("Get Amiibo types")
-    func getAmiiboTypes() async throws {
+    @Test
+    func `get Amiibo types`() async throws {
         // GIVEN
         // WHEN
         let amiiboTypes = try await service.getAmiiboTypes()
@@ -766,8 +768,8 @@ struct AmiiboServiceLiveTests {
         #expect(amiiboTypes.last?.key == "0x03")
     }
     
-    @Test("Get Amiibo types by an existing key")
-    func getAmiiboTypes_byExistingKey() async throws {
+    @Test
+    func `get Amiibo types by an existing key`() async throws {
         // GIVEN
         let key = "0x01"
         
@@ -780,8 +782,8 @@ struct AmiiboServiceLiveTests {
         #expect(amiiboTypes.first?.key == key)
     }
     
-    @Test("Get Amiibo types by a non-existing key")
-    func getAmiiboTypes_byNonExistingKey() async throws {
+    @Test
+    func `get Amiibo types by a non-existing key`() async throws {
         // GIVEN
         let key = "0x09"
         
@@ -792,8 +794,8 @@ struct AmiiboServiceLiveTests {
         }
     }
     
-    @Test("Get Amiibo types by an incomplete key")
-    func getAmiiboTypes_byIncompleteKey() async throws {
+    @Test
+    func `get Amiibo types by an incomplete key`() async throws {
         // GIVEN
         let key = "0x"
         
@@ -804,8 +806,8 @@ struct AmiiboServiceLiveTests {
         }
     }
     
-    @Test("Get Amiibo types by an empty key")
-    func getAmiiboTypes_byEmptyKey() async throws {
+    @Test
+    func `get Amiibo types by an empty key`() async throws {
         // GIVEN
         let key = ""
         
@@ -816,8 +818,8 @@ struct AmiiboServiceLiveTests {
         }
     }
     
-    @Test("Get Amiibo types by an existing name")
-    func getAmiiboTypes_byExistingName() async throws {
+    @Test
+    func `get Amiibo types by an existing name`() async throws {
         // GIVEN
         let name = "Card"
         
@@ -830,8 +832,8 @@ struct AmiiboServiceLiveTests {
         #expect(amiiboTypes.first?.name == name)
     }
     
-    @Test("Get Amiibo types by a non-existing name")
-    func getAmiiboTypes_byNonExistingName() async throws {
+    @Test
+    func `get Amiibo types by a non-existing name`() async throws {
         // GIVEN
         let name = "Something"
         
@@ -842,8 +844,8 @@ struct AmiiboServiceLiveTests {
         }
     }
     
-    @Test("Get Amiibo types by an incomplete name")
-    func getAmiiboTypes_byIncompleteName() async throws {
+    @Test
+    func `get Amiibo types by an incomplete name`() async throws {
         // GIVEN
         let name = "Ca"
         
@@ -859,8 +861,8 @@ struct AmiiboServiceLiveTests {
         #expect(amiiboTypeName.name.contains(name))
     }
     
-    @Test("Get Amiibo types by an empty name")
-    func getAmiiboTypes_byEmptyName() async throws {
+    @Test
+    func `get Amiibo types by an empty name`() async throws {
         // GIVEN
         let name = ""
         
@@ -874,21 +876,21 @@ struct AmiiboServiceLiveTests {
         #expect(amiiboTypes.last?.key == "0x03")
     }
     
-    @Test("Get game characters")
-    func getGameCharacters() async throws {
+    @Test
+    func `get Game characters`() async throws {
         // GIVEN
         // WHEN
         let gameCharacters = try await service.getGameCharacters()
         
         // THEN
         #expect(!gameCharacters.isEmpty)
-        #expect(gameCharacters.count == 644)
+        #expect(gameCharacters.count == 668)
         #expect(gameCharacters.first?.key == "0x0000")
         #expect(gameCharacters.last?.key == "0x3f00")
     }
     
-    @Test("Get game characters by an existing key")
-    func getGameCharacters_byExistingKey() async throws {
+    @Test
+    func `get Game characters by an existing key`() async throws {
         // GIVEN
         let key = "0x0001"
         
@@ -901,8 +903,8 @@ struct AmiiboServiceLiveTests {
         #expect(gameCharacters.first?.key == key)
     }
     
-    @Test("Get game characters by a non-existing key")
-    func getGameCharacters_byNonExistingKey() async throws {
+    @Test
+    func `get Game characters by a non-existing key`() async throws {
         // GIVEN
         let key = "0xffff"
         
@@ -913,8 +915,8 @@ struct AmiiboServiceLiveTests {
         }
     }
     
-    @Test("Get game characters by an incomplete key")
-    func getGameCharacters_byIncompleteKey() async throws {
+    @Test
+    func `get Game characters by an incomplete key`() async throws {
         // GIVEN
         let key = "0x"
         
@@ -925,8 +927,8 @@ struct AmiiboServiceLiveTests {
         }
     }
     
-    @Test("Get game characters by an empty key")
-    func getGameCharacters_byEmptyKey() async throws {
+    @Test
+    func `get Game characters by an empty key`() async throws {
         // GIVEN
         let key = ""
         
@@ -937,8 +939,8 @@ struct AmiiboServiceLiveTests {
         }
     }
     
-    @Test("Get game characters by an existing name")
-    func getGameCharacters_byExistingName() async throws {
+    @Test
+    func `get Game characters by an existing name`() async throws {
         // GIVEN
         let name = "Zelda"
         
@@ -951,8 +953,8 @@ struct AmiiboServiceLiveTests {
         #expect(gameCharacters.first?.name == name)
     }
     
-    @Test("Get game characters by a non-existing name")
-    func getGameCharacters_byNonExistingName() async throws {
+    @Test
+    func `get Game characters by a non-existing name`() async throws {
         // GIVEN
         let name = "Something"
         
@@ -963,8 +965,8 @@ struct AmiiboServiceLiveTests {
         }
     }
     
-    @Test("Get game characters by an incomplete name")
-    func getGameCharacters_byIncompleteName() async throws {
+    @Test
+    func `get Game characters by an incomplete name`() async throws {
         // GIVEN
         let name = "Zeld"
         
@@ -980,8 +982,8 @@ struct AmiiboServiceLiveTests {
         #expect(gameCharactersName.name.contains(name))
     }
     
-    @Test("Get game characters by an empty name")
-    func getGameCharacters_byEmptyName() async throws {
+    @Test
+    func `get Game characters by an empty name`() async throws {
         // GIVEN
         let name = ""
         
@@ -990,26 +992,26 @@ struct AmiiboServiceLiveTests {
         
         // THEN
         #expect(!gameCharacters.isEmpty)
-        #expect(gameCharacters.count == 644)
+        #expect(gameCharacters.count == 668)
         #expect(gameCharacters.first?.key == "0x0000")
         #expect(gameCharacters.last?.key == "0x3f00")
     }
     
-    @Test("Get game series")
-    func getGameSeries() async throws {
+    @Test
+    func `get Game series`() async throws {
         // GIVEN
         // WHEN
         let gameSeries = try await service.getGameSeries()
         
         // THEN
         #expect(!gameSeries.isEmpty)
-        #expect(gameSeries.count == 116)
+        #expect(gameSeries.count == 117)
         #expect(gameSeries.first?.key == "0x000")
         #expect(gameSeries.last?.key == "0x3f0")
     }
     
-    @Test("Get game series by an existing key")
-    func getGameSeries_byExistingKey() async throws {
+    @Test
+    func `get Game series by an existing key`() async throws {
         // GIVEN
         let key = "0x001"
         
@@ -1022,8 +1024,8 @@ struct AmiiboServiceLiveTests {
         #expect(gameSeries.first?.key == key)
     }
     
-    @Test("Get game series by a non-existing key")
-    func getGameSeries_byNonExistingKey() async throws {
+    @Test
+    func `get Game Series by a non-existing key`() async throws {
         // GIVEN
         let key = "0xffff"
         
@@ -1034,8 +1036,8 @@ struct AmiiboServiceLiveTests {
         }
     }
     
-    @Test("Get game series by an incomplete key")
-    func getGameSeries_byIncompleteKey() async throws {
+    @Test
+    func `get Game series by an incomplete key`() async throws {
         // GIVEN
         let key = "0x"
         
@@ -1045,8 +1047,8 @@ struct AmiiboServiceLiveTests {
         }
     }
     
-    @Test("Get game series by an empty key")
-    func getGameSeries_byEmptyKey() async throws {
+    @Test
+    func `get Game series by an empty key`() async throws {
         // GIVEN
         let key = ""
         
@@ -1057,8 +1059,8 @@ struct AmiiboServiceLiveTests {
         }
     }
     
-    @Test("Get game series by an existing name")
-    func getGameSeries_byExistingName() async throws {
+    @Test
+    func `get Game series by an existing name`() async throws {
         // GIVEN
         let name = "Pikmin"
         
@@ -1071,8 +1073,8 @@ struct AmiiboServiceLiveTests {
         #expect(gameSeries.first?.name == name)
     }
     
-    @Test("Get game series by a non-existing name")
-    func getGameSeries_byNonExistingName() async throws {
+    @Test
+    func `get Game series by a non-existing name`() async throws {
         // GIVEN
         let name = "Something"
         
@@ -1083,8 +1085,8 @@ struct AmiiboServiceLiveTests {
         }
     }
     
-    @Test("Get game series by an incomplete name")
-    func getGameSeries_byIncompleteName() async throws {
+    @Test
+    func `get Game series by an incomplete name`() async throws {
         // GIVEN
         let name = "Pik"
         
@@ -1100,8 +1102,8 @@ struct AmiiboServiceLiveTests {
         #expect(gameSeriesName.name.contains(name))
     }
     
-    @Test("Get game series by an empty name")
-    func getGameSeries_byEmptyName() async throws {
+    @Test
+    func `get Game series by an empty name`() async throws {
         // GIVEN
         let name = ""
         
@@ -1110,13 +1112,13 @@ struct AmiiboServiceLiveTests {
         
         // THEN
         #expect(!gameSeries.isEmpty)
-        #expect(gameSeries.count == 116)
+        #expect(gameSeries.count == 117)
         #expect(gameSeries.first?.key == "0x000")
         #expect(gameSeries.last?.key == "0x3f0")
     }
     
-    @Test("Get the last updated timestamp")
-    func getLastUpdated() async throws {
+    @Test
+    func `get the Last Updated timestamp`() async throws {
         // GIVEN
         // WHEN
         let dateLastUpdated = try await service.getLastUpdated()
@@ -1127,9 +1129,9 @@ struct AmiiboServiceLiveTests {
             from: dateLastUpdated
         )
         
-        #expect(dateComponents.year == 2024)
-        #expect(dateComponents.month == 9)
-        #expect(dateComponents.day == 6)
+        #expect(dateComponents.year == 2025)
+        #expect(dateComponents.month == 7)
+        #expect(dateComponents.day == 18)
     }
     
 }

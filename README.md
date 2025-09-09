@@ -1,1 +1,1 @@
-#  Amiibo API
+#  Amiibo Service
