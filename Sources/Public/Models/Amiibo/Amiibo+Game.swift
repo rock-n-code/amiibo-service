@@ -11,16 +11,24 @@
 //===----------------------------------------------------------------------===
 
 extension Amiibo {
+    /// A model that represents a game related to an amiibo item.
     public struct Game: Sendable {
         
         // MARK: Properties
         
+        /// A list of identifiers.
         public let identifiers: [String]
+        
+        /// A name.
         public let name: String
+        
+        /// A list of amiibo usages, if any.
         public let usages: [Usage]?
         
-        // MARK: Initialisers
-        
+        // MARK: Initializers
+
+        /// Initializes this model from a given payload.
+        /// - Parameter payload: A payload that contains the values for the model.
         init(_ payload: Components.Schemas.AmiiboGame) {
             self.identifiers = payload.gameID
             self.name = payload.gameName

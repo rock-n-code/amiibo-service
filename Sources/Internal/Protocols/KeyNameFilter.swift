@@ -10,17 +10,28 @@
 //
 //===----------------------------------------------------------------------===
 
+/// A protocol that defines filters that might contain `key` and/or `name` values.
 protocol KeyNameFilter {
     
     // MARK: Properties
     
+    /// A key to use for filtering, if any.
     var key: String? { get }
+    
+    /// A name to use for filtering, if any.
     var name: String? { get }
     
-    // MARK: Initialisers
+    // MARK: Initializers
     
+    /// Initializes this filter without key or name values.
     init()
+
+    /// Initializes this filter with a key value.
+    /// - Parameter key: A key to use for filtering.
     init(key: String)
+    
+    /// Initializes this filter with a name value.
+    /// - Parameter name: A name to use for filtering.
     init(name: String)
     
 }

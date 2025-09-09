@@ -23,10 +23,8 @@ struct AmiiboServiceLiveTests {
     
     // MARK: Initialisers
     
-    init() throws {
-        let client = try AmiiboLiveClient()
-        
-        self.service = .init(client)
+    init() {
+        self.service = .init(.live())
     }
     
     // MARK: Functions tests

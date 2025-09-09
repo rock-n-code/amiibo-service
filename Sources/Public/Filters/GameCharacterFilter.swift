@@ -10,6 +10,7 @@
 //
 //===----------------------------------------------------------------------===
 
+/// A type that contains values to fine-tune a response when requesting game characters.
 public struct GameCharacterFilter: KeyNameFilter {
     
     // MARK: Properties
@@ -17,7 +18,7 @@ public struct GameCharacterFilter: KeyNameFilter {
     public let key: String?
     public let name: String?
     
-    // MARK: Initialisers
+    // MARK: Initializers
     
     public init() {
         self.key = nil

@@ -10,15 +10,21 @@
 //
 //===----------------------------------------------------------------------===
 
+/// A protocol that defines decodable models containing the `key` and `name` properties.
 protocol KeyNameModel: Sendable {
     
     // MARK: Properties
     
+    /// A key.
     var key: String { get }
+    
+    /// A name.
     var name: String { get }
     
-    // MARK: Initialisers
+    // MARK: Initializers
     
+    /// Initializes this model from a given payload.
+    /// - Parameter payload: A payload that contains the values for the model.
     init(_ payload: Components.Schemas.Tuple)
     
 }

@@ -32,3 +32,6 @@ Packages/
 .swiftpm
 .swiftpm/configuration/registries.json
 .swiftpm/xcode/package.xcworkspace/contents.xcworkspacedata
+
+# DocC documentation
+*.doccarchive

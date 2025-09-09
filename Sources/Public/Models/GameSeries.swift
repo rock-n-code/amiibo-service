@@ -10,6 +10,7 @@
 //
 //===----------------------------------------------------------------------===
 
+/// A model that represents a game series.
 public struct GameSeries: KeyNameModel {
     
     // MARK: Properties
@@ -17,7 +18,7 @@ public struct GameSeries: KeyNameModel {
     public let key: String
     public let name: String
     
-    // MARK: Initialisers
+    // MARK: Initializers
     
     init(_ payload: Components.Schemas.Tuple) {
         self.key = payload.key

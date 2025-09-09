@@ -17,14 +17,6 @@ environment ?= .env
 include $(environment)
 export $(shell sed 's/=.*//' $(environment))
 
-# IDE
-
-open-in-xcode: ## Opens this package with Xcode
-	@open -a Xcode Package.swift
-
-open-in-vscode: ## Opens this package with Visual Studio Code
-	@code .
-
 # SWIFT PACKAGE MANAGER
 
 package-build: ## Builds the project locally
@@ -41,6 +33,45 @@ package-reset: ## Resets the complete SPM cache/build folder from the package
 
 package-update: ## Updates the SPM package dependencies
 	@swift package update
+	
+# DOCUMENTATION
+
+doc-generate: doc-generate-xcode doc-generate-github ## Generates the library documentation for both Github and Xcode
+
+doc-generate-github: ## Generates the library documentation for Github
+	@swift package \
+		--allow-writing-to-directory $(DOCC_GITHUB_OUTPUT) \
+		generate-documentation \
+		$(DOCC_CATALOG_PATH) \
+		--target $(SPM_LIBRARY_TARGET) \
+		--disable-indexing \
+		--transform-for-static-hosting \
+		--hosting-base-path $(DOCC_GITHUB_BASE_PATH) \
+		--output-path $(DOCC_GITHUB_OUTPUT)
+
+doc-generate-xcode: ## Generates the library documentation for Xcode
+	@swift package \
+		--allow-writing-to-directory $(DOCC_XCODE_OUTPUT) \
+		generate-documentation \
+		$(DOCC_CATALOG_PATH) \
+		--target $(SPM_LIBRARY_TARGET) \
+		--output-path $(DOCC_XCODE_OUTPUT)
+
+doc-preview: ## Previews the library documentation in Safari
+	@open -a safari $(DOCC_PREVIEW_URL)
+	@swift package \
+		--disable-sandbox \
+		preview-documentation \
+		$(DOCC_CATALOG_PATH) \
+		--target $(SPM_LIBRARY_TARGET)
+
+# IDE
+
+open-in-xcode: ## Opens this package with Xcode
+	@open -a Xcode Package.swift
+
+open-in-vscode: ## Opens this package with Visual Studio Code
+	@code .
 
 # HELP
 

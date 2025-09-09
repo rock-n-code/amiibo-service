@@ -13,10 +13,19 @@
 import Foundation
 import OpenAPIRuntime
 
-struct ISODateTranscoder: DateTranscoder {
-
+/// A type that allows the decoding and encoding of ISO timestamp dates, defined by the `yyyy-MM-dd'T'HH:mm:ss.SSSSSS` custom date format.
+struct ISOTimestampTranscoder {
+    
     // MARK: Properties
-    private let dateFormatter: DateFormatter = .isoDateTime
+    
+    /// A formatter to use to decode and encode ISO timestamps dates.
+    private let dateFormatter: DateFormatter = .isoTimestamp
+    
+}
+
+ // MARK: - DateTranscoder
+
+extension ISOTimestampTranscoder: DateTranscoder {
     
     // MARK: Functions
     

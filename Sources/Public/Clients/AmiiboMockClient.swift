@@ -12,20 +12,43 @@
 
 import Foundation
 
+/// A type that implements a mock client, for testing purposes.
 public struct AmiiboMockClient {
     
     // MARK: Properties
     
+    /// A list of amiibo items to return, if any.
     private let amiibos: [Amiibo]?
+    
+    /// A list of amiibo series to return, if any.
     private let amiiboSeries: [AmiiboSeries]?
+    
+    /// A list of amiibo types to return, if any.
     private let amiiboTypes: [AmiiboType]?
+    
+    /// An error to throw, if any.
     private let error: AmiiboServiceError?
+    
+    /// A list of game characters to return, if any.
     private let gameCharacters: [GameCharacter]?
+    
+    /// A list of game series to return, if any.
     private let gameSeries: [GameSeries]?
+    
+    /// A last updated date to return, if any.
     private let lastUpdated: Date?
     
-    // MARK: Initialisers
+    // MARK: Initializers
     
+    /// Initializes this client.
+    /// - Parameters:
+    ///   - amiibos: A list of amiibo items to return, if any.
+    ///   - amiiboSeries: A list of amiibo series to return, if any.
+    ///   - amiiboTypes: A list of amiibo types to return, if any.
+    ///   - gameCharacters: A list of game characters to return, if any.
+    ///   - gameSeries: A list of game series to return, if any.
+    ///   - lastUpdated: A last updated date to return, if any.
+    ///   - error: An error to throw, if any. 
     public init(
         amiibos: [Amiibo]? = nil,
         amiiboSeries: [AmiiboSeries]? = nil,
@@ -52,7 +75,7 @@ extension AmiiboMockClient: APIClient {
     
     // MARK: Functions
 
-    public func getAmiibos(by filter: AmiiboFilter) async throws -> [Amiibo] {
+    public func getAmiibos(by filter: AmiiboFilter) async throws(AmiiboServiceError) -> [Amiibo] {
         try throwErrorIfExists()
 
         guard let amiibos else {
@@ -62,7 +85,7 @@ extension AmiiboMockClient: APIClient {
         return amiibos
     }
     
-    public func getAmiiboSeries(by filter: AmiiboSeriesFilter) async throws -> [AmiiboSeries] {
+    public func getAmiiboSeries(by filter: AmiiboSeriesFilter) async throws(AmiiboServiceError) -> [AmiiboSeries] {
         try throwErrorIfExists()
 
         guard let amiiboSeries else {
@@ -72,7 +95,7 @@ extension AmiiboMockClient: APIClient {
         return amiiboSeries
     }
     
-    public func getAmiiboTypes(by filter: AmiiboTypeFilter) async throws -> [AmiiboType] {
+    public func getAmiiboTypes(by filter: AmiiboTypeFilter) async throws(AmiiboServiceError) -> [AmiiboType] {
         try throwErrorIfExists()
 
         guard let amiiboTypes else {
@@ -82,7 +105,7 @@ extension AmiiboMockClient: APIClient {
         return amiiboTypes
     }
     
-    public func getGameCharacters(by filter: GameCharacterFilter) async throws -> [GameCharacter] {
+    public func getGameCharacters(by filter: GameCharacterFilter) async throws(AmiiboServiceError) -> [GameCharacter] {
         try throwErrorIfExists()
 
         guard let gameCharacters else {
@@ -92,7 +115,7 @@ extension AmiiboMockClient: APIClient {
         return gameCharacters
     }
     
-    public func getGameSeries(by filter: GameSeriesFilter) async throws -> [GameSeries] {
+    public func getGameSeries(by filter: GameSeriesFilter) async throws(AmiiboServiceError) -> [GameSeries] {
         try throwErrorIfExists()
 
         guard let gameSeries else {
@@ -102,7 +125,7 @@ extension AmiiboMockClient: APIClient {
         return gameSeries
     }
     
-    public func getLastUpdated() async throws -> Date {
+    public func getLastUpdated() async throws(AmiiboServiceError) -> Date {
         try throwErrorIfExists()
 
         guard let lastUpdated else {
@@ -121,7 +144,9 @@ private extension AmiiboMockClient {
     
     // MARK: Functions
     
-    func throwErrorIfExists() throws {
+    /// Throws an error if it has been provided,
+    /// - Throws: An ``AmiiboServiceError`` error in case an error has been provided.
+    func throwErrorIfExists() throws(AmiiboServiceError) {
         if let error {
             throw error
         }

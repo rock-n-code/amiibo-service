@@ -11,16 +11,30 @@
 //===----------------------------------------------------------------------===
 
 extension Amiibo {
+    /// A model that represents a collection of `WiiU`, `3DS`, and `Switch` games related to an amiibo item.
     public struct Platform: Sendable {
         
         // MARK: Properties
         
+        /// A list of `Switch` games related to an amiibo item.
         public let `switch`: [Game]
+
+        /// A list of `3DS` games related to an amiibo item.
         public let threeDS: [Game]
+        
+        /// A list of `WiiU` games related to an amiibo item.
         public let wiiU: [Game]
         
         // MARK: Initialisers
         
+        /// Initializes this model.
+        ///
+        /// > important: In case no data is provided, then an instance of this model is not created.
+        ///
+        /// - Parameters:
+        ///   - `switch`: A list of `Switch` games related to an amiibo item, if any.
+        ///   - threeDS: A list of `3DS` games related to an amiibo item, if any.
+        ///   - wiiU: A list of `WiiU` games related to an amiibo item, if any.
         init?(
             _ `switch`: [Components.Schemas.AmiiboGame]?,
             _ threeDS: [Components.Schemas.AmiiboGame]?,

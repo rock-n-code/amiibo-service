@@ -10,6 +10,7 @@
 //
 //===----------------------------------------------------------------------===
 
+/// A type that contains values to fine-tune a response when requesting amiibo types.
 public struct AmiiboTypeFilter: KeyNameFilter {
 
     // MARK: Properties
@@ -17,7 +18,7 @@ public struct AmiiboTypeFilter: KeyNameFilter {
     public let key: String?
     public let name: String?
     
-    // MARK: Initialisers
+    // MARK: Initializers
     
     public init() {
         self.key = nil
