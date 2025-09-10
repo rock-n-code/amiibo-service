@@ -17,21 +17,34 @@ environment ?= .env
 include $(environment)
 export $(shell sed 's/=.*//' $(environment))
 
-# SWIFT PACKAGE MANAGER
+# LIBRARY
 
-package-build: ## Builds the project locally
+lib-build: ## Builds the project locally
 	@swift build
 
-package-clean: ## Deletes built SPM artifacts from the package
+lib-test: ## Runs the tests of the library
+	@swift test \
+		--disable-xctest \
+		--enable-code-coverage \
+		--enable-swift-testing \
+		--parallel 
+
+# SWIFT PACKAGE MANAGER
+
+pkg-clean: ## Deletes built SPM artifacts of the package
 	@swift package clean
 
-package-outdated: ## Lists the SPM package dependencies that can be updated
-	@swift package update --dry-run
-
-package-reset: ## Resets the complete SPM cache/build folder from the package
+pkg-reset: ## Resets the complete SPM cache/build folder of the package
 	@swift package reset
 
-package-update: ## Updates the SPM package dependencies
+pkg-pristine: pkg-clean pkg-reset ## Deletes all built artifacts, caches, and documentations of the package
+	@rm -drf $(DOCC_GITHUB_OUTPUT)
+	@rm -drf $(DOCC_XCODE_OUTPUT)
+
+pkg-outdated: ## Lists the SPM package dependencies that can be updated
+	@swift package update --dry-run
+
+pkg-update: ## Updates the SPM package dependencies
 	@swift package update
 	
 # DOCUMENTATION
@@ -42,7 +55,6 @@ doc-generate-github: ## Generates the library documentation for Github
 	@swift package \
 		--allow-writing-to-directory $(DOCC_GITHUB_OUTPUT) \
 		generate-documentation \
-		$(DOCC_CATALOG_PATH) \
 		--target $(SPM_LIBRARY_TARGET) \
 		--disable-indexing \
 		--transform-for-static-hosting \
@@ -53,7 +65,6 @@ doc-generate-xcode: ## Generates the library documentation for Xcode
 	@swift package \
 		--allow-writing-to-directory $(DOCC_XCODE_OUTPUT) \
 		generate-documentation \
-		$(DOCC_CATALOG_PATH) \
 		--target $(SPM_LIBRARY_TARGET) \
 		--output-path $(DOCC_XCODE_OUTPUT)
 
@@ -62,15 +73,14 @@ doc-preview: ## Previews the library documentation in Safari
 	@swift package \
 		--disable-sandbox \
 		preview-documentation \
-		$(DOCC_CATALOG_PATH) \
 		--target $(SPM_LIBRARY_TARGET)
 
 # IDE
 
-open-in-xcode: ## Opens this package with Xcode
+ide-xcode: ## Opens this package with Xcode
 	@open -a Xcode Package.swift
 
-open-in-vscode: ## Opens this package with Visual Studio Code
+ide-vscode: ## Opens this package with Visual Studio Code
 	@code .
 
 # HELP

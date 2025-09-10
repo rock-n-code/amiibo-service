@@ -2,9 +2,6 @@
 .DS_Store
 .netrc
 
-# Visual Studio Code
-.vscode
-
 # Xcode
 DerivedData/
 
@@ -32,6 +29,9 @@ Packages/
 .swiftpm
 .swiftpm/configuration/registries.json
 .swiftpm/xcode/package.xcworkspace/contents.xcworkspacedata
+
+# Visual Studio Code
+.vscode
 
 # DocC documentation
 *.doccarchive

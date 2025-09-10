@@ -10,19 +10,12 @@
 //
 //===----------------------------------------------------------------------===
 
-/// A model that represents a game series.
-public struct GameSeries: KeyNameModel {
-    
-    // MARK: Properties
-    
-    public let key: String
-    public let name: String
-    
-    // MARK: Initializers
-    
-    init(_ payload: Components.Schemas.Tuple) {
-        self.key = payload.key
-        self.name = payload.name
-    }
-    
+/// A representation of the types of client that a ``AmiiboService`` service can utilize.
+/// 
+/// > important: This enumeration has been defined as a way to avoid exposing the `APIClient` protocol outside the boundaries of this library.
+public enum AmiiboClient {
+    /// A live Amiibo client to interact with the online service.
+    case live(AmiiboLiveClient = .init())
+    ///A mock Amiibo client, for testing purposes.
+    case mock(AmiiboMockClient)
 }

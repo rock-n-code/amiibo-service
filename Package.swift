@@ -42,7 +42,7 @@ let package = Package(
                 .product(name: "OpenAPIRuntime", package: "swift-openapi-runtime"),
                 .product(name: "OpenAPIURLSession", package: "swift-openapi-urlsession")
             ],
-            path: "Sources",
+            path: "Sources/AmiiboService",
             plugins: [
                 .plugin(name: "OpenAPIGenerator", package: "swift-openapi-generator"),
             ]
@@ -52,7 +52,7 @@ let package = Package(
             dependencies: [
                 .byName(name: AmiiboService.target)
             ],
-            path: "Tests"
+            path: "Tests/AmiiboService"
         ),
     ]
 )

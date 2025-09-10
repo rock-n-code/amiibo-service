@@ -10,29 +10,24 @@
 //
 //===----------------------------------------------------------------------===
 
-/// A type that contains values to fine-tune a response when requesting game characters.
-public struct GameCharacterFilter: KeyNameFilter {
-    
+/// A model that represents a game character.
+public struct GameCharacter: KeyNameModel {
+
+    // TODO: Remove the documentation from the properties of this type as the `--enable-inherited-docs` flag when generating DocC documentation is not working as intended (?).
+
     // MARK: Properties
-    
-    public let key: String?
-    public let name: String?
+
+    /// A key.
+    public let key: String
+
+    /// A name.
+    public let name: String
     
     // MARK: Initializers
     
-    public init() {
-        self.key = nil
-        self.name = nil
-    }
-    
-    public init(key: String) {
-        self.key = key
-        self.name = nil
-    }
-    
-    public init(name: String) {
-        self.key = nil
-        self.name = name
+    init(_ payload: Components.Schemas.Tuple) {
+        self.key = payload.key
+        self.name = payload.name
     }
     
 }

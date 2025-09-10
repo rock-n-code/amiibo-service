@@ -10,12 +10,17 @@
 //
 //===----------------------------------------------------------------------===
 
-/// A model that represents a game character.
-public struct GameCharacter: KeyNameModel {
+/// A model that represents an amiibo series.
+public struct AmiiboSeries: KeyNameModel {
+    
+    // TODO: Remove the documentation from the properties of this type as the `--enable-inherited-docs` flag when generating DocC documentation is not working as intended (?).
     
     // MARK: Properties
-    
+
+    /// A key.
     public let key: String
+
+    /// A name.
     public let name: String
     
     // MARK: Initializers

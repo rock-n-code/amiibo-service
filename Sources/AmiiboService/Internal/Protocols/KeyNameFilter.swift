@@ -15,10 +15,10 @@ protocol KeyNameFilter {
     
     // MARK: Properties
     
-    /// A key to use for filtering, if any.
+    /// A key to return, if any.
     var key: String? { get }
     
-    /// A name to use for filtering, if any.
+    /// A name to return, if any.
     var name: String? { get }
     
     // MARK: Initializers
@@ -27,11 +27,11 @@ protocol KeyNameFilter {
     init()
 
     /// Initializes this filter with a key value.
-    /// - Parameter key: A key to use for filtering.
+    /// - Parameter key: A key to return.
     init(key: String)
     
     /// Initializes this filter with a name value.
-    /// - Parameter name: A name to use for filtering.
+    /// - Parameter name: A name to return.
     init(name: String)
     
 }

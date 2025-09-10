@@ -32,7 +32,7 @@ extension Amiibo {
         /// > important: In case no data is provided, then an instance of this model is not created.
         ///
         /// - Parameters:
-        ///   - `switch`: A list of `Switch` games related to an amiibo item, if any.
+        ///   - switch: A list of `Switch` games related to an amiibo item, if any.
         ///   - threeDS: A list of `3DS` games related to an amiibo item, if any.
         ///   - wiiU: A list of `WiiU` games related to an amiibo item, if any.
         init?(
