@@ -21,7 +21,7 @@ struct AmiiboServiceLiveTests {
     
     private let service: AmiiboService
     
-    // MARK: Initialisers
+    // MARK: Initializers
     
     init() {
         self.service = .init(.live())
