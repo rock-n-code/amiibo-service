@@ -1,5 +1,8 @@
 # Amiibo Service
 
+[![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Frock-n-code%2Famiibo-service%2Fbadge%3Ftype%3Dswift-versions)](https://swiftpackageindex.com/rock-n-code/amiibo-service)
+[![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Frock-n-code%2Famiibo-service%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/rock-n-code/amiibo-service)
+
 A library written entirely with [Swift](https://www.swift.org) that provides everything the developer needs to interacts with the [Amiibo API](https://www.amiiboapi.com) backend service.
 
 ## Installation

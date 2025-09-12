@@ -55,7 +55,6 @@ $ make
 
 - ``AmiiboClient``
 - ``AmiiboLiveClient``
-- ``AmiiboMockClient``
 
 ### Models
 
