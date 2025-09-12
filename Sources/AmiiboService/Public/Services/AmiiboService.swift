@@ -18,17 +18,14 @@ public struct AmiiboService {
     // MARK: Properties
     
     /// A client to interact with the endpoints.
-    private let client: any APIClient
+    private let client: any AmiiboClient
     
     // MARK: Initializers
     
     /// Initializes this service with a specific client type.
-    /// - Parameter client: A representation of a client to use to interact with the endpoints.
-    public init(_ client: AmiiboClient) {
-        self.client = switch client {
-        case let .mock(mockClient): mockClient
-        case let .live(liveClient): liveClient
-        }
+    /// - Parameter client: A client to use to interact with the endpoints.
+    public init(client: some AmiiboClient = AmiiboLiveClient()) {
+        self.client = client
     }
 
     // MARK: Functions

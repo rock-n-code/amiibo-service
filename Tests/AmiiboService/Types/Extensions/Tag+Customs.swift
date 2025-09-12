@@ -10,12 +10,13 @@
 //
 //===----------------------------------------------------------------------===
 
-/// A representation of the types of client that a ``AmiiboService`` service can utilize.
-/// 
-/// > important: This enumeration has been defined as a way to avoid exposing the `APIClient` protocol outside the boundaries of this library.
-public enum AmiiboClient {
-    /// A live Amiibo client to interact with the online service.
-    case live(AmiiboLiveClient = .init())
-    ///A mock Amiibo client, for testing purposes.
-    case mock(AmiiboMockClient)
+import Testing
+
+extension Tag {
+    
+    // MARK: Properties
+    
+    /// Tag that indicates tests against a live backend service.
+    @Tag static var live: Self
+    
 }

@@ -36,10 +36,10 @@ public struct AmiiboLiveClient {
     
 }
 
-// MARK: - APIClient
+// MARK: - AmiiboClient
 // TODO: Remove the documentation from the functions inside the following extension as the `--enable-inherited-docs` flag when generating DocC documentation is not working as intended (?).
 
-extension AmiiboLiveClient: APIClient {
+extension AmiiboLiveClient: AmiiboClient {
 
     // MARK: Functions
     

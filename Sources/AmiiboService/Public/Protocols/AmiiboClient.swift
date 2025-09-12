@@ -13,7 +13,7 @@
 import Foundation
 
 /// A protocol that defines API clients containing all available endpoints to interact with.
-protocol APIClient {
+public protocol AmiiboClient {
     
     // MARK: Functions
     
