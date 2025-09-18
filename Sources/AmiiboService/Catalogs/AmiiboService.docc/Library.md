@@ -35,7 +35,7 @@ let package = Package(
 
 It is also possible to use the `AmiiboService` library with your app in Xcode, then add it as a dependency in your Xcode project.
 
-> important: Swift 5.9 or higher is required in order to compile this library.
+> important: Swift 5.10 or higher is required in order to compile this library.
 
 ## Tasks
 

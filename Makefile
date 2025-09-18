@@ -19,10 +19,13 @@ export $(shell sed 's/=.*//' $(environment))
 
 # LIBRARY
 
-lib-build: ## Builds the project locally
+lib-build: ## Builds the library
 	@swift build
 
-lib-test: ## Runs the tests of the library
+lib-release: ## Releases the library
+	@swift build -c release
+
+lib-test: ## Runs the unit tests for the library
 	@swift test \
 		--disable-xctest \
 		--enable-code-coverage \
