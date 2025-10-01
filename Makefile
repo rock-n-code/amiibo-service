@@ -41,8 +41,8 @@ pkg-reset: ## Resets the complete SPM cache/build folder of the package
 	@swift package reset
 
 pkg-pristine: pkg-clean pkg-reset ## Deletes all built artifacts, caches, and documentations of the package
+	@rm -drf $(DOCC_ARCHIVE_OUTPUT)
 	@rm -drf $(DOCC_GITHUB_OUTPUT)
-	@rm -drf $(DOCC_XCODE_OUTPUT)
 
 pkg-outdated: ## Lists the SPM package dependencies that can be updated
 	@swift package update --dry-run
@@ -52,7 +52,16 @@ pkg-update: ## Updates the SPM package dependencies
 	
 # DOCUMENTATION
 
-doc-generate: doc-generate-xcode doc-generate-github ## Generates the library documentation for both Github and Xcode
+doc-generate: doc-generate-archive doc-generate-github ## Generates the library documentation for both Github and Xcode
+
+doc-generate-archive: ## Generates the library documentation archive for Xcode
+	@swift package \
+		--allow-writing-to-directory $(DOCC_ARCHIVE_OUTPUT) \
+		generate-documentation \
+		--target $(SPM_LIBRARY_TARGET) \
+		--include-extended-types \
+		--enable-inherited-docs \
+		--output-path $(DOCC_ARCHIVE_OUTPUT)
 
 doc-generate-github: ## Generates the library documentation for Github
 	@swift package \
@@ -61,22 +70,19 @@ doc-generate-github: ## Generates the library documentation for Github
 		--target $(SPM_LIBRARY_TARGET) \
 		--disable-indexing \
 		--transform-for-static-hosting \
+		--include-extended-types \
+		--enable-inherited-docs \
 		--hosting-base-path $(DOCC_GITHUB_BASE_PATH) \
 		--output-path $(DOCC_GITHUB_OUTPUT)
-
-doc-generate-xcode: ## Generates the library documentation for Xcode
-	@swift package \
-		--allow-writing-to-directory $(DOCC_XCODE_OUTPUT) \
-		generate-documentation \
-		--target $(SPM_LIBRARY_TARGET) \
-		--output-path $(DOCC_XCODE_OUTPUT)
 
 doc-preview: ## Previews the library documentation in Safari
 	@open -a safari $(DOCC_PREVIEW_URL)
 	@swift package \
 		--disable-sandbox \
 		preview-documentation \
-		--target $(SPM_LIBRARY_TARGET)
+		--target $(SPM_LIBRARY_TARGET) \
+		--include-extended-types \
+		--enable-inherited-docs
 
 # IDE
 
