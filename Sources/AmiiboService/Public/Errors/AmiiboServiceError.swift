@@ -14,6 +14,8 @@
 public enum AmiiboServiceError: Error {
     /// A bad request has been given to the client.
     case badRequest
+    /// A call to an endpoint has been cancelled by the user.
+    case cancelled
     /// A response cannot be decoded.
     case decoding
     /// An online service is not currently available.

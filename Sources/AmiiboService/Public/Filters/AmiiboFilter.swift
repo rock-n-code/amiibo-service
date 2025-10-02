@@ -11,7 +11,7 @@
 //===----------------------------------------------------------------------===
 
 /// A type that contains values to fine-tune a response when requesting amiibo items.
-public struct AmiiboFilter {
+public struct AmiiboFilter: Sendable {
     
     // MARK: Properties
     

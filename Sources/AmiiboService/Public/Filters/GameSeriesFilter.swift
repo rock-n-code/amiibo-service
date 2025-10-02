@@ -11,7 +11,7 @@
 //===----------------------------------------------------------------------===
 
 /// A type that contains values to fine-tune a response when requesting game series.
-public struct GameSeriesFilter: KeyNameFilter {
+public struct GameSeriesFilter: KeyNameFilter, Sendable {
     
     // TODO: Remove the documentation from the properties and initializers of this type as the `--enable-inherited-docs` flag when generating DocC documentation is not working as intended (?).
     
