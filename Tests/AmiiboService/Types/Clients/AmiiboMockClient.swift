@@ -77,124 +77,72 @@ extension AmiiboMockClient: AmiiboClient {
     // MARK: Functions
 
 #if swift(>=6.0)
-    func getAmiibos(by filter: AmiiboFilter) async throws(AmiiboServiceError) -> [Amiibo] {
-        try throwErrorIfExists()
-
-        guard let amiibos else {
-            throw AmiiboServiceError.notFound
-        }
-        
-        return amiibos
+    func getAmiibos(
+        by filter: AmiiboFilter
+    ) async throws(AmiiboServiceError) -> [Amiibo] {
+        try fetchAmiibosIfAny()
     }
 
-    func getAmiiboSeries(by filter: AmiiboSeriesFilter) async throws(AmiiboServiceError) -> [AmiiboSeries] {
-        try throwErrorIfExists()
-
-        guard let amiiboSeries else {
-            throw AmiiboServiceError.notFound
-        }
-        
-        return amiiboSeries
+    func getAmiiboSeries(
+        by filter: AmiiboSeriesFilter
+    ) async throws(AmiiboServiceError) -> [AmiiboSeries] {
+        try fetchAmiiboSeriesIfAny()
     }
 
-    func getAmiiboTypes(by filter: AmiiboTypeFilter) async throws(AmiiboServiceError) -> [AmiiboType] {
-        try throwErrorIfExists()
-
-        guard let amiiboTypes else {
-            throw AmiiboServiceError.notFound
-        }
-        
-        return amiiboTypes
+    func getAmiiboTypes(
+        by filter: AmiiboTypeFilter
+    ) async throws(AmiiboServiceError) -> [AmiiboType] {
+        try fetchAmiiboTypesIfAny()
     }
 
-    func getGameCharacters(by filter: GameCharacterFilter) async throws(AmiiboServiceError) -> [GameCharacter] {
-        try throwErrorIfExists()
-
-        guard let gameCharacters else {
-            throw AmiiboServiceError.notFound
-        }
-        
-        return gameCharacters
+    func getGameCharacters(
+        by filter: GameCharacterFilter
+    ) async throws(AmiiboServiceError) -> [GameCharacter] {
+        try fetchGameCharactersIfAny()
     }
 
-    func getGameSeries(by filter: GameSeriesFilter) async throws(AmiiboServiceError) -> [GameSeries] {
-        try throwErrorIfExists()
-
-        guard let gameSeries else {
-            throw AmiiboServiceError.notFound
-        }
-        
-        return gameSeries
+    func getGameSeries(
+        by filter: GameSeriesFilter
+    ) async throws(AmiiboServiceError) -> [GameSeries] {
+        try fetchGameSeriesIfAny()
     }
 
     func getLastUpdated() async throws(AmiiboServiceError) -> Date {
-        try throwErrorIfExists()
-
-        guard let lastUpdated else {
-            throw AmiiboServiceError.notFound
-        }
-        
-        return lastUpdated
+        fetchLastUpdatedIfAny()
     }
 #else
-    func getAmiibos(by filter: AmiiboFilter) async throws -> [Amiibo] {
-        try throwErrorIfExists()
-        
-        guard let amiibos else {
-            throw AmiiboServiceError.notFound
-        }
-        
-        return amiibos
+    func getAmiibos(
+        by filter: AmiiboFilter
+    ) async throws -> [Amiibo] {
+        try fetchAmiibosIfAny()
     }
     
-    func getAmiiboSeries(by filter: AmiiboSeriesFilter) async throws -> [AmiiboSeries] {
-        try throwErrorIfExists()
-        
-        guard let amiiboSeries else {
-            throw AmiiboServiceError.notFound
-        }
-        
-        return amiiboSeries
+    func getAmiiboSeries(
+        by filter: AmiiboSeriesFilter
+    ) async throws -> [AmiiboSeries] {
+        try fetchAmiiboSeriesIfAny()
     }
     
-    func getAmiiboTypes(by filter: AmiiboTypeFilter) async throws -> [AmiiboType] {
-        try throwErrorIfExists()
-        
-        guard let amiiboTypes else {
-            throw AmiiboServiceError.notFound
-        }
-        
-        return amiiboTypes
+    func getAmiiboTypes(
+        by filter: AmiiboTypeFilter
+    ) async throws -> [AmiiboType] {
+        try fetchAmiiboTypesIfAny()
     }
     
-    func getGameCharacters(by filter: GameCharacterFilter) async throws -> [GameCharacter] {
-        try throwErrorIfExists()
-        
-        guard let gameCharacters else {
-            throw AmiiboServiceError.notFound
-        }
-        
-        return gameCharacters
+    func getGameCharacters(
+        by filter: GameCharacterFilter
+    ) async throws -> [GameCharacter] {
+        try fetchGameCharactersIfAny()
     }
     
-    func getGameSeries(by filter: GameSeriesFilter) async throws -> [GameSeries] {
-        try throwErrorIfExists()
-        
-        guard let gameSeries else {
-            throw AmiiboServiceError.notFound
-        }
-        
-        return gameSeries
+    func getGameSeries(
+        by filter: GameSeriesFilter
+    ) async throws -> [GameSeries] {
+        try fetchGameSeriesIfAny()
     }
 
     func getLastUpdated() async throws -> Date {
-        try throwErrorIfExists()
-        
-        guard let lastUpdated else {
-            throw AmiiboServiceError.notFound
-        }
-        
-        return lastUpdated
+        try fetchLastUpdatedIfAny()
     }
 #endif
     
@@ -205,6 +153,84 @@ extension AmiiboMockClient: AmiiboClient {
 private extension AmiiboMockClient {
     
     // MARK: Functions
+    
+    /// Fetches a list of amiibo items, if any.
+    /// - Returns: A list of amiibo items.
+    /// - Throws: An ``AmiiboServiceError`` error in case an error has been provided.
+    func fetchAmiibosIfAny() throws -> [Amiibo] {
+        try throwErrorIfExists()
+        
+        guard let amiibos else {
+            throw AmiiboServiceError.notFound
+        }
+        
+        return amiibos
+    }
+    
+    /// Fetches a list of amiibo series, if any.
+    /// - Returns: A list of amiibo series.
+    /// - Throws: An ``AmiiboServiceError`` error in case an error has been provided.
+    func fetchAmiiboSeriesIfAny() throws -> [AmiiboSeries] {
+        try throwErrorIfExists()
+        
+        guard let amiiboSeries else {
+            throw AmiiboServiceError.notFound
+        }
+        
+        return amiiboSeries
+    }
+    
+    /// Fetches a list of amiibo types, if any.
+    /// - Returns: A list of amiibo types.
+    /// - Throws: An ``AmiiboServiceError`` error in case an error has been provided.
+    func fetchAmiiboTypesIfAny() throws -> [AmiiboType] {
+        try throwErrorIfExists()
+        
+        guard let amiiboTypes else {
+            throw AmiiboServiceError.notFound
+        }
+        
+        return amiiboTypes
+    }
+    
+    /// Fetches a list of game characters, if any.
+    /// - Returns: A list of game characters.
+    /// - Throws: An ``AmiiboServiceError`` error in case an error has been provided.
+    func fetchGameCharactersIfAny() throws -> [GameCharacter] {
+        try throwErrorIfExists()
+        
+        guard let gameCharacters else {
+            throw AmiiboServiceError.notFound
+        }
+        
+        return gameCharacters
+    }
+    
+    /// Fetches a list of game series, if any.
+    /// - Returns: A list of game series, if any.
+    /// - Throws: An ``AmiiboServiceError`` error in case an error has been provided.
+    func fetchGameSeriesIfAny() throws -> [GameSeries] {
+        try throwErrorIfExists()
+        
+        guard let gameSeries else {
+            throw AmiiboServiceError.notFound
+        }
+        
+        return gameSeries
+    }
+    
+    /// Fetches a last updated date, if any.
+    /// - Returns: A last updated date.
+    /// - Throws: An ``AmiiboServiceError`` error in case an error has been provided.
+    func fetchLastUpdatedIfAny() throws -> Date {
+        try throwErrorIfExists()
+        
+        guard let lastUpdated else {
+            throw AmiiboServiceError.notFound
+        }
+        
+        return lastUpdated
+    }
     
     /// Throws an error if it has been provided,
     /// - Throws: An ``AmiiboServiceError`` error in case an error has been provided.
