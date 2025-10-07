@@ -182,10 +182,12 @@ private extension AmiiboLiveClient {
                 amiiboSeries: filter.series,
                 character: filter.gameCharacter,
                 gameseries: filter.gameSeries,
+                head: filter.head,
                 id: filter.identifier,
                 name: filter.name,
                 showgames: filter.showGames,
                 showusage: filter.showUsage,
+                tail: filter.tail,
                 _type: filter.type
             )))
         } catch {
@@ -200,6 +202,10 @@ private extension AmiiboLiveClient {
             }
         case .badRequest:
             throw AmiiboServiceError.badRequest
+        case .notFound:
+            throw AmiiboServiceError.notFound
+        case .internalServerError:
+            throw AmiiboServiceError.notAvailable
         case let .undocumented(statusCode, _):
             throw AmiiboServiceError.undocumented(statusCode)
         }
@@ -363,6 +369,12 @@ private extension AmiiboLiveClient {
             case let .json(output):
                 return output.lastUpdated
             }
+        case .badRequest:
+            throw AmiiboServiceError.badRequest
+        case .notFound:
+            throw AmiiboServiceError.notFound
+        case .internalServerError:
+            throw AmiiboServiceError.notAvailable
         case let .undocumented(statusCode, _):
             throw AmiiboServiceError.undocumented(statusCode)
         }

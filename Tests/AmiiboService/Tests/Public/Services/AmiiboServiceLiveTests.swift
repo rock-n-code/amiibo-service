@@ -545,6 +545,10 @@ enum Input {
     /// A list of amiibo filters to input to the `assertAmiibos` assertion.
     static let amiibos: [AmiiboFilter] = [
         .init(),
+        .init(head: "00000000"),
+        .init(head: "0000"),
+        .init(tail: "00000002"),
+        .init(tail: "0002"),
         .init(identifier: "0000000000000002"),
         .init(name: "zelda"),
         .init(name: "Something"),
@@ -579,6 +583,8 @@ enum Input {
     ]
     /// A list of amiibo series filters to input to the `assertAmiibosThrows` assertion.
     static let amiibosThrows: [AmiiboFilter] = [
+        .init(head: .empty),
+        .init(tail: .empty),
         .init(identifier: "0000000000000000"),
         .init(identifier: "0000000"),
         .init(identifier: .empty),
@@ -651,9 +657,9 @@ enum Input {
 
 enum Output {
     /// A list of number of items that are expected from the `assertAmiibos` assertion.
-    static let amiibos: [Int] = [.totalAmiibos, 1, 5, .zero, 7, .totalAmiibos, 235, 235, .zero, .zero, .zero, .zero, 96, 26, .zero, .zero, 25, .totalAmiibos, 12, 6, .zero, .zero, .zero, .totalAmiibos, 49, 32, .zero, .zero, 147, .totalAmiibos, .totalAmiibos, .totalAmiibos]
+    static let amiibos: [Int] = [.totalAmiibos, 7, 7, 1, 1, 1, 5, .zero, 7, .totalAmiibos, 235, 235, .zero, .zero, .zero, .zero, 96, 26, .zero, .zero, 25, .totalAmiibos, 12, 6, .zero, .zero, .zero, .totalAmiibos, 49, 32, .zero, .zero, 147, .totalAmiibos, .totalAmiibos, .totalAmiibos]
     /// A list of errors are expected to be thrown from the `assertAmiibosThrows` assertion.
-    static let amiibosThrows: [AmiiboServiceError] = [.decoding, .decoding, .badRequest, .badRequest, .badRequest, .badRequest, .badRequest]
+    static let amiibosThrows: [AmiiboServiceError] = [.badRequest, .badRequest, .decoding, .decoding, .badRequest, .badRequest, .badRequest, .badRequest, .badRequest]
     /// A list of number of items that are expected from the `assertAmiiboSeries` assertion.
     static let amiiboSeries: [Int] = [.totalAmiiboSeries, 1, 1, 1, .totalAmiiboSeries]
     /// A list of errors are expected to be thrown from the `assertAmiiboSeriesThrows` assertion.
