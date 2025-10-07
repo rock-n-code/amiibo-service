@@ -1,10 +1,10 @@
 # ``AmiiboService``
 
-A library that provides everything the developer needs to interacts with the **Amiibo API** backend service.
+A library that provides everything the developer needs to interact with the **Amiibo API** backend service.
 
 ## Overview
 
-The `AmiiboService` library is a Swift Package Manager package dependency aims at allowing the developer to interact with the [Amiibo API](https://www.amiiboapi.com) backend service seamlessly, by not only providing the *service* type but also any possible *clients*, *models*, *filters* and *errors* types that might be needed during implementation.
+The `amiibo-service` library is a package that allows the developer to interact with the [Amiibo API](https://www.amiiboapi.com) backend service seamlessly, by not only providing the *service* type but also any possible *models*, *filters*, *errors* and *interfaces* types that might be needed during implementation.
 
 ## Design
 
@@ -18,7 +18,7 @@ To use the `AmiiboService` library with your package, then add it as a dependenc
 let package = Package(
     // name, platforms, products, etc.
     dependencies: [
-        .package(url: "https://github.com/rock-n-code/amiibo-service", from: "1.0.0"),
+        .package(url: "https://github.com/rock-n-code/amiibo-service", from: "1.1.0"),
         // other dependencies
     ],
     targets: [
@@ -39,7 +39,9 @@ It is also possible to use the `AmiiboService` library with your app in Xcode, t
 
 ## Tasks
 
-This library offers a set of ready-to-use project management tasks that the developer could use from the command line. To show the list of tasks on the `Terminal` app, plus display some explanations about each and every one of them; please enter the following command:
+This library offers a set of ready-to-use tasks that simplify the interaction with the library, which the developer can use from any `Terminal` application. 
+
+> Tip: To show the available list of tasks, plus display some explanations about each and every one of them; please enter the following command:
 
 ```bash
 $ make
@@ -56,7 +58,7 @@ $ make
 - ``AmiiboClient``
 - ``AmiiboLiveClient``
 
-### Models
+### Types
 
 - ``Amiibo``
 - ``Amiibo/Game``

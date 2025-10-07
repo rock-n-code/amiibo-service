@@ -1,14 +1,16 @@
-//===----------------------------------------------------------------------===
-//
-// This source file is part of the AmiiboService open source project
-//
-// Copyright (c) 2024-2025 Röck+Cöde VoF. and the AmiiboAPI project authors
-// Licensed under the EUPL 1.2 or later.
-//
+// ===----------------------------------------------------------------------===
+// 
+// This source file is part of the Amiibo Service open source project
+// 
+// Copyright (c) 2025 Röck+Cöde VoF. and the Amiibo Service project authors
+// Licensed under Apache license v2.0
+// 
 // See LICENSE for license information
-// See CONTRIBUTORS for the list of AmiiboAPI project authors
+// See CONTRIBUTORS for the list of Amiibo Service project authors
 //
-//===----------------------------------------------------------------------===
+// SPDX-License-Identifier: Apache-2.0
+// 
+// ===----------------------------------------------------------------------===
 
 /// A type that contains values to fine-tune a response when requesting amiibo series.
 public struct AmiiboSeriesFilter: KeyNameFilter, Sendable {
