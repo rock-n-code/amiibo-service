@@ -181,16 +181,16 @@ private extension AmiiboLiveClient {
         
         do {
             response = try await client.getAmiibos(.init(query: .init(
+                id: filter.identifier,
+                head: filter.head,
+                tail: filter.tail,
+                name: filter.name,
+                _type: filter.type,
                 amiiboSeries: filter.series,
                 character: filter.gameCharacter,
                 gameseries: filter.gameSeries,
-                head: filter.head,
-                id: filter.identifier,
-                name: filter.name,
                 showgames: filter.showGames,
-                showusage: filter.showUsage,
-                tail: filter.tail,
-                _type: filter.type
+                showusage: filter.showUsage
             )))
         } catch {
             try handle(error: error)
@@ -200,7 +200,16 @@ private extension AmiiboLiveClient {
         case let .ok(ok):
             switch ok.body {
             case let .json(output):
-                return map(output)
+                switch output.amiibo {
+                case let .Amiibo(object):
+                    return [Amiibo(object)]
+                case let .AmiiboList(list):
+                    return list
+                        .map { Amiibo($0) }
+                        .sorted { $0.identifier < $1.identifier }
+                case .none:
+                    return []
+                }
             }
         case .badRequest:
             throw AmiiboServiceError.badRequest
@@ -235,7 +244,14 @@ private extension AmiiboLiveClient {
         case let .ok(ok):
             switch ok.body {
             case let .json(output):
-                return map(output)
+                switch output.amiibo {
+                case let .AmiiboSeries(payload):
+                    return [AmiiboSeries(payload.value1)]
+                case let .AmiiboSeriesList(list):
+                    return list
+                        .map { AmiiboSeries($0.value1) }
+                        .sorted { $0.key < $1.key }
+                }
             }
         case .badRequest:
             throw AmiiboServiceError.badRequest
@@ -270,7 +286,14 @@ private extension AmiiboLiveClient {
         case let .ok(ok):
             switch ok.body {
             case let .json(output):
-                return map(output)
+                switch output.amiibo {
+                case let .AmiiboType(payload):
+                    return [AmiiboType(payload.value1)]
+                case let .AmiiboTypeList(list):
+                    return list
+                        .map { AmiiboType($0.value1) }
+                        .sorted { $0.key < $1.key }
+                }
             }
         case .badRequest:
             throw AmiiboServiceError.badRequest
@@ -305,7 +328,14 @@ private extension AmiiboLiveClient {
         case let .ok(ok):
             switch ok.body {
             case let .json(output):
-                return map(output)
+                switch output.amiibo {
+                case let .GameCharacter(payload):
+                    return [GameCharacter(payload.value1)]
+                case let .GameCharacterList(list):
+                    return list
+                        .map { GameCharacter($0.value1) }
+                        .sorted { $0.key < $1.key }
+                }
             }
         case .badRequest:
             throw AmiiboServiceError.badRequest
@@ -340,7 +370,14 @@ private extension AmiiboLiveClient {
         case let .ok(ok):
             switch ok.body {
             case let .json(output):
-                return map(output)
+                switch output.amiibo {
+                case let .GameSeries(payload):
+                    return [GameSeries(payload.value1)]
+                case let .GameSeriesList(list):
+                    return list
+                        .map { GameSeries($0.value1) }
+                        .sorted { $0.key < $1.key }
+                }
             }
         case .badRequest:
             throw AmiiboServiceError.badRequest
@@ -371,10 +408,6 @@ private extension AmiiboLiveClient {
             case let .json(output):
                 return output.lastUpdated
             }
-        case .badRequest:
-            throw AmiiboServiceError.badRequest
-        case .notFound:
-            throw AmiiboServiceError.notFound
         case .internalServerError:
             throw AmiiboServiceError.notAvailable
         case let .undocumented(statusCode, _):
@@ -410,38 +443,6 @@ private extension AmiiboLiveClient {
             }
         default:
             throw AmiiboServiceError.unknown
-        }
-    }
-    
-    /// Retrieves a list of amiibo items from a wrapper container.
-    /// - Parameter wrapper: A wrapper container that either has an object or a list of items.
-    /// - Returns: A list of amiibo items, sorted by identifiers.
-    func map(
-        _ wrapper: Components.Schemas.AmiiboWrapper
-    ) -> [Amiibo] {
-        switch wrapper.amiibo {
-        case let .Amiibo(object):
-            return [Amiibo(object)]
-        case let .AmiiboList(list):
-            return list
-                .map { Amiibo($0) }
-                .sorted { $0.identifier < $1.identifier }
-        }
-    }
-    
-    /// Retrieves a list of items that conforms to the `KeyNameModel` protocol from a wrapper container.
-    /// - Parameter wrapper: A wrapper container that either has an object or a list of items.
-    /// - Returns: A list of items that conforms to the `KeyNameModel` protocol, sorted by keys.
-    func map<Model: KeyNameModel>(
-        _ wrapper: Components.Schemas.TupleWrapper
-    ) -> [Model] {
-        switch wrapper.amiibo {
-        case let .Tuple(payload):
-            return [Model(payload)]
-        case let .TupleList(list):
-            return list
-                .map { Model($0) }
-                .sorted { $0.key < $1.key }
         }
     }
     

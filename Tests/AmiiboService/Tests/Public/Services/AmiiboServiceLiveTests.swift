@@ -324,8 +324,8 @@ struct AmiiboServiceLiveTests {
     @Test("get last updated timestamp")
     func getLastUpdated() async throws {
         try await assertLastUpdated(
-            day: 21,
-            month: 9,
+            day: 10,
+            month: 10,
             year: 2025
         )
     }
@@ -552,6 +552,8 @@ enum Input {
         .init(tail: "00000002"),
         .init(tail: "0002"),
         .init(identifier: "0000000000000002"),
+        .init(identifier: "0000000000000000"),
+        .init(identifier: "0000000"),
         .init(name: "zelda"),
         .init(name: "Something"),
         .init(name: "zel"),
@@ -587,8 +589,6 @@ enum Input {
     static let amiibosThrows: [AmiiboFilter] = [
         .init(head: .empty),
         .init(tail: .empty),
-        .init(identifier: "0000000000000000"),
-        .init(identifier: "0000000"),
         .init(identifier: .empty),
         .init(type: "0x"),
         .init(series: "0x"),
@@ -659,9 +659,9 @@ enum Input {
 
 enum Output {
     /// A list of number of items that are expected from the `assertAmiibos` assertion.
-    static let amiibos: [Int] = [.totalAmiibos, 7, 7, 1, 1, 1, 5, .zero, 7, .totalAmiibos, 235, 235, .zero, .zero, .zero, .zero, 96, 26, .zero, .zero, 25, .totalAmiibos, 12, 6, .zero, .zero, .zero, .totalAmiibos, 49, 32, .zero, .zero, 147, .totalAmiibos, .totalAmiibos, .totalAmiibos]
+    static let amiibos: [Int] = [.totalAmiibos, 7, 7, 1, 1, 1, .zero, .zero, 5, .zero, 7, .totalAmiibos, 235, 235, .zero, .zero, .zero, .zero, 96, 26, .zero, .zero, 63, .totalAmiibos, 12, 6, .zero, .zero, .zero, .totalAmiibos, 49, 32, .zero, .zero, 147, .totalAmiibos, .totalAmiibos, .totalAmiibos]
     /// A list of errors are expected to be thrown from the `assertAmiibosThrows` assertion.
-    static let amiibosThrows: [AmiiboServiceError] = [.badRequest, .badRequest, .decoding, .decoding, .badRequest, .badRequest, .badRequest, .badRequest, .badRequest]
+    static let amiibosThrows: [AmiiboServiceError] = [.badRequest, .badRequest, .badRequest, .badRequest, .badRequest, .badRequest, .badRequest]
     /// A list of number of items that are expected from the `assertAmiiboSeries` assertion.
     static let amiiboSeries: [Int] = [.totalAmiiboSeries, 1, 1, 1, .totalAmiiboSeries]
     /// A list of errors are expected to be thrown from the `assertAmiiboSeriesThrows` assertion.
@@ -684,13 +684,13 @@ enum Output {
 
 private extension Int {
     /// A number that represents the total number of amiibo items currently available at the live service.
-    static let totalAmiibos = 889
+    static let totalAmiibos = 927
     /// A number that represents the total number of amiibo series currently available at the live service.
     static let totalAmiiboSeries = 29
     /// A number that represents the total number of amiibo types currently available at the live service.
     static let totalAmiiboTypes = 5
     /// A number that represents the total number of game characters currently available at the live service.
-    static let totalGameCharacters = 668
+    static let totalGameCharacters = 675
     /// A number that represents the total number of game series currently available at the live service.
     static let totalGameSeries = 117
 }

@@ -18,7 +18,7 @@ To use the `AmiiboService` library with your package, then add it as a dependenc
 let package = Package(
     // name, platforms, products, etc.
     dependencies: [
-        .package(url: "https://github.com/rock-n-code/amiibo-service", from: "1.1.0"),
+        .package(url: "https://github.com/rock-n-code/amiibo-service", from: "1.2.0"),
         // other dependencies
     ],
     targets: [
@@ -58,7 +58,7 @@ $ make
 - ``AmiiboClient``
 - ``AmiiboLiveClient``
 
-### Types
+### Models
 
 - ``Amiibo``
 - ``Amiibo/Game``
