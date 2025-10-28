@@ -61,10 +61,6 @@ $ make
 ### Models
 
 - ``Amiibo``
-- ``Amiibo/Game``
-- ``Amiibo/Platform``
-- ``Amiibo/Release``
-- ``Amiibo/Usage``
 - ``AmiiboSeries``
 - ``AmiiboType``
 - ``GameCharacter``

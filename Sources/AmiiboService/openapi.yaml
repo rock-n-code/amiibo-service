@@ -357,6 +357,8 @@ components:
 
             The positions 0 to 7 of the hexadecimal string.
           type: string
+          pattern: "^[0-9a-fA-F]+$"
+          minLength: 8
           maxLength: 8
         image:
           description: An image URL related to an amiibo.
@@ -374,6 +376,8 @@ components:
 
             The positions 8 to 15 of the hexadecimal string.
           type: string
+          pattern: "^[0-9a-fA-F]+$"
+          minLength: 8
           maxLength: 8
         type:
           description: A name for the type an amiibo belongs to.
@@ -501,38 +505,14 @@ components:
         key:
           description: A key assigned to a tuple.
           type: string
+          pattern: "^0x[0-9a-fA-F]+$"
+          minLength: 3
         name:
           description: A name assigned to a tuple.
           type: string
       required:
         - key
         - name
-# List Entities
-    AmiiboList:
-      description: A type that contains a list of amiibos.
-      type: array
-      items:
-        $ref: '#/components/schemas/Amiibo'
-    AmiiboSeriesList:
-      description: A type that represents a list of amiibo series.
-      type: array
-      items:
-        $ref: '#/components/schemas/AmiiboSeries'
-    AmiiboTypeList:
-      description: A type that represents a list of amiibo types.
-      type: array
-      items:
-        $ref: '#/components/schemas/AmiiboType'
-    GameCharacterList:
-      description: A type that represents a list of game characters.
-      type: array
-      items:
-        $ref: '#/components/schemas/GameCharacter'
-    GameSeriesList:
-      description: A type that represents a list of game series.
-      type: array
-      items:
-        $ref: '#/components/schemas/GameSeries'
 # Wrapper Entities
     AmiiboWrapper:
       description: A type that wraps either none, one or a list of amiibos.
@@ -542,7 +522,11 @@ components:
           description: A container that have zero, one or more amiibos.
           oneOf:
             - $ref: '#/components/schemas/Amiibo'
-            - $ref: '#/components/schemas/AmiiboList'
+              description: A certain amiibo.
+            - type: array
+              description: A list that contains amiibos.
+              items:
+                $ref: '#/components/schemas/Amiibo'
     AmiiboSeriesWrapper:
       description: A type that wraps either one or a list of amiibo series.
       type: object
@@ -551,7 +535,11 @@ components:
           description: A container that have one or more amiibo series.
           oneOf:
             - $ref: '#/components/schemas/AmiiboSeries'
-            - $ref: '#/components/schemas/AmiiboSeriesList'
+              description: A certain amiibo series.
+            - type: array
+              description: A list that contains amiibo series.
+              items:
+                $ref: '#/components/schemas/AmiiboSeries'
       required: 
         - amiibo    
     AmiiboTypeWrapper:
@@ -562,7 +550,11 @@ components:
           description: A container that have one or more amiibo types.
           oneOf:
             - $ref: '#/components/schemas/AmiiboType'
-            - $ref: '#/components/schemas/AmiiboTypeList'
+              description: A certain amiibo type.
+            - type: array
+              description: A list that contains amiibo types.
+              items:
+                $ref: '#/components/schemas/AmiiboType'
       required: 
         - amiibo
     GameCharacterWrapper:
@@ -573,7 +565,11 @@ components:
           description: A container that have one or more game characters.
           oneOf:
             - $ref: '#/components/schemas/GameCharacter'
-            - $ref: '#/components/schemas/GameCharacterList'
+              description: A certain game character.
+            - type: array
+              description: A list that contains game characters.
+              items:
+                $ref: '#/components/schemas/GameCharacter'
       required: 
         - amiibo
     GameSeriesWrapper:
@@ -584,7 +580,11 @@ components:
           description: A container that have one or more game series.
           oneOf:
             - $ref: '#/components/schemas/GameSeries'
-            - $ref: '#/components/schemas/GameSeriesList'
+              description: A certain game series.
+            - type: array
+              description: A list that contains game series.
+              items:
+                $ref: '#/components/schemas/GameSeries'
       required: 
         - amiibo
 # Error Entities

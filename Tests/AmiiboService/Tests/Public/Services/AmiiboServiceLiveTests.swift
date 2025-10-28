@@ -324,7 +324,7 @@ struct AmiiboServiceLiveTests {
     @Test("get last updated timestamp")
     func getLastUpdated() async throws {
         try await assertLastUpdated(
-            day: 10,
+            day: 17,
             month: 10,
             year: 2025
         )

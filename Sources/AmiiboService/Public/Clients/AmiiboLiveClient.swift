@@ -203,7 +203,7 @@ private extension AmiiboLiveClient {
                 switch output.amiibo {
                 case let .Amiibo(object):
                     return [Amiibo(object)]
-                case let .AmiiboList(list):
+                case let .case2(list):
                     return list
                         .map { Amiibo($0) }
                         .sorted { $0.identifier < $1.identifier }
@@ -247,7 +247,7 @@ private extension AmiiboLiveClient {
                 switch output.amiibo {
                 case let .AmiiboSeries(payload):
                     return [AmiiboSeries(payload.value1)]
-                case let .AmiiboSeriesList(list):
+                case let .case2(list):
                     return list
                         .map { AmiiboSeries($0.value1) }
                         .sorted { $0.key < $1.key }
@@ -289,7 +289,7 @@ private extension AmiiboLiveClient {
                 switch output.amiibo {
                 case let .AmiiboType(payload):
                     return [AmiiboType(payload.value1)]
-                case let .AmiiboTypeList(list):
+                case let .case2(list):
                     return list
                         .map { AmiiboType($0.value1) }
                         .sorted { $0.key < $1.key }
@@ -331,7 +331,7 @@ private extension AmiiboLiveClient {
                 switch output.amiibo {
                 case let .GameCharacter(payload):
                     return [GameCharacter(payload.value1)]
-                case let .GameCharacterList(list):
+                case let .case2(list):
                     return list
                         .map { GameCharacter($0.value1) }
                         .sorted { $0.key < $1.key }
@@ -373,7 +373,7 @@ private extension AmiiboLiveClient {
                 switch output.amiibo {
                 case let .GameSeries(payload):
                     return [GameSeries(payload.value1)]
-                case let .GameSeriesList(list):
+                case let .case2(list):
                     return list
                         .map { GameSeries($0.value1) }
                         .sorted { $0.key < $1.key }

@@ -14,19 +14,19 @@
 
 /// A model that represents an amiibo series.
 public struct AmiiboSeries: KeyNameModel {
-    
-    // TODO: Remove the documentation from the properties of this type as the `--enable-inherited-docs` flag when generating DocC documentation is not working as intended (?).
-    
+
     // MARK: Properties
 
-    /// A key.
+    /// An amiibo series key.
     public let key: String
 
-    /// A name.
+    /// An amiibo series name.
     public let name: String
     
     // MARK: Initializers
     
+    /// Initializes this model from a given payload.
+    /// - Parameter payload: A payload that contains the values for the model.
     init(_ payload: Components.Schemas.Tuple) {
         self.key = payload.key
         self.name = payload.name
