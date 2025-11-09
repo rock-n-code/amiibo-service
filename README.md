@@ -13,7 +13,7 @@ To use this library, then it is mandatory to add it as a dependency in the `Pack
 let package = Package(
     // name, platforms, products, etc.
     dependencies: [
-        .package(url: "https://github.com/rock-n-code/amiibo-service", from: "1.2.0"),
+        .package(url: "https://github.com/rock-n-code/amiibo-service", from: "1.3.0"),
         // other dependencies
     ],
     targets: [

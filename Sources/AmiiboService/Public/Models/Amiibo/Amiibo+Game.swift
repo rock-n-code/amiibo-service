@@ -13,7 +13,7 @@
 // ===----------------------------------------------------------------------===
 
 extension Amiibo {
-    /// A model that represents a game related to an amiibo item.
+    /// A model that represents a game related to an amiibo.
     public struct Game: Sendable {
         
         // MARK: Properties

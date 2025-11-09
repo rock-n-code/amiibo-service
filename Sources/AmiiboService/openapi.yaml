@@ -346,6 +346,11 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/AmiiboGame'
+        gamesSwitch2:
+          description: A list of Switch 2 games an amiibo could be used in, if any.
+          type: array
+          items:
+            $ref: '#/components/schemas/AmiiboGame'
         gamesWiiU:
           description: A list of Wii U games an amiibo could be used in, if any.
           type: array

@@ -13,15 +13,15 @@
 // ===----------------------------------------------------------------------===
 
 extension Amiibo {
-    /// A model that represents the usage of an amiibo item within a certain game.
+    /// A model that represents the usage of an amiibo within a certain game.
     public struct Usage: Sendable {
         
         // MARK: Properties
         
-        /// An explanation of how to use an amiibo item.
+        /// An explanation of how to use an amiibo.
         public let explanation: String
         
-        /// A flag that indicates whether an amiibo item can save game data in it.
+        /// A flag that indicates whether an amiibo can save game data in it.
         public let isWriteable: Bool
         
         // MARK: Initializers

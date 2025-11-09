@@ -15,7 +15,7 @@
 import Foundation
 
 extension Amiibo {
-    /// A model that represents a collection of release dates related to an amiibo item.
+    /// A model that represents a collection of release dates related to an amiibo.
     public struct Release: Sendable {
         
         // MARK: Properties

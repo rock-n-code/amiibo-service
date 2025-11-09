@@ -14,7 +14,7 @@
 
 import Foundation
 
-/// A model that represents an amiibo item.
+/// A model that represents an amiibo.
 public struct Amiibo: Sendable {
     
     // MARK: Properties
@@ -61,6 +61,7 @@ public struct Amiibo: Sendable {
         self.name = payload.name
         self.platform = .init(
             payload.gamesSwitch,
+            payload.gamesSwitch2,
             payload.games3DS,
             payload.gamesWiiU
         )
