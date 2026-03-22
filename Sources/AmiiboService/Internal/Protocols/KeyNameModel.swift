@@ -2,7 +2,7 @@
 // 
 // This source file is part of the Amiibo Service open source project
 // 
-// Copyright (c) 2025 Röck+Cöde VoF. and the Amiibo Service project authors
+// Copyright (c) 2026 Röck+Cöde VoF. and the Amiibo Service project authors
 // Licensed under Apache license v2.0
 // 
 // See LICENSE for license information
@@ -12,15 +12,15 @@
 // 
 // ===----------------------------------------------------------------------===
 
-/// A protocol that defines decodable models containing the `key` and `name` properties.
-protocol KeyNameModel: Sendable {
+/// A protocol that defines models containing a `key` and `name` pair.
+protocol KeyNameModel: Sendable, Hashable {
     
     // MARK: Properties
     
-    /// A key.
+    /// A hexadecimal key that uniquely identifies this model.
     var key: String { get }
     
-    /// A name.
+    /// A display name for this model.
     var name: String { get }
     
     // MARK: Initializers

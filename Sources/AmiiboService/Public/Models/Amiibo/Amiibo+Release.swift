@@ -2,7 +2,7 @@
 // 
 // This source file is part of the Amiibo Service open source project
 // 
-// Copyright (c) 2025 Röck+Cöde VoF. and the Amiibo Service project authors
+// Copyright (c) 2026 Röck+Cöde VoF. and the Amiibo Service project authors
 // Licensed under Apache license v2.0
 // 
 // See LICENSE for license information
@@ -15,8 +15,8 @@
 import Foundation
 
 extension Amiibo {
-    /// A model that represents a collection of release dates related to an amiibo.
-    public struct Release: Sendable {
+    /// A model that represents the regional release dates of an amiibo.
+    public struct Release: Sendable, Hashable {
         
         // MARK: Properties
         

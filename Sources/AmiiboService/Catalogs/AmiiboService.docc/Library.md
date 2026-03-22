@@ -4,7 +4,7 @@ A library that provides everything the developer needs to interact with the **Am
 
 ## Overview
 
-The `amiibo-service` library is a package that allows the developer to interact with the [Amiibo API](https://www.amiiboapi.com) backend service seamlessly, by not only providing the *service* type but also any possible *models*, *filters*, *errors* and *interfaces* types that might be needed during implementation.
+The `amiibo-service` library is a package that allows the developer to interact with the [Amiibo API](https://www.amiiboapi.org) backend service seamlessly, by not only providing the *service* type but also any possible *models*, *filters*, *errors* and *interfaces* types that might be needed during implementation.
 
 ## Design
 
@@ -18,7 +18,7 @@ To use the `AmiiboService` library with your package, then add it as a dependenc
 let package = Package(
     // name, platforms, products, etc.
     dependencies: [
-        .package(url: "https://github.com/rock-n-code/amiibo-service", from: "1.3.0"),
+        .package(url: "https://github.com/rock-n-code/amiibo-service", from: "1.4.0"),
         // other dependencies
     ],
     targets: [
@@ -36,6 +36,66 @@ let package = Package(
 It is also possible to use the `AmiiboService` library with your app in Xcode, then add it as a dependency in your Xcode project.
 
 > important: Swift 5.10 or higher is required in order to compile this library.
+
+## Caching
+
+The [Amiibo API](https://www.amiiboapi.org) recommends that consumers who call the API regularly implement caching on their systems. This library does not include a built-in cache, leaving the choice of caching strategy to the consumer. The following examples show two common approaches.
+
+### URLCache on the transport layer
+
+Pass a custom `URLSessionTransport` with a cache-configured `URLSession` to ``AmiiboLiveClient``:
+
+```swift
+import OpenAPIURLSession
+
+let configuration = URLSessionConfiguration.default
+
+configuration.urlCache = URLCache(
+    memoryCapacity: 5_000_000,
+    diskCapacity: 50_000_000
+)
+
+let transport = URLSessionTransport(
+    configuration: .init(
+        session: URLSession(configuration: configuration)
+    )
+)
+
+let service = AmiiboService(
+    client: AmiiboLiveClient(transport: transport)
+)
+```
+
+This leverages HTTP cache headers from the server and persists cached responses to disk.
+
+### Application-level caching
+
+Alternatively, cache the results returned by ``AmiiboService`` directly in your application using any storage mechanism that fits your needs, such as an in-memory dictionary, a database, or a file-based store.
+
+## Testing
+
+The ``AmiiboClient`` protocol enables creating custom mock clients for testing, eliminating the need for network calls in unit tests. Conform to ``AmiiboClient`` and return stubbed data or throw ``AmiiboServiceError`` errors to verify your application's behavior:
+
+```swift
+import AmiiboService
+
+struct MyMockClient: AmiiboClient {
+    var error: AmiiboServiceError?
+
+    func getAmiibos(
+        by filter: AmiiboFilter
+    ) async throws(AmiiboServiceError) -> [Amiibo] {
+        if let error { throw error }
+        return []
+    }
+
+    // Implement remaining protocol requirements...
+}
+
+let service = AmiiboService(client: MyMockClient())
+```
+
+Inject the mock client into ``AmiiboService`` via its ``AmiiboService/init(client:)`` initializer to test how your code handles empty results, specific errors, or any other scenario without relying on the live backend.
 
 ## Tasks
 

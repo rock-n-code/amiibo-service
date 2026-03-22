@@ -2,7 +2,7 @@
 ## 
 ## This source file is part of the Amiibo Service open source project
 ## 
-## Copyright (c) 2025 Röck+Cöde VoF. and the Amiibo Service project authors
+## Copyright (c) 2026 Röck+Cöde VoF. and the Amiibo Service project authors
 ## Licensed under Apache license v2.0
 ## 
 ## See LICENSE for license information
@@ -19,7 +19,7 @@ info:
   description: |
     # Information
 
-    The [AmiiboAPI](https://www.amiiboapi.com) service is primarily used for educational purposes.
+    The [AmiiboAPI](https://www.amiiboapi.org) service is primarily used for educational purposes.
 
     This is a **reading-only API**. Only HTTP GET method is allowed by this API.
     **No authentication** is required to use this API. All resources are allowed to access.
@@ -36,18 +36,18 @@ info:
     * *You will comply with all applicable law, regulation, and third party rights (including without limitation laws regarding the import or export of data or software, privacy, and local laws). You will not use the APIs to encourage or promote illegal activity or violation of third party rights.*
     * *These Terms and Conditions are subject to change without notice, from time to time in our sole discretion.*
   version: v1.0.0
-  termsOfService: https://www.amiiboapi.com/docs/#termscondition
+  termsOfService: https://www.amiiboapi.org/docs/#termscondition
   contact:
     name: FAQ
-    url: https://www.amiiboapi.com/faq/
+    url: https://www.amiiboapi.org/faq/
   license:
     name: MIT license
     identifier: MIT
 externalDocs:
-  url: https://www.amiiboapi.com/docs
+  url: https://www.amiiboapi.org/docs
   description: Amiibo API documentation
 servers:
-  - url: https://www.amiiboapi.com/api
+  - url: https://www.amiiboapi.org/api
     description: Live service
 tags:
   - name: Amiibo
@@ -63,7 +63,7 @@ paths:
       description: |
         Get a list of all the Amiibo items available in the database.
 
-        Please refer to [the documentation of the endpoint](https://www.amiiboapi.com/docs/#amiibo) for further information.
+        Please refer to [the documentation of the endpoint](https://www.amiiboapi.org/docs/#amiibo) for further information.
       operationId: getAmiibos
       tags:
         - Amiibo
@@ -100,7 +100,7 @@ paths:
       description: |
         Get a list of all the Amiibo series available in the database.
 
-        Please refer to [the documentation of the endpoint](https://www.amiiboapi.com/docs/#series) for further information.
+        Please refer to [the documentation of the endpoint](https://www.amiiboapi.org/docs/#series) for further information.
       operationId: getAmiiboSeries
       parameters:
         - $ref: '#/components/parameters/Key'
@@ -128,7 +128,7 @@ paths:
       description: |
         Get a list of all the game characters available in the database.
 
-        Please refer to [the documentation of the endpoint](https://www.amiiboapi.com/docs/#character) for further information.
+        Please refer to [the documentation of the endpoint](https://www.amiiboapi.org/docs/#character) for further information.
       operationId: getGameCharacters
       parameters:
         - $ref: '#/components/parameters/Key'
@@ -156,7 +156,7 @@ paths:
       description: |
         Gets a list of all the Game series available in the database.
 
-        Please refer to [the documentation of the endpoint](https://www.amiiboapi.com/docs/#gameSeries) for further information.
+        Please refer to [the documentation of the endpoint](https://www.amiiboapi.org/docs/#gameSeries) for further information.
       operationId: getGameSeries
       parameters:
         - $ref: '#/components/parameters/Key'
@@ -184,7 +184,7 @@ paths:
       description: |
         Gets a list of all the amiibo types available in the database.
 
-        Please refer to [the documentation of the endpoint](https://www.amiiboapi.com/docs/#type) for further information.
+        Please refer to [the documentation of the endpoint](https://www.amiiboapi.org/docs/#type) for further information.
       operationId: getAmiiboTypes
       parameters:
         - $ref: '#/components/parameters/Key'
@@ -212,7 +212,7 @@ paths:
       description: |
         Gets an ISO-formatted date+time when the Amiibo data was last updated.
 
-        Please refer to [the documentation of the endpoint](https://www.amiiboapi.com/docs/#lastUpdated) for further information.
+        Please refer to [the documentation of the endpoint](https://www.amiiboapi.org/docs/#lastUpdated) for further information.
       operationId: getLastUpdated
       responses:
         '200':

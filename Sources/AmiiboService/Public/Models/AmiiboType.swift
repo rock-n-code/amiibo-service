@@ -2,7 +2,7 @@
 // 
 // This source file is part of the Amiibo Service open source project
 // 
-// Copyright (c) 2025 Röck+Cöde VoF. and the Amiibo Service project authors
+// Copyright (c) 2026 Röck+Cöde VoF. and the Amiibo Service project authors
 // Licensed under Apache license v2.0
 // 
 // See LICENSE for license information
@@ -17,10 +17,10 @@ public struct AmiiboType: KeyNameModel {
 
     // MARK: Properties
 
-    /// An amiibo type key.
+    /// The hexadecimal key that uniquely identifies this amiibo type.
     public let key: String
 
-    /// An amiibo type name.
+    /// The name of this amiibo type (e.g., Figure, Card, Yarn, Band).
     public let name: String
     
     // MARK: Initializers

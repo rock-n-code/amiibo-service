@@ -2,7 +2,7 @@
 // 
 // This source file is part of the Amiibo Service open source project
 // 
-// Copyright (c) 2025 Röck+Cöde VoF. and the Amiibo Service project authors
+// Copyright (c) 2026 Röck+Cöde VoF. and the Amiibo Service project authors
 // Licensed under Apache license v2.0
 // 
 // See LICENSE for license information
@@ -14,19 +14,19 @@
 
 /// A representation of all the possible errors that the ``AmiiboService`` service could throw.
 public enum AmiiboServiceError: Error {
-    /// A bad request has been given to the client.
+    /// The request was malformed or contained invalid filter parameters.
     case badRequest
-    /// A call to an endpoint has been cancelled by the user.
+    /// The request was cancelled before a response was received.
     case cancelled
-    /// A response cannot be decoded.
+    /// The response body could not be decoded into the expected model.
     case decoding
-    /// An online service is not currently available.
+    /// The backend service is currently unreachable due to a network or server issue.
     case notAvailable
-    /// A response cannot be found.
+    /// No results were found matching the given filter criteria.
     case notFound
-    /// An undocumented/unsupported status code error.
+    /// The server returned an undocumented HTTP status code.
     case undocumented(_ statusCode: Int)
-    /// An unknown error.
+    /// An unexpected error that does not fall into any other category.
     case unknown
 }
 

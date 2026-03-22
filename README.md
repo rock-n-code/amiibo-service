@@ -3,17 +3,17 @@
 
 # Amiibo Service
 
-A library written entirely with [Swift](https://www.swift.org) that provides everything the developer needs to interacts with the [Amiibo API](https://www.amiiboapi.com) backend service.
+A library written entirely with [Swift](https://www.swift.org) that provides everything the developer needs to interact with the [Amiibo API](https://www.amiiboapi.org) backend service.
 
 ## Installation
 
-To use this library, then it is mandatory to add it as a dependency in the `Package.swift` file:
+To use this library, add it as a dependency in the `Package.swift` file:
 
 ```swift
 let package = Package(
     // name, platforms, products, etc.
     dependencies: [
-        .package(url: "https://github.com/rock-n-code/amiibo-service", from: "1.3.0"),
+        .package(url: "https://github.com/rock-n-code/amiibo-service", from: "1.4.0"),
         // other dependencies
     ],
     targets: [
@@ -28,10 +28,82 @@ let package = Package(
 )
 ```
 
-It is also possible to use this library with your app in Xcode, then add it as a dependency in your Xcode project.
+It is also possible to use this library with your app in Xcode by adding it as a dependency in your Xcode project.
 
-> important: Swift 5.10 or higher is required in order to build this library.
+> [!IMPORTANT]
+> Swift 5.10 or higher is required in order to build this library.
+
+## Usage
+
+```swift
+import AmiiboService
+
+let service = AmiiboService()
+
+// Fetch all amiibos
+let amiibos = try await service.getAmiibos()
+
+// Fetch amiibos filtered by name
+let zeldaAmiibos = try await service.getAmiibos(.init(name: "zelda"))
+
+// Fetch amiibo series, types, game characters, and game series
+let series = try await service.getAmiiboSeries()
+let types = try await service.getAmiiboTypes()
+let characters = try await service.getGameCharacters()
+let gameSeries = try await service.getGameSeries()
+
+// Fetch the last updated timestamp
+let lastUpdated = try await service.getLastUpdated()
+```
+
+## Caching
+
+The [Amiibo API](https://www.amiiboapi.org) recommends that consumers who call the API regularly implement caching on their systems. Pass a custom `URLSessionTransport` with a cache-configured `URLSession` to `AmiiboLiveClient`:
+
+```swift
+import OpenAPIURLSession
+
+let configuration = URLSessionConfiguration.default
+
+configuration.urlCache = URLCache(
+    memoryCapacity: 5_000_000,
+    diskCapacity: 50_000_000
+)
+
+let transport = URLSessionTransport(
+    configuration: .init(
+        session: URLSession(configuration: configuration)
+    )
+)
+
+let service = AmiiboService(
+    client: AmiiboLiveClient(transport: transport)
+)
+```
+
+## Testing
+
+The `AmiiboClient` protocol enables creating custom mock clients for unit testing without network calls. Conform to `AmiiboClient` and inject it into `AmiiboService` via its `init(client:)` initializer:
+
+```swift
+import AmiiboService
+
+struct MyMockClient: AmiiboClient {
+    var error: AmiiboServiceError?
+
+    func getAmiibos(
+        by filter: AmiiboFilter
+    ) async throws(AmiiboServiceError) -> [Amiibo] {
+        if let error { throw error }
+        return []
+    }
+
+    // Implement remaining protocol requirements...
+}
+
+let service = AmiiboService(client: MyMockClient())
+```
 
 ## Documentation
 
-Please refer to the [online documentation](https://rock-n-code.github.io/amiibo-service/documentation/amiiboservice/) for further informations about this library.
+Please refer to the [online documentation](https://rock-n-code.github.io/amiibo-service/documentation/amiiboservice/) for further information about this library.

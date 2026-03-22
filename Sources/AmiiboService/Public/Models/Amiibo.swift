@@ -2,7 +2,7 @@
 // 
 // This source file is part of the Amiibo Service open source project
 // 
-// Copyright (c) 2025 Röck+Cöde VoF. and the Amiibo Service project authors
+// Copyright (c) 2026 Röck+Cöde VoF. and the Amiibo Service project authors
 // Licensed under Apache license v2.0
 // 
 // See LICENSE for license information
@@ -15,38 +15,38 @@
 import Foundation
 
 /// A model that represents an amiibo.
-public struct Amiibo: Sendable {
+public struct Amiibo: Sendable, Hashable {
     
     // MARK: Properties
     
-    /// A game character.
+    /// The name of the game character associated with this amiibo.
     public let gameCharacter: String
     
-    /// A game series.
+    /// The name of the game series associated with this amiibo.
     public let gameSeries: String
 
-    /// The first 8 hexadecimal characters of an identifier.
+    /// The first 8 hexadecimal characters of the amiibo identifier.
     public let head: String
     
-    /// An image link.
+    /// A URL string pointing to the image of this amiibo.
     public let image: String
 
-    /// An amiibo name.
+    /// The name of this amiibo.
     public let name: String
 
-    /// A game platform type, if any.
+    /// The game platform data for this amiibo, if available.
     public let platform: Platform?
     
-    /// A release date.
+    /// The release dates of this amiibo across different regions.
     public let release: Release
 
-    /// An amiibo series.
+    /// The name of the amiibo series this amiibo belongs to.
     public let series: String
     
-    /// The last 8 hexadecimal characters of an identifier.
+    /// The last 8 hexadecimal characters of the amiibo identifier.
     public let tail: String
     
-    /// An amiibo type.
+    /// The type of this amiibo (e.g., Figure, Card, Yarn, Band).
     public let type: String
     
     // MARK: Initializers
@@ -73,12 +73,12 @@ public struct Amiibo: Sendable {
     
     // MARK: Computed
     
-    /// An identifier.
+    /// The full 16-character hexadecimal identifier, composed of the ``head`` and ``tail``.
     public var identifier: String {
         head + tail
     }
     
-    /// A URL related to an image link, if any.
+    /// A URL constructed from the ``image`` string, if valid.
     public var imageURL: URL? {
         .init(string: image)
     }

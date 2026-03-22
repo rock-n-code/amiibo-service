@@ -2,7 +2,7 @@
 // 
 // This source file is part of the Amiibo Service open source project
 // 
-// Copyright (c) 2025 Röck+Cöde VoF. and the Amiibo Service project authors
+// Copyright (c) 2026 Röck+Cöde VoF. and the Amiibo Service project authors
 // Licensed under Apache license v2.0
 // 
 // See LICENSE for license information
@@ -14,17 +14,17 @@
 
 extension Amiibo {
     /// A model that represents a game related to an amiibo.
-    public struct Game: Sendable {
+    public struct Game: Sendable, Hashable {
         
         // MARK: Properties
         
-        /// A list of identifiers.
+        /// A list of game identifiers associated with this game.
         public let identifiers: [String]
         
-        /// A name.
+        /// The name of this game.
         public let name: String
         
-        /// A list of amiibo usages, if any.
+        /// A list of amiibo usages within this game, if available.
         public let usages: [Usage]?
         
         // MARK: Initializers

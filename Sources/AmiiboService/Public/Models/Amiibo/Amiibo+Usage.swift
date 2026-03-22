@@ -2,7 +2,7 @@
 // 
 // This source file is part of the Amiibo Service open source project
 // 
-// Copyright (c) 2025 Röck+Cöde VoF. and the Amiibo Service project authors
+// Copyright (c) 2026 Röck+Cöde VoF. and the Amiibo Service project authors
 // Licensed under Apache license v2.0
 // 
 // See LICENSE for license information
@@ -14,14 +14,14 @@
 
 extension Amiibo {
     /// A model that represents the usage of an amiibo within a certain game.
-    public struct Usage: Sendable {
+    public struct Usage: Sendable, Hashable {
         
         // MARK: Properties
         
-        /// An explanation of how to use an amiibo.
+        /// A description of how the amiibo is used within the game.
         public let explanation: String
         
-        /// A flag that indicates whether an amiibo can save game data in it.
+        /// A flag that indicates whether the amiibo can save game data.
         public let isWriteable: Bool
         
         // MARK: Initializers
