@@ -61,7 +61,7 @@ paths:
     get:
       summary: Get a list of amiibos.
       description: |
-        Get a list of all the Amiibo items available in the database.
+        Get a list of all the amiibo items available in the database, optionally filtered by various criteria such as name, type, series, or game.
 
         Please refer to [the documentation of the endpoint](https://www.amiiboapi.org/docs/#amiibo) for further information.
       operationId: getAmiibos
@@ -81,7 +81,7 @@ paths:
         - $ref: '#/components/parameters/ShowUsage'
       responses:
         '200':
-          description: Successful response returning an object that contains none, one or more amiibos.
+          description: Successful response returning an object that contains zero, one or more amiibos matching the filter criteria.
           content:
             application/json:
               schema:
@@ -91,14 +91,14 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
         '500':
-          description: Service is not available.
+          description: The service is currently unavailable.
   /amiiboseries:
     get:
       tags:
         - Amiibo
       summary: Get the amiibo series.
       description: |
-        Get a list of all the Amiibo series available in the database.
+        Get a list of all the amiibo series available in the database, optionally filtered by key or name.
 
         Please refer to [the documentation of the endpoint](https://www.amiiboapi.org/docs/#series) for further information.
       operationId: getAmiiboSeries
@@ -106,10 +106,10 @@ paths:
         - $ref: '#/components/parameters/Key'
           description: A key of an amiibo series to include in the response.
         - $ref: '#/components/parameters/Name'
-          description: A name of an amiibo series key to include in the response.
+          description: A name of an amiibo series to include in the response.
       responses:
         '200':
-          description: Successful response returning an object that contains one or more amiibo series.
+          description: Successful response returning an object that contains one or more amiibo series matching the filter criteria.
           content:
             application/json:
               schema:
@@ -119,25 +119,25 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
         '500':
-          description: Service is not available.
+          description: The service is currently unavailable.
   /character:
     get:
       tags:
         - Game
       summary: Get the game characters.
       description: |
-        Get a list of all the game characters available in the database.
+        Get a list of all the game characters available in the database, optionally filtered by key or name.
 
         Please refer to [the documentation of the endpoint](https://www.amiiboapi.org/docs/#character) for further information.
       operationId: getGameCharacters
       parameters:
         - $ref: '#/components/parameters/Key'
-          description: A key of a game character key to include in the response.
+          description: A key of a game character to include in the response.
         - $ref: '#/components/parameters/Name'
-          description: A name of a game character key to include in the response.
+          description: A name of a game character to include in the response.
       responses:
         '200':
-          description: Successful response returning an object that contains one or more game characters.
+          description: Successful response returning an object that contains one or more game characters matching the filter criteria.
           content:
             application/json:
               schema:
@@ -147,14 +147,14 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
         '500':
-          description: Service is not available.
+          description: The service is currently unavailable.
   /gameseries:
     get:
       tags:
         - Game
       summary: Get the game series.
       description: |
-        Gets a list of all the Game series available in the database.
+        Get a list of all the game series available in the database, optionally filtered by key or name.
 
         Please refer to [the documentation of the endpoint](https://www.amiiboapi.org/docs/#gameSeries) for further information.
       operationId: getGameSeries
@@ -165,7 +165,7 @@ paths:
           description: A name of a game series to include in the response.
       responses:
         '200':
-          description: Successful response returning an object that contains one or more game series.
+          description: Successful response returning an object that contains one or more game series matching the filter criteria.
           content:
             application/json:
               schema:
@@ -175,14 +175,14 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
         '500':
-          description: Service is not available.
+          description: The service is currently unavailable.
   /type:
     get:
       tags:
         - Amiibo
       summary: Get the amiibo types.
       description: |
-        Gets a list of all the amiibo types available in the database.
+        Get a list of all the amiibo types available in the database, optionally filtered by key or name.
 
         Please refer to [the documentation of the endpoint](https://www.amiiboapi.org/docs/#type) for further information.
       operationId: getAmiiboTypes
@@ -193,7 +193,7 @@ paths:
           description: A name of an amiibo type to include in the response.
       responses:
         '200':
-          description: Successful response returning an object that contains one or more amiibo types.
+          description: Successful response returning an object that contains one or more amiibo types matching the filter criteria.
           content:
             application/json:
               schema:
@@ -203,58 +203,58 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
         '500':
-          description: Service is not available.
+          description: The service is currently unavailable.
   /lastupdated:
     get:
       tags:
         - Service
-      summary: Get the date of last updated.
+      summary: Get the date when data was last updated.
       description: |
-        Gets an ISO-formatted date+time when the Amiibo data was last updated.
+        Get an ISO-formatted date and time when the amiibo data was last updated.
 
         Please refer to [the documentation of the endpoint](https://www.amiiboapi.org/docs/#lastUpdated) for further information.
       operationId: getLastUpdated
       responses:
         '200':
-          description: Successful response returning an object that contains a date and time when the database was last updated.
+          description: Successful response returning an object that contains the date and time when the database was last updated.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/LastUpdated'
         '500':
-          description: Service is not available.
+          description: The service is currently unavailable.
 components:
   parameters:
     AmiiboSeries:
-      description: An identifier or name of an amiibo series to include in the response
+      description: A hexadecimal key or name of an amiibo series to include in the response.
       name: amiiboSeries
       in: query
       required: false
       schema:
         type: string
     AmiiboType:
-      description: An identifier or a name of an amiibo type to inclulde in the response.
+      description: A hexadecimal key or name of an amiibo type to include in the response.
       name: type
       in: query
       required: false
       schema:
         type: string
     GameCharacter:
-      description: An identifier or name of a game character to include in the response.
+      description: A hexadecimal key or name of a game character to include in the response.
       name: character
       in: query
       required: false
       schema:
         type: string
     GameSeries:
-      description: An identifier or name of a game series to include in the response.
+      description: A hexadecimal key or name of a game series to include in the response.
       name: gameseries
       in: query
       required: false
       schema:
         type: string
     Identifier:
-      description: An identifier of an amiibo to include in the response.
+      description: The full 16-character hexadecimal identifier of an amiibo to include in the response.
       name: id
       in: query
       required: false
@@ -262,7 +262,7 @@ components:
         type: string
         maxLength: 18
     IdentifierHead:
-      description: A first part for an identifier of an amiibo to include the response.
+      description: The first 8 hexadecimal characters of an amiibo identifier to include in the response.
       name: head
       in: query
       required: false
@@ -270,7 +270,7 @@ components:
         type: string
         maxLength: 10
     IdentifierTail:
-      description: A last part for an identifier of an amiibo to include the response.
+      description: The last 8 hexadecimal characters of an amiibo identifier to include in the response.
       name: tail
       in: query
       required: false
@@ -278,14 +278,14 @@ components:
         type: string
         maxLength: 10
     Key:
-      description: A key of a type to include in the response.
+      description: A hexadecimal key to filter the results by.
       name: key
       in: query
       required: false
       schema:
         type: string
     Name: 
-      description: A name of a type to include in the response.
+      description: A name to filter the results by.
       name: name
       in: query
       required: false
@@ -307,13 +307,13 @@ components:
         type: boolean
   responses:
     BadRequest:
-      description: One or more incorrect parameters have been sent.
+      description: The request was malformed or contained invalid parameters.
       content: 
         application/json:
           schema:
             $ref: '#/components/schemas/ServiceError'
     NotFound:
-      description: No resource has been found.
+      description: No results were found matching the given filter criteria.
       content:
         application/json:
           schema:
@@ -321,20 +321,20 @@ components:
   schemas:
 # Core Entities
     Amiibo:
-      description: A type that represents an amiibo.
+      description: A type that represents an amiibo figurine, card, or other collectible.
       type: object
       properties:
         amiiboSeries:
-          description: A name of a series an amiibo belongs to.
+          description: The name of the amiibo series this amiibo belongs to.
           type: string
         character:
           description: |
-            A name of a character of an amiibo.
+            The name of the game character associated with this amiibo.
             
-            Multiple character have different amiibo design.
+            Multiple characters can have different amiibo designs.
           type: string
         gameSeries:
-          description: A name of a game series an amiibo belongs to.
+          description: The name of the game series associated with this amiibo.
           type: string
         games3DS:
           description: A list of 3DS games an amiibo could be used in, if any.
@@ -366,14 +366,14 @@ components:
           minLength: 8
           maxLength: 8
         image:
-          description: An image URL related to an amiibo.
+          description: A URL pointing to an image of this amiibo.
           type: string
           format: uri
         name:
-          description: A name of an Amiibo.
+          description: The name of this amiibo.
           type: string
         release:
-          description: A type that contains the release dates of an amiibo, if any.
+          description: The regional release dates of this amiibo, if known.
           $ref: '#/components/schemas/AmiiboRelease'
         tail:
           description: |
@@ -385,7 +385,7 @@ components:
           minLength: 8
           maxLength: 8
         type:
-          description: A name for the type an amiibo belongs to.
+          description: The type of this amiibo (e.g., Figure, Card, Yarn, Band).
           type: string
       required:
         - amiiboSeries
@@ -398,43 +398,43 @@ components:
         - tail
         - type
     AmiiboGame:
-      description: A type that represents a game in which an amiibo is related to.
+      description: A type that represents a game in which an amiibo can be used.
       type: object
       properties:
         amiiboUsage:
-          description: A list of available usages an amiibo have in a game, if any.
+          description: A list of available usages an amiibo has in a game, if any.
           type: array
           items:
             $ref: '#/components/schemas/AmiiboUsage'
         gameID:
-          description: A list of identifiers of a game an amiibo is related to.
+          description: A list of identifiers for the game.
           type: array
           items:
             type: string
         gameName:
-          description: A name of a game an amiibo is related to.
+          description: The name of the game.
           type: string
       required:
         - gameID
         - gameName
     AmiiboRelease:
-      description: A type that contains the release dates of an amiibo throughout the world.
+      description: A type that contains the regional release dates of an amiibo.
       type: object
       properties:
         au:
-          description: A release date for Australia, if any.
+          description: The release date in Australia, if known.
           type: string
           format: date-time
         eu:
-          description: A release date for Europe, if any.
+          description: The release date in Europe, if known.
           type: string
           format: date-time
         jp:
-          description: A release date for Japan, if any.
+          description: The release date in Japan, if known.
           type: string
           format: date-time
         na:
-          description: A release date for North America, if any.
+          description: The release date in North America, if known.
           type: string
           format: date-time
     AmiiboSeries:
@@ -444,28 +444,28 @@ components:
         - type: object
           properties:
             key:
-              description: A key of an amiibo series.
+              description: The hexadecimal key that uniquely identifies this amiibo series.
             name: 
-              description: A name of an amiibo series.
+              description: The name of this amiibo series.
     AmiiboType:
-      description: A type that represents an amiibo type.
+      description: A type that represents an amiibo type (e.g., Figure, Card, Yarn, Band).
       allOf:
         - $ref: '#/components/schemas/Tuple'
         - type: object
           properties:
             key:
-              description: A key of an amiibo type.
+              description: The hexadecimal key that uniquely identifies this amiibo type.
             name: 
-              description: A name of an amiibo type.
+              description: The name of this amiibo type.
     AmiiboUsage:
-      description: A type that represents a use of an amiibo in a game.
+      description: A type that represents how an amiibo is used within a game.
       type: object
       properties:
         Usage:
-          description: An explanation of the usage of an amiibo in a game.
+          description: A description of how the amiibo is used within the game.
           type: string
         write:
-          description: A flag that indicates whether the data in an amiibo is writable or not.
+          description: A flag that indicates whether the amiibo can save game data.
           type: boolean
       required:
         - Usage
@@ -477,9 +477,9 @@ components:
         - type: object
           properties:
             key:
-              description: A key of a game character.
+              description: The hexadecimal key that uniquely identifies this game character.
             name: 
-              description: A name of a game character.
+              description: The name of this game character.
     GameSeries:
       description: A type that represents a game series.
       allOf:
@@ -487,11 +487,11 @@ components:
         - type: object
           properties:
             key:
-              description: A key of a game series.
+              description: The hexadecimal key that uniquely identifies this game series.
             name: 
-              description: A name of a game series.
+              description: The name of this game series.
     LastUpdated:
-      description: A type that informs when the data in the service was last updated.
+      description: A type that contains the date and time when the service data was last updated.
       type: object
       properties:
         lastUpdated:
@@ -502,29 +502,29 @@ components:
         - lastUpdated
     Tuple:
       description: |
-        A type that is conformed only by the `key` and `name` properties.
+        A base type composed of a `key` and `name` pair.
         
-        This type represents either `AmiiboSeries`, `AmiiboType`, `GameCharacter`, and `GameSeries` types.
+        This type is the base schema for the `AmiiboSeries`, `AmiiboType`, `GameCharacter`, and `GameSeries` types.
       type: object
       properties:
         key:
-          description: A key assigned to a tuple.
+          description: A hexadecimal key that uniquely identifies this resource.
           type: string
           pattern: "^0x[0-9a-fA-F]+$"
           minLength: 3
         name:
-          description: A name assigned to a tuple.
+          description: A display name for this resource.
           type: string
       required:
         - key
         - name
 # Wrapper Entities
     AmiiboWrapper:
-      description: A type that wraps either none, one or a list of amiibos.
+      description: A response wrapper that contains zero, one, or more amiibos.
       type: object
       properties:
         amiibo: 
-          description: A container that have zero, one or more amiibos.
+          description: A container that holds zero, one or more amiibos.
           oneOf:
             - $ref: '#/components/schemas/Amiibo'
               description: A certain amiibo.
@@ -533,11 +533,11 @@ components:
               items:
                 $ref: '#/components/schemas/Amiibo'
     AmiiboSeriesWrapper:
-      description: A type that wraps either one or a list of amiibo series.
+      description: A response wrapper that contains one or more amiibo series.
       type: object
       properties:
         amiibo: 
-          description: A container that have one or more amiibo series.
+          description: A container that holds one or more amiibo series.
           oneOf:
             - $ref: '#/components/schemas/AmiiboSeries'
               description: A certain amiibo series.
@@ -548,11 +548,11 @@ components:
       required: 
         - amiibo    
     AmiiboTypeWrapper:
-      description: A type that wraps either one or a list of amiibo types.
+      description: A response wrapper that contains one or more amiibo types.
       type: object
       properties:
         amiibo: 
-          description: A container that have one or more amiibo types.
+          description: A container that holds one or more amiibo types.
           oneOf:
             - $ref: '#/components/schemas/AmiiboType'
               description: A certain amiibo type.
@@ -563,11 +563,11 @@ components:
       required: 
         - amiibo
     GameCharacterWrapper:
-      description: A type that wraps either one or a list of game characters.
+      description: A response wrapper that contains one or more game characters.
       type: object
       properties:
         amiibo: 
-          description: A container that have one or more game characters.
+          description: A container that holds one or more game characters.
           oneOf:
             - $ref: '#/components/schemas/GameCharacter'
               description: A certain game character.
@@ -578,11 +578,11 @@ components:
       required: 
         - amiibo
     GameSeriesWrapper:
-      description: A type that wraps either one or a list of game series.
+      description: A response wrapper that contains one or more game series.
       type: object
       properties:
         amiibo: 
-          description: A container that have one or more game series.
+          description: A container that holds one or more game series.
           oneOf:
             - $ref: '#/components/schemas/GameSeries'
               description: A certain game series.
@@ -594,14 +594,14 @@ components:
         - amiibo
 # Error Entities
     ServiceError:
-      description: A type that represents an error provided by the service.
+      description: A type that represents an error response from the service.
       type: object
       properties:
         code:
-          description: A number of an error code.
+          description: The HTTP status code of the error.
           type: integer
         error:
-          description: An explanation of an error.
+          description: A human-readable message describing the error.
           type: string
       required:
         - code
