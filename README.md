@@ -13,7 +13,7 @@ To use this library, add it as a dependency in the `Package.swift` file:
 let package = Package(
     // name, platforms, products, etc.
     dependencies: [
-        .package(url: "https://github.com/rock-n-code/amiibo-service", from: "1.4.0"),
+        .package(url: "https://github.com/rock-n-code/amiibo-service", from: "1.4.1"),
         // other dependencies
     ],
     targets: [
