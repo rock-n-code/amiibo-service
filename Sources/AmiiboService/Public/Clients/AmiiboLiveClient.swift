@@ -29,10 +29,13 @@ public struct AmiiboLiveClient: Sendable {
     /// Initializes this client with a transport for performing HTTP operations.
     /// - Parameter transport: A transport that performs HTTP operations. Defaults to a `URLSessionTransport` using the shared session.
     public init(transport: any ClientTransport = URLSessionTransport()) {
+        guard let serverURL = try? Servers.Server1.url() else {
+            fatalError("The server URL defined in the OpenAPI specification could not be resolved. Verify that the 'openapi.yaml' server definition is valid.")
+        }
+        
         self.client = .init(
-            // The force unwrapping implemented below assumes that the server definition from the OpenAPI specification is correct.
-            serverURL: try! Servers.Server1.url(),
-            configuration: .init(dateTranscoder: ISOTimestampTranscoder()),
+            serverURL: serverURL,
+            configuration: .init(dateTranscoder: ISODateTimeTranscoder()),
             transport: transport
         )
     }
