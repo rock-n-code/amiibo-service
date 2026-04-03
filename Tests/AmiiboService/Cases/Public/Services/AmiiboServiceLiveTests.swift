@@ -175,8 +175,8 @@ struct AmiiboServiceLiveTests {
     @Test
     func `get the last updated timestamp`() async throws {
         try await assertLastUpdated(
-            day: 26,
-            month: 3,
+            day: 2,
+            month: 4,
             year: 2026
         )
     }
@@ -324,8 +324,8 @@ struct AmiiboServiceLiveTests {
     @Test("get last updated timestamp")
     func getLastUpdated() async throws {
         try await assertLastUpdated(
-            day: 26,
-            month: 3,
+            day: 2,
+            month: 4,
             year: 2026
         )
     }
@@ -661,7 +661,7 @@ enum Input {
 
 enum Output {
     /// A list of number of items that are expected from the `assertAmiibos` assertion.
-    static let amiibos: [Int] = [.totalAmiibos, 7, 7, 1, 1, 1, .zero, .zero, 5, .zero, 7, .totalAmiibos, 247, 247, .zero, .zero, .zero, .zero, 96, 26, .zero, .zero, 63, .totalAmiibos, 13, 6, .zero, .zero, .zero, .totalAmiibos, 51, 32, .zero, .zero, 150, .totalAmiibos, .totalAmiibos, .totalAmiibos]
+    static let amiibos: [Int] = [.totalAmiibos, 7, 7, 1, 1, 1, .zero, .zero, 5, .zero, 7, .totalAmiibos, 249, 249, .zero, .zero, .zero, .zero, 96, 26, .zero, .zero, 63, .totalAmiibos, 14, 6, .zero, .zero, .zero, .totalAmiibos, 53, 32, .zero, .zero, 152, .totalAmiibos, .totalAmiibos, .totalAmiibos]
     /// A list of errors are expected to be thrown from the `assertAmiibosThrows` assertion.
     static let amiibosThrows: [AmiiboServiceError] = [.badRequest, .badRequest, .badRequest, .badRequest, .badRequest, .badRequest, .badRequest]
     /// A list of number of items that are expected from the `assertAmiiboSeries` assertion.
@@ -686,7 +686,7 @@ enum Output {
 
 private extension Int {
     /// A number that represents the total number of amiibo items currently available at the live service.
-    static let totalAmiibos = 939
+    static let totalAmiibos = 941
     /// A number that represents the total number of amiibo series currently available at the live service.
     static let totalAmiiboSeries = 30
     /// A number that represents the total number of amiibo types currently available at the live service.
