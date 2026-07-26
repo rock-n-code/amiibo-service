@@ -27,6 +27,6 @@ protocol KeyNameModel: Sendable, Hashable {
     
     /// Initializes this model from a given payload.
     /// - Parameter payload: A payload that contains the values for the model.
-    init(_ payload: Components.Schemas.Tuple)
+    init(_ payload: some KeyNamePayload)
     
 }

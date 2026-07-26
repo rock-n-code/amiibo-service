@@ -28,8 +28,8 @@ public enum AmiiboServiceError: Error {
     case notFound
     /// The server returned an undocumented HTTP status code.
     case undocumented(_ statusCode: Int)
-    /// An unexpected error that does not fall into any other category.
-    case unknown
+    /// An unexpected error that does not fall into any other category, with a description of the underlying error.
+    case unknown(_ description: String)
 }
 
 // MARK: - Equatable
@@ -50,7 +50,7 @@ extension AmiiboServiceError: LocalizedError {
         case .notAvailable: "The backend service is currently unreachable due to a network or server issue."
         case .notFound: "No results were found matching the given filter criteria."
         case .undocumented(let statusCode): "The server returned an undocumented HTTP status code: \(statusCode)."
-        case .unknown: "An unexpected error occurred."
+        case .unknown(let description): "An unexpected error occurred: \(description)"
         }
     }
 

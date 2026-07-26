@@ -47,30 +47,18 @@ extension Amiibo {
             _ threeDS: [Components.Schemas.AmiiboGame]?,
             _ wiiU: [Components.Schemas.AmiiboGame]?
         ) {
-            guard (`switch` != nil && `switch`?.isEmpty == false)
-                    || (switch2 != nil && switch2?.isEmpty == false)
-                    || (threeDS != nil && threeDS?.isEmpty == false)
-                    || (wiiU != nil && wiiU?.isEmpty == false)
+            guard `switch`?.isEmpty == false
+                    || switch2?.isEmpty == false
+                    || threeDS?.isEmpty == false
+                    || wiiU?.isEmpty == false
             else {
                 return nil
             }
             
-            self.switch = {
-                guard let `switch` else { return [] }
-                return `switch`.map { .init($0) }
-            }()
-            self.switch2 = {
-                guard let switch2 else { return [] }
-                return switch2.map { .init($0) }
-            }()
-            self.threeDS = {
-                guard let threeDS else { return [] }
-                return threeDS.map { .init($0) }
-            }()
-            self.wiiU = {
-                guard let wiiU else { return [] }
-                return wiiU.map { .init($0) }
-            }()
+            self.switch = `switch`?.map { .init($0) } ?? []
+            self.switch2 = switch2?.map { .init($0) } ?? []
+            self.threeDS = threeDS?.map { .init($0) } ?? []
+            self.wiiU = wiiU?.map { .init($0) } ?? []
         }
 
     }

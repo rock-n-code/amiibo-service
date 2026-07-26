@@ -78,7 +78,6 @@ extension AmiiboMockClient: AmiiboClient {
     
     // MARK: Functions
 
-#if swift(>=6.0)
     func getAmiibos(
         by filter: AmiiboFilter
     ) async throws(AmiiboServiceError) -> [Amiibo] {
@@ -110,43 +109,8 @@ extension AmiiboMockClient: AmiiboClient {
     }
 
     func getLastUpdated() async throws(AmiiboServiceError) -> Date {
-        fetchLastUpdatedIfAny()
-    }
-#else
-    func getAmiibos(
-        by filter: AmiiboFilter
-    ) async throws -> [Amiibo] {
-        try fetchAmiibosIfAny()
-    }
-    
-    func getAmiiboSeries(
-        by filter: AmiiboSeriesFilter
-    ) async throws -> [AmiiboSeries] {
-        try fetchAmiiboSeriesIfAny()
-    }
-    
-    func getAmiiboTypes(
-        by filter: AmiiboTypeFilter
-    ) async throws -> [AmiiboType] {
-        try fetchAmiiboTypesIfAny()
-    }
-    
-    func getGameCharacters(
-        by filter: GameCharacterFilter
-    ) async throws -> [GameCharacter] {
-        try fetchGameCharactersIfAny()
-    }
-    
-    func getGameSeries(
-        by filter: GameSeriesFilter
-    ) async throws -> [GameSeries] {
-        try fetchGameSeriesIfAny()
-    }
-
-    func getLastUpdated() async throws -> Date {
         try fetchLastUpdatedIfAny()
     }
-#endif
     
 }
 
@@ -159,7 +123,7 @@ private extension AmiiboMockClient {
     /// Fetches a list of amiibo items, if any.
     /// - Returns: A list of amiibo items.
     /// - Throws: An ``AmiiboServiceError`` error in case an error has been provided.
-    func fetchAmiibosIfAny() throws -> [Amiibo] {
+    func fetchAmiibosIfAny() throws(AmiiboServiceError) -> [Amiibo] {
         try throwErrorIfExists()
         
         guard let amiibos else {
@@ -172,7 +136,7 @@ private extension AmiiboMockClient {
     /// Fetches a list of amiibo series, if any.
     /// - Returns: A list of amiibo series.
     /// - Throws: An ``AmiiboServiceError`` error in case an error has been provided.
-    func fetchAmiiboSeriesIfAny() throws -> [AmiiboSeries] {
+    func fetchAmiiboSeriesIfAny() throws(AmiiboServiceError) -> [AmiiboSeries] {
         try throwErrorIfExists()
         
         guard let amiiboSeries else {
@@ -185,7 +149,7 @@ private extension AmiiboMockClient {
     /// Fetches a list of amiibo types, if any.
     /// - Returns: A list of amiibo types.
     /// - Throws: An ``AmiiboServiceError`` error in case an error has been provided.
-    func fetchAmiiboTypesIfAny() throws -> [AmiiboType] {
+    func fetchAmiiboTypesIfAny() throws(AmiiboServiceError) -> [AmiiboType] {
         try throwErrorIfExists()
         
         guard let amiiboTypes else {
@@ -198,7 +162,7 @@ private extension AmiiboMockClient {
     /// Fetches a list of game characters, if any.
     /// - Returns: A list of game characters.
     /// - Throws: An ``AmiiboServiceError`` error in case an error has been provided.
-    func fetchGameCharactersIfAny() throws -> [GameCharacter] {
+    func fetchGameCharactersIfAny() throws(AmiiboServiceError) -> [GameCharacter] {
         try throwErrorIfExists()
         
         guard let gameCharacters else {
@@ -211,7 +175,7 @@ private extension AmiiboMockClient {
     /// Fetches a list of game series, if any.
     /// - Returns: A list of game series, if any.
     /// - Throws: An ``AmiiboServiceError`` error in case an error has been provided.
-    func fetchGameSeriesIfAny() throws -> [GameSeries] {
+    func fetchGameSeriesIfAny() throws(AmiiboServiceError) -> [GameSeries] {
         try throwErrorIfExists()
         
         guard let gameSeries else {
@@ -224,7 +188,7 @@ private extension AmiiboMockClient {
     /// Fetches a last updated date, if any.
     /// - Returns: A last updated date.
     /// - Throws: An ``AmiiboServiceError`` error in case an error has been provided.
-    func fetchLastUpdatedIfAny() throws -> Date {
+    func fetchLastUpdatedIfAny() throws(AmiiboServiceError) -> Date {
         try throwErrorIfExists()
         
         guard let lastUpdated else {

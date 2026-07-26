@@ -261,6 +261,6 @@ private enum Errors {
         .notAvailable,
         .notFound,
         .undocumented(500),
-        .unknown
+        .unknown("An underlying error description.")
     ]
 }

@@ -24,6 +24,8 @@ extension DateFormatter {
     static let isoDate: DateFormatter = {
         let formatter = DateFormatter()
         
+        // A fixed-format date requires the POSIX locale, as the user's locale or 12/24-hour setting could otherwise alter the parsing.
+        formatter.locale = .init(identifier: "en_US_POSIX")
         formatter.dateFormat = "yyyy-MM-dd"
         formatter.timeZone = .init(secondsFromGMT: 0)
         
@@ -37,6 +39,8 @@ extension DateFormatter {
     static let isoTimestamp: DateFormatter = {
         let formatter = DateFormatter()
         
+        // A fixed-format date requires the POSIX locale, as the user's locale or 12/24-hour setting could otherwise alter the parsing.
+        formatter.locale = .init(identifier: "en_US_POSIX")
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS"
         formatter.timeZone = .init(secondsFromGMT: 0)
         

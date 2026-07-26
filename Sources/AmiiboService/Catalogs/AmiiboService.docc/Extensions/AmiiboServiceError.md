@@ -16,4 +16,4 @@
 
 - ``AmiiboServiceError/notAvailable``
 - ``AmiiboServiceError/undocumented(_:)``
-- ``AmiiboServiceError/unknown``
+- ``AmiiboServiceError/unknown(_:)``

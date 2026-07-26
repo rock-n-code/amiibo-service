@@ -13,7 +13,7 @@ To use this library, add it as a dependency in the `Package.swift` file:
 let package = Package(
     // name, platforms, products, etc.
     dependencies: [
-        .package(url: "https://github.com/rock-n-code/amiibo-service", from: "1.4.1"),
+        .package(url: "https://github.com/rock-n-code/amiibo-service", from: "1.4.2"),
         // other dependencies
     ],
     targets: [
@@ -31,7 +31,7 @@ let package = Package(
 It is also possible to use this library with your app in Xcode by adding it as a dependency in your Xcode project.
 
 > [!IMPORTANT]
-> Swift 5.10 or higher is required in order to build this library.
+> Swift 6.2 or higher is required in order to build this library.
 
 ## Usage
 
@@ -83,7 +83,7 @@ let service = AmiiboService(
 
 ## Testing
 
-The `AmiiboClient` protocol enables creating custom mock clients for unit testing without network calls. Conform to `AmiiboClient` and inject it into `AmiiboService` via its `init(client:)` initializer:
+The `AmiiboClient` protocol enables creating custom mock clients for unit testing without network calls. Conform to `AmiiboClient` and inject it into `AmiiboService` via its `init(client:)` initializer. Since `AmiiboClient` refines `Sendable`, conforming types must be safe to share across concurrency domains:
 
 ```swift
 import AmiiboService
@@ -103,6 +103,16 @@ struct MyMockClient: AmiiboClient {
 
 let service = AmiiboService(client: MyMockClient())
 ```
+
+### Running the test suite
+
+The unit tests based on a mock client run offline by default. The tests against the live service are skipped unless the `AMIIBO_LIVE_TESTS` environment variable is set to `1`, either in the environment when testing from the command line:
+
+```shell
+AMIIBO_LIVE_TESTS=1 swift test
+```
+
+or in the `Test` action of the scheme when testing from Xcode.
 
 ## Documentation
 

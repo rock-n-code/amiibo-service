@@ -16,6 +16,8 @@ import Foundation
 
 extension Amiibo {
     /// A model that represents the regional release dates of an amiibo.
+    ///
+    /// The service provides these dates as date-only values, which are decoded as midnight UTC.
     public struct Release: Sendable, Hashable {
         
         // MARK: Properties

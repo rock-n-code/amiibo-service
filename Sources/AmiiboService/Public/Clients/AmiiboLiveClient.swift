@@ -17,7 +17,22 @@ import OpenAPIRuntime
 import OpenAPIURLSession
 
 /// A type that implements a live client to the [Amiibo API](https://www.amiiboapi.org) online service.
+///
+/// This client maps any transport error or unsuccessful HTTP response to an ``AmiiboServiceError`` error, and sorts the items of the list responses in ascending order by identifier or key.
 public struct AmiiboLiveClient: Sendable {
+    
+    // MARK: Constants
+    
+    /// The base URL of the live service, resolved once from the server defined in the OpenAPI specification.
+    ///
+    /// The validity of the URL is guaranteed by the bundled `openapi.yaml` specification and enforced by a unit test, so resolution is not expected to fail at runtime.
+    static let serverURL: URL = {
+        guard let url = try? Servers.Server1.url() else {
+            fatalError("The server URL defined in the OpenAPI specification could not be resolved. Verify that the 'openapi.yaml' server definition is valid.")
+        }
+        
+        return url
+    }()
     
     // MARK: Properties
     
@@ -29,12 +44,8 @@ public struct AmiiboLiveClient: Sendable {
     /// Initializes this client with a transport for performing HTTP operations.
     /// - Parameter transport: A transport that performs HTTP operations. Defaults to a `URLSessionTransport` using the shared session.
     public init(transport: any ClientTransport = URLSessionTransport()) {
-        guard let serverURL = try? Servers.Server1.url() else {
-            fatalError("The server URL defined in the OpenAPI specification could not be resolved. Verify that the 'openapi.yaml' server definition is valid.")
-        }
-        
         self.client = .init(
-            serverURL: serverURL,
+            serverURL: Self.serverURL,
             configuration: .init(dateTranscoder: ISODateTimeTranscoder()),
             transport: transport
         )
@@ -49,7 +60,6 @@ extension AmiiboLiveClient: AmiiboClient {
 
     // MARK: Functions
     
-#if swift(>=6.0)
     /// Gets a list of amiibo items based on a given filter.
     /// - Parameter filter: A filter to remove unwanted items from the result.
     /// - Returns: A list of filtered amiibo items.
@@ -101,69 +111,11 @@ extension AmiiboLiveClient: AmiiboClient {
     }
 
     /// Gets the date when the data was last updated.
-    /// - Returns: A last updated date.
+    /// - Returns: A last updated date, decoded as UTC.
     /// - Throws: An ``AmiiboServiceError`` error in case some issue is encountered while generating the result.
     public func getLastUpdated() async throws(AmiiboServiceError) -> Date {
         try await fetchLastUpdated()
     }
-#else
-    /// Gets a list of amiibo items based on a given filter.
-    /// - Parameter filter: A filter to remove unwanted items from the result.
-    /// - Returns: A list of filtered amiibo items.
-    /// - Throws: An ``AmiiboServiceError`` error in case some issue is encountered while generating the result.
-    public func getAmiibos(
-        by filter: AmiiboFilter
-    ) async throws -> [Amiibo] {
-        try await fetchAmiibos(filter)
-    }
-    
-    /// Gets a list of amiibo series based on a given filter.
-    /// - Parameter filter: A filter to remove unwanted items from the result.
-    /// - Returns: A list of filtered amiibo series.
-    /// - Throws: An ``AmiiboServiceError`` error in case some issue is encountered while generating the result.
-    public func getAmiiboSeries(
-        by filter: AmiiboSeriesFilter
-    ) async throws -> [AmiiboSeries] {
-        try await fetchAmiiboSeries(filter)
-    }
-    
-    /// Gets a list of amiibo types based on a given filter.
-    /// - Parameter filter: A filter to remove unwanted items from the result.
-    /// - Returns: A list of filtered amiibo types.
-    /// - Throws: An ``AmiiboServiceError`` error in case some issue is encountered while generating the result.
-    public func getAmiiboTypes(
-        by filter: AmiiboTypeFilter
-    ) async throws -> [AmiiboType] {
-        try await fetchAmiiboTypes(filter)
-    }
-    
-    /// Gets a list of game characters based on a given filter.
-    /// - Parameter filter: A filter to remove unwanted items from the result.
-    /// - Returns: A list of filtered game characters.
-    /// - Throws: An ``AmiiboServiceError`` error in case some issue is encountered while generating the result.
-    public func getGameCharacters(
-        by filter: GameCharacterFilter
-    ) async throws -> [GameCharacter] {
-        try await fetchGameCharacters(filter)
-    }
-    
-    /// Gets a list of game series based on a given filter.
-    /// - Parameter filter: A filter to remove unwanted items from the result.
-    /// - Returns: A list of filtered game series.
-    /// - Throws: An ``AmiiboServiceError`` error in case some issue is encountered while generating the result.
-    public func getGameSeries(
-        by filter: GameSeriesFilter
-    ) async throws -> [GameSeries] {
-        try await fetchGameSeries(filter)
-    }
-    
-    /// Gets the date when the data was last updated.
-    /// - Returns: A last updated date.
-    /// - Throws: An ``AmiiboServiceError`` error in case some issue is encountered while generating the result.
-    public func getLastUpdated() async throws -> Date {
-        try await fetchLastUpdated()
-    }
-#endif
     
 }
 
@@ -179,11 +131,9 @@ private extension AmiiboLiveClient {
     /// - Throws: An ``AmiiboServiceError`` error in case some issue is encountered while generating the result.
     func fetchAmiibos(
         _ filter: AmiiboFilter
-    ) async throws -> [Amiibo] {
-        let response: Operations.getAmiibos.Output
-        
-        do {
-            response = try await client.getAmiibos(.init(query: .init(
+    ) async throws(AmiiboServiceError) -> [Amiibo] {
+        let response = try await perform {
+            try await client.getAmiibos(.init(query: .init(
                 id: filter.identifier,
                 head: filter.head,
                 tail: filter.tail,
@@ -195,8 +145,6 @@ private extension AmiiboLiveClient {
                 showgames: filter.showGames,
                 showusage: filter.showUsage
             )))
-        } catch {
-            try handle(error: error)
         }
         
         switch response {
@@ -206,11 +154,12 @@ private extension AmiiboLiveClient {
                 switch output.amiibo {
                 case let .Amiibo(object):
                     return [Amiibo(object)]
-                case let .case2(list):
+                case let .AmiiboList(list):
                     return list
                         .map { Amiibo($0) }
                         .sorted { $0.identifier < $1.identifier }
                 case .none:
+                    // The service returns `"amiibo": null` when an `id` filter matches nothing.
                     return []
                 }
             }
@@ -231,16 +180,12 @@ private extension AmiiboLiveClient {
     /// - Throws: An ``AmiiboServiceError`` error in case some issue is encountered while generating the result.
     func fetchAmiiboSeries(
         _ filter: AmiiboSeriesFilter
-    ) async throws -> [AmiiboSeries] {
-        let response: Operations.getAmiiboSeries.Output
-        
-        do {
-            response = try await client.getAmiiboSeries(.init(query: .init(
+    ) async throws(AmiiboServiceError) -> [AmiiboSeries] {
+        let response = try await perform {
+            try await client.getAmiiboSeries(.init(query: .init(
                 key: filter.key,
                 name: filter.name
             )))
-        } catch {
-            try handle(error: error)
         }
         
         switch response {
@@ -249,11 +194,9 @@ private extension AmiiboLiveClient {
             case let .json(output):
                 switch output.amiibo {
                 case let .AmiiboSeries(payload):
-                    return [AmiiboSeries(payload.value1)]
-                case let .case2(list):
-                    return list
-                        .map { AmiiboSeries($0.value1) }
-                        .sorted { $0.key < $1.key }
+                    return makeModels(from: [payload])
+                case let .AmiiboSeriesList(list):
+                    return makeModels(from: list)
                 }
             }
         case .badRequest:
@@ -273,16 +216,12 @@ private extension AmiiboLiveClient {
     /// - Throws: An ``AmiiboServiceError`` error in case some issue is encountered while generating the result.
     func fetchAmiiboTypes(
         _ filter: AmiiboTypeFilter
-    ) async throws -> [AmiiboType] {
-        let response: Operations.getAmiiboTypes.Output
-        
-        do {
-            response = try await client.getAmiiboTypes(.init(query: .init(
+    ) async throws(AmiiboServiceError) -> [AmiiboType] {
+        let response = try await perform {
+            try await client.getAmiiboTypes(.init(query: .init(
                 key: filter.key,
                 name: filter.name
             )))
-        } catch {
-            try handle(error: error)
         }
         
         switch response {
@@ -291,11 +230,9 @@ private extension AmiiboLiveClient {
             case let .json(output):
                 switch output.amiibo {
                 case let .AmiiboType(payload):
-                    return [AmiiboType(payload.value1)]
-                case let .case2(list):
-                    return list
-                        .map { AmiiboType($0.value1) }
-                        .sorted { $0.key < $1.key }
+                    return makeModels(from: [payload])
+                case let .AmiiboTypeList(list):
+                    return makeModels(from: list)
                 }
             }
         case .badRequest:
@@ -315,16 +252,12 @@ private extension AmiiboLiveClient {
     /// - Throws: An ``AmiiboServiceError`` error in case some issue is encountered while generating the result.
     func fetchGameCharacters(
         _ filter: GameCharacterFilter
-    ) async throws -> [GameCharacter] {
-        let response: Operations.getGameCharacters.Output
-        
-        do {
-            response = try await client.getGameCharacters(.init(query: .init(
+    ) async throws(AmiiboServiceError) -> [GameCharacter] {
+        let response = try await perform {
+            try await client.getGameCharacters(.init(query: .init(
                 key: filter.key,
                 name: filter.name
             )))
-        } catch {
-            try handle(error: error)
         }
         
         switch response {
@@ -333,11 +266,9 @@ private extension AmiiboLiveClient {
             case let .json(output):
                 switch output.amiibo {
                 case let .GameCharacter(payload):
-                    return [GameCharacter(payload.value1)]
-                case let .case2(list):
-                    return list
-                        .map { GameCharacter($0.value1) }
-                        .sorted { $0.key < $1.key }
+                    return makeModels(from: [payload])
+                case let .GameCharacterList(list):
+                    return makeModels(from: list)
                 }
             }
         case .badRequest:
@@ -357,16 +288,12 @@ private extension AmiiboLiveClient {
     /// - Throws: An ``AmiiboServiceError`` error in case some issue is encountered while generating the result.
     func fetchGameSeries(
         _ filter: GameSeriesFilter
-    ) async throws -> [GameSeries] {
-        let response: Operations.getGameSeries.Output
-        
-        do {
-            response = try await client.getGameSeries(.init(query: .init(
+    ) async throws(AmiiboServiceError) -> [GameSeries] {
+        let response = try await perform {
+            try await client.getGameSeries(.init(query: .init(
                 key: filter.key,
                 name: filter.name
             )))
-        } catch {
-            try handle(error: error)
         }
         
         switch response {
@@ -375,11 +302,9 @@ private extension AmiiboLiveClient {
             case let .json(output):
                 switch output.amiibo {
                 case let .GameSeries(payload):
-                    return [GameSeries(payload.value1)]
-                case let .case2(list):
-                    return list
-                        .map { GameSeries($0.value1) }
-                        .sorted { $0.key < $1.key }
+                    return makeModels(from: [payload])
+                case let .GameSeriesList(list):
+                    return makeModels(from: list)
                 }
             }
         case .badRequest:
@@ -394,15 +319,11 @@ private extension AmiiboLiveClient {
     }
     
     /// Fetches the date when the data was last updated.
-    /// - Returns: A fetched last updated date.
+    /// - Returns: A fetched last updated date, decoded as UTC.
     /// - Throws: An ``AmiiboServiceError`` error in case some issue is encountered while generating the result.
-    func fetchLastUpdated() async throws -> Date {
-        let response: Operations.getLastUpdated.Output
-        
-        do {
-            response = try await client.getLastUpdated()
-        } catch {
-            try handle(error: error)
+    func fetchLastUpdated() async throws(AmiiboServiceError) -> Date {
+        let response = try await perform {
+            try await client.getLastUpdated()
         }
         
         switch response {
@@ -418,10 +339,33 @@ private extension AmiiboLiveClient {
         }
     }
     
+    /// Performs an API call, mapping any error thrown by the underlying client to an ``AmiiboServiceError`` error.
+    /// - Parameter operation: A closure that performs the API call.
+    /// - Returns: The output of the performed API call.
+    /// - Throws: An ``AmiiboServiceError`` error in case the API call failed.
+    func perform<Output>(
+        _ operation: () async throws -> Output
+    ) async throws(AmiiboServiceError) -> Output {
+        do {
+            return try await operation()
+        } catch {
+            try handle(error: error)
+        }
+    }
+    
+    /// Maps a list of key-name payloads into a sorted list of models.
+    /// - Parameter payloads: A list of payloads to map into models.
+    /// - Returns: A list of models sorted by their keys in ascending order.
+    func makeModels<Model: KeyNameModel>(from payloads: [some KeyNamePayload]) -> [Model] {
+        payloads
+            .map { Model($0) }
+            .sorted { $0.key < $1.key }
+    }
+    
     /// Maps a given error to an ``AmiiboServiceError`` error.
     /// - Parameter error: An error to map.
     /// - Throws: An ``AmiiboServiceError`` error that corresponds to the given error.
-    func handle(error: any Error) throws -> Never {
+    func handle(error: any Error) throws(AmiiboServiceError) -> Never {
         switch error {
         case is CancellationError:
             throw AmiiboServiceError.cancelled
@@ -431,21 +375,28 @@ private extension AmiiboLiveClient {
                 throw AmiiboServiceError.decoding
             case let urlError as URLError:
                 switch urlError.code {
+                case .cancelled:
+                    throw AmiiboServiceError.cancelled
+                case .cannotParseResponse:
+                    throw AmiiboServiceError.decoding
                 case .cannotFindHost,
                      .cannotConnectToHost,
+                     .dataNotAllowed,
                      .dnsLookupFailed,
+                     .internationalRoamingOff,
                      .networkConnectionLost,
                      .notConnectedToInternet,
+                     .secureConnectionFailed,
                      .timedOut:
                     throw AmiiboServiceError.notAvailable
                 default:
-                    throw AmiiboServiceError.unknown
+                    throw AmiiboServiceError.unknown(String(describing: urlError))
                 }
             default:
-                throw AmiiboServiceError.unknown
+                throw AmiiboServiceError.unknown(String(describing: clientError.underlyingError))
             }
         default:
-            throw AmiiboServiceError.unknown
+            throw AmiiboServiceError.unknown(String(describing: error))
         }
     }
     

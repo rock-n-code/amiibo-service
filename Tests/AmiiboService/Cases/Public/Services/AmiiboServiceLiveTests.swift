@@ -16,7 +16,14 @@ import AmiiboService
 import Foundation
 import Testing
 
-@Suite("Amiibo Service", .tags(.live))
+@Suite(
+    "Amiibo Service",
+    .tags(.live),
+    .enabled(
+        if: ProcessInfo.processInfo.environment["AMIIBO_LIVE_TESTS"] == "1",
+        "Set the 'AMIIBO_LIVE_TESTS' environment variable to '1' to run these tests against the live service."
+    )
+)
 struct AmiiboServiceLiveTests {
     
     // MARK: Properties
@@ -31,18 +38,17 @@ struct AmiiboServiceLiveTests {
     
     // MARK: Functions tests
     
-#if swift(>=6.2)
     @Test(arguments: zip(
         Input.amiibos,
         Output.amiibos
     ))
     func `get amiibos`(
         filter: AmiiboFilter,
-        expects numberOfItems: Int
+        expects count: ExpectedCount
     ) async throws {
         try await assertAmiibos(
             with: filter,
-            expects: numberOfItems
+            expects: count
         )
     }
     
@@ -66,11 +72,11 @@ struct AmiiboServiceLiveTests {
     ))
     func `get amiibo series`(
         filter: AmiiboSeriesFilter,
-        expects numberOfItems: Int
+        expects count: ExpectedCount
     ) async throws {
         try await assertAmiiboSeries(
             with: filter,
-            expects: numberOfItems
+            expects: count
         )
     }
     
@@ -94,11 +100,11 @@ struct AmiiboServiceLiveTests {
     ))
     func `get amiibo types`(
         filter: AmiiboTypeFilter,
-        expects numberOfItems: Int
+        expects count: ExpectedCount
     ) async throws {
         try await assertAmiiboTypes(
             with: filter,
-            expects: numberOfItems
+            expects: count
         )
     }
     
@@ -122,11 +128,11 @@ struct AmiiboServiceLiveTests {
     ))
     func `get game characters`(
         filter: GameCharacterFilter,
-        expects numberOfItems: Int
+        expects count: ExpectedCount
     ) async throws {
         try await assertGameCharacters(
             with: filter,
-            expects: numberOfItems
+            expects: count
         )
     }
     
@@ -150,11 +156,11 @@ struct AmiiboServiceLiveTests {
     ))
     func `get game series`(
         filter: GameSeriesFilter,
-        expects numberOfItems: Int
+        expects count: ExpectedCount
     ) async throws {
         try await assertGameSeries(
             with: filter,
-            expects: numberOfItems
+            expects: count
         )
     }
     
@@ -175,161 +181,11 @@ struct AmiiboServiceLiveTests {
     @Test
     func `get the last updated timestamp`() async throws {
         try await assertLastUpdated(
-            day: 26,
-            month: 3,
+            onOrAfterDay: 24,
+            month: 7,
             year: 2026
         )
     }
-#else
-    @Test("get amiibos", arguments: zip(
-        Input.amiibos,
-        Output.amiibos
-    ))
-    func getAmiibos(
-        filter: AmiiboFilter,
-        expects numberOfItems: Int
-    ) async throws {
-        try await assertAmiibos(
-            with: filter,
-            expects: numberOfItems
-        )
-    }
-    
-    @Test("get amiibos throws", arguments: zip(
-        Input.amiibosThrows,
-        Output.amiibosThrows
-    ))
-    func getAmiibosThrows(
-        filter: AmiiboFilter,
-        expects error: AmiiboServiceError
-    ) async throws {
-        try await assertsAmiibosThrows(
-            error: error,
-            when: filter
-        )
-    }
-    
-    @Test("get amiibo series", arguments: zip(
-        Input.amiiboSeries,
-        Output.amiiboSeries
-    ))
-    func getAmiiboSeries(
-        filter: AmiiboSeriesFilter,
-        expects numberOfItems: Int
-    ) async throws {
-        try await assertAmiiboSeries(
-            with: filter,
-            expects: numberOfItems
-        )
-    }
-    
-    @Test("get amiibo series throws", arguments: zip(
-        Input.amiiboSeriesThrows,
-        Output.amiiboSeriesThrows
-    ))
-    func getAmiiboSeriesThrows(
-        filter: AmiiboSeriesFilter,
-        expects error: AmiiboServiceError
-    ) async throws {
-        try await assertsAmiiboSeriesThrows(
-            error: error,
-            when: filter
-        )
-    }
-
-    @Test("get amiibo types", arguments: zip(
-        Input.amiiboTypes,
-        Output.amiiboTypes
-    ))
-    func getAmiiboTypes(
-        filter: AmiiboTypeFilter,
-        expects numberOfItems: Int
-    ) async throws {
-        try await assertAmiiboTypes(
-            with: filter,
-            expects: numberOfItems
-        )
-    }
-    
-    @Test("get amiibo types throws", arguments: zip(
-        Input.amiiboTypesThrows,
-        Output.amiiboTypesThrows
-    ))
-    func getAmiiboTypesThrows(
-        filter: AmiiboTypeFilter,
-        expects error: AmiiboServiceError
-    ) async throws {
-        try await assertsAmiiboTypesThrows(
-            error: error,
-            when: filter
-        )
-    }
-
-    @Test("get game characters", arguments: zip(
-        Input.gameCharacters,
-        Output.gameCharacters
-    ))
-    func getGameCharacters(
-        filter: GameCharacterFilter,
-        expects numberOfItems: Int
-    ) async throws {
-        try await assertGameCharacters(
-            with: filter,
-            expects: numberOfItems
-        )
-    }
-    
-    @Test("get game characters throws", arguments: zip(
-        Input.gameCharactersThrows,
-        Output.gameCharactersThrows
-    ))
-    func getGameCharactersThrows(
-        filter: GameCharacterFilter,
-        expects error: AmiiboServiceError
-    ) async throws {
-        try await assertsGameCharactersThrows(
-            error: error,
-            when: filter
-        )
-    }
-
-    @Test("get game series", arguments: zip(
-        Input.gameSeries,
-        Output.gameSeries
-    ))
-    func getGameSeries(
-        filter: GameSeriesFilter,
-        expects numberOfItems: Int
-    ) async throws {
-        try await assertGameSeries(
-            with: filter,
-            expects: numberOfItems
-        )
-    }
-    
-    @Test("get game series throws", arguments: zip(
-        Input.gameSeriesThrows,
-        Output.gameSeriesThrows
-    ))
-    func getGameSeriesThrows(
-        filter: GameSeriesFilter,
-        expects error: AmiiboServiceError
-    ) async throws {
-        try await assertsGameSeriesThrows(
-            error: error,
-            when: filter
-        )
-    }
-    
-    @Test("get last updated timestamp")
-    func getLastUpdated() async throws {
-        try await assertLastUpdated(
-            day: 26,
-            month: 3,
-            year: 2026
-        )
-    }
-#endif
     
 }
 
@@ -342,17 +198,17 @@ private extension AmiiboServiceLiveTests {
     /// Asserts the number of items returned by the `amiibos` endpoint that matched a given filter.
     /// - Parameters:
     ///   - filter: An amiibo filter type.
-    ///   - numberOfItems: An expected number of items returned.
+    ///   - count: An expected count of items to be returned.
     func assertAmiibos(
         with filter: AmiiboFilter,
-        expects numberOfItems: Int
+        expects count: ExpectedCount
     ) async throws {
         // GIVEN
         // WHEN
         let amiibos = try await service.getAmiibos(filter)
         
         // THEN
-        #expect(amiibos.count == numberOfItems)
+        assert(amiibos.count, matches: count)
         
         guard
             !amiibos.isEmpty,
@@ -391,17 +247,17 @@ private extension AmiiboServiceLiveTests {
     /// Asserts the number of items returned by the `amiiboSeries` endpoint that matched a given filter.
     /// - Parameters:
     ///   - filter: An amiibo series filter type.
-    ///   - numberOfItems: An expected number of items returned.
+    ///   - count: An expected count of items to be returned.
     func assertAmiiboSeries(
         with filter: AmiiboSeriesFilter,
-        expects numberOfItems: Int
+        expects count: ExpectedCount
     ) async throws {
         // GIVEN
         // WHEN
         let amiiboSeries = try await service.getAmiiboSeries(filter)
         
         // THEN
-        #expect(amiiboSeries.count == numberOfItems)
+        assert(amiiboSeries.count, matches: count)
     }
     
     /// Asserts the error thrown by the `amiiboSeries` endpoint.
@@ -423,17 +279,17 @@ private extension AmiiboServiceLiveTests {
     /// Asserts the number of items returned by the `amiiboTypes` endpoint that matched a given filter.
     /// - Parameters:
     ///   - filter: An amiibo type filter type.
-    ///   - numberOfItems: An expected number of items returned.
+    ///   - count: An expected count of items to be returned.
     func assertAmiiboTypes(
         with filter: AmiiboTypeFilter,
-        expects numberOfItems: Int
+        expects count: ExpectedCount
     ) async throws {
         // GIVEN
         // WHEN
         let amiiboTypes = try await service.getAmiiboTypes(filter)
         
         // THEN
-        #expect(amiiboTypes.count == numberOfItems)
+        assert(amiiboTypes.count, matches: count)
     }
     
     /// Asserts the error thrown by the `amiiboTypes` endpoint.
@@ -455,17 +311,17 @@ private extension AmiiboServiceLiveTests {
     /// Asserts the number of items returned by the `gameCharacters` endpoint that matched a given filter.
     /// - Parameters:
     ///   - filter: A game character filter type.
-    ///   - numberOfItems: An expected number of items returned.
+    ///   - count: An expected count of items to be returned.
     func assertGameCharacters(
         with filter: GameCharacterFilter,
-        expects numberOfItems: Int
+        expects count: ExpectedCount
     ) async throws {
         // GIVEN
         // WHEN
         let gameCharacters = try await service.getGameCharacters(filter)
         
         // THEN
-        #expect(gameCharacters.count == numberOfItems)
+        assert(gameCharacters.count, matches: count)
     }
     
     /// Asserts the error thrown by the `gameCharacters` endpoint.
@@ -487,17 +343,17 @@ private extension AmiiboServiceLiveTests {
     /// Asserts the number of items returned by the `gameSeries` endpoint that matched a given filter.
     /// - Parameters:
     ///   - filter: A game series filter type.
-    ///   - numberOfItems: An expected number of items returned.
+    ///   - count: An expected count of items to be returned.
     func assertGameSeries(
         with filter: GameSeriesFilter,
-        expects numberOfItems: Int
+        expects count: ExpectedCount
     ) async throws {
         // GIVEN
         // WHEN
         let gameSeries = try await service.getGameSeries(filter)
         
         // THEN
-        #expect(gameSeries.count == numberOfItems)
+        assert(gameSeries.count, matches: count)
     }
     
     /// Asserts the error thrown by the `gameSeries` endpoint.
@@ -516,31 +372,61 @@ private extension AmiiboServiceLiveTests {
         }
     }
     
-    /// Asserts the date returned by the `lastUpdated` endpoint.
+    /// Asserts the date returned by the `lastUpdated` endpoint is within a plausible range.
+    ///
+    /// The live service updates its data over time, so this assertion checks the returned date is not before the last known update and not in the future, instead of matching an exact date that would break on every update.
+    ///
     /// - Parameters:
-    ///   - day: A number of day of the last updated date.
-    ///   - month: A number of month of the last updated date.
-    ///   - year: A number of year of the last updated date.
+    ///   - day: A number of day of the earliest expected last updated date.
+    ///   - month: A number of month of the earliest expected last updated date.
+    ///   - year: A number of year of the earliest expected last updated date.
     func assertLastUpdated(
-        day: Int,
+        onOrAfterDay day: Int,
         month: Int,
         year: Int
     ) async throws {
         // GIVEN
+        var calendar = Calendar(identifier: .gregorian)
+        
+        calendar.timeZone = try #require(TimeZone(secondsFromGMT: 0))
+        
+        let earliest = try #require(calendar.date(from: .init(
+            year: year,
+            month: month,
+            day: day
+        )))
+        
         // WHEN
         let dateLastUpdated = try await service.getLastUpdated()
         
         // THEN
-        let dateComponents = Calendar.current.dateComponents(
-            [.year, .month, .day],
-            from: dateLastUpdated
-        )
-        
-        #expect(dateComponents.year == year)
-        #expect(dateComponents.month == month)
-        #expect(dateComponents.day == day)
+        #expect(dateLastUpdated >= earliest)
+        #expect(dateLastUpdated <= .now)
     }
     
+    /// Asserts an actual number of items matches an expected count.
+    /// - Parameters:
+    ///   - actualCount: A number of items returned by an endpoint.
+    ///   - expectation: An expected count to match the number of items against.
+    func assert(_ actualCount: Int, matches expectation: ExpectedCount) {
+        switch expectation {
+        case let .exactly(expected):
+            #expect(actualCount == expected)
+        case let .atLeast(minimum):
+            #expect(actualCount >= minimum)
+        }
+    }
+    
+}
+
+// MARK: - Expectations
+
+/// An expectation about the number of items returned by an endpoint of the live service.
+enum ExpectedCount {
+    /// The endpoint is expected to return exactly the associated number of items.
+    case exactly(Int)
+    /// The endpoint is expected to return at least the associated number of items, as the data at the live service grows over time.
+    case atLeast(Int)
 }
 
 // MARK: - Arguments
@@ -660,24 +546,37 @@ enum Input {
 }
 
 enum Output {
-    /// A list of number of items that are expected from the `assertAmiibos` assertion.
-    static let amiibos: [Int] = [.totalAmiibos, 7, 7, 1, 1, 1, .zero, .zero, 5, .zero, 7, .totalAmiibos, 247, 247, .zero, .zero, .zero, .zero, 96, 26, .zero, .zero, 63, .totalAmiibos, 13, 6, .zero, .zero, .zero, .totalAmiibos, 51, 32, .zero, .zero, 150, .totalAmiibos, .totalAmiibos, .totalAmiibos]
+    /// A list of expected counts from the `assertAmiibos` assertion.
+    ///
+    /// Counts for filters that match a growing set of items are expressed as `atLeast` minimums, so the tests do not break whenever new amiibo items are added to the live service.
+    static let amiibos: [ExpectedCount] = [
+        .atLeast(.minimumAmiibos),
+        .atLeast(7), .atLeast(7),
+        .exactly(1), .atLeast(1),
+        .exactly(1), .exactly(.zero), .exactly(.zero),
+        .atLeast(5), .exactly(.zero), .atLeast(7), .atLeast(.minimumAmiibos),
+        .atLeast(254), .atLeast(254), .exactly(.zero), .exactly(.zero), .exactly(.zero), .exactly(.zero),
+        .atLeast(96), .atLeast(26), .exactly(.zero), .exactly(.zero), .atLeast(63), .atLeast(.minimumAmiibos),
+        .atLeast(14), .atLeast(6), .exactly(.zero), .exactly(.zero), .exactly(.zero), .atLeast(.minimumAmiibos),
+        .atLeast(53), .atLeast(32), .exactly(.zero), .exactly(.zero), .atLeast(152), .atLeast(.minimumAmiibos),
+        .atLeast(.minimumAmiibos), .atLeast(.minimumAmiibos)
+    ]
     /// A list of errors are expected to be thrown from the `assertAmiibosThrows` assertion.
     static let amiibosThrows: [AmiiboServiceError] = [.badRequest, .badRequest, .badRequest, .badRequest, .badRequest, .badRequest, .badRequest]
-    /// A list of number of items that are expected from the `assertAmiiboSeries` assertion.
-    static let amiiboSeries: [Int] = [.totalAmiiboSeries, 1, 1, 1, .totalAmiiboSeries]
+    /// A list of expected counts from the `assertAmiiboSeries` assertion.
+    static let amiiboSeries: [ExpectedCount] = [.atLeast(.minimumAmiiboSeries), .exactly(1), .exactly(1), .exactly(1), .atLeast(.minimumAmiiboSeries)]
     /// A list of errors are expected to be thrown from the `assertAmiiboSeriesThrows` assertion.
     static let amiiboSeriesThrows: [AmiiboServiceError] = [.notFound, .badRequest, .badRequest, .notFound]
-    /// A list of number of items that are expected from the `assertAmiiboTypes` assertion.
-    static let amiiboTypes: [Int] = [.totalAmiiboTypes, 1, 1, 1, .totalAmiiboTypes]
+    /// A list of expected counts from the `assertAmiiboTypes` assertion.
+    static let amiiboTypes: [ExpectedCount] = [.atLeast(.minimumAmiiboTypes), .exactly(1), .exactly(1), .exactly(1), .atLeast(.minimumAmiiboTypes)]
     /// A list of errors are expected to be thrown from the `assertAmiiboTypesThrows` assertion.
     static let amiiboTypesThrows: [AmiiboServiceError] = [.notFound, .badRequest, .badRequest, .notFound]
-    /// A list of number of items that are expected from the `assertGameCharacters` assertion.
-    static let gameCharacters: [Int] = [.totalGameCharacters, 1, 1, 1, .totalGameCharacters]
+    /// A list of expected counts from the `assertGameCharacters` assertion.
+    static let gameCharacters: [ExpectedCount] = [.atLeast(.minimumGameCharacters), .exactly(1), .exactly(1), .exactly(1), .atLeast(.minimumGameCharacters)]
     /// A list of errors are expected to be thrown from the `assertGameCharactersThrows` assertion.
     static let gameCharactersThrows: [AmiiboServiceError] = [.notFound, .badRequest, .badRequest, .notFound]
-    /// A list of number of items that are expected from the `assertGameSeries` assertion.
-    static let gameSeries: [Int] = [.totalGameSeries, 1, 1, 1, .totalGameSeries]
+    /// A list of expected counts from the `assertGameSeries` assertion.
+    static let gameSeries: [ExpectedCount] = [.atLeast(.minimumGameSeries), .exactly(1), .exactly(1), .exactly(1), .atLeast(.minimumGameSeries)]
     /// A list of errors are expected to be thrown from the `assertGameSeriesThrows` assertion.
     static let gameSeriesThrows: [AmiiboServiceError] = [.notFound, .badRequest, .badRequest, .notFound]
 }
@@ -685,16 +584,16 @@ enum Output {
 // MARK: - Constants
 
 private extension Int {
-    /// A number that represents the total number of amiibo items currently available at the live service.
-    static let totalAmiibos = 939
-    /// A number that represents the total number of amiibo series currently available at the live service.
-    static let totalAmiiboSeries = 30
-    /// A number that represents the total number of amiibo types currently available at the live service.
-    static let totalAmiiboTypes = 5
-    /// A number that represents the total number of game characters currently available at the live service.
-    static let totalGameCharacters = 680
-    /// A number that represents the total number of game series currently available at the live service.
-    static let totalGameSeries = 117
+    /// A number that represents the minimum number of amiibo items expected from the live service, as of July 2026.
+    static let minimumAmiibos = 946
+    /// A number that represents the minimum number of amiibo series expected from the live service, as of July 2026.
+    static let minimumAmiiboSeries = 31
+    /// A number that represents the minimum number of amiibo types expected from the live service, as of July 2026.
+    static let minimumAmiiboTypes = 5
+    /// A number that represents the minimum number of game characters expected from the live service, as of July 2026.
+    static let minimumGameCharacters = 681
+    /// A number that represents the minimum number of game series expected from the live service, as of July 2026.
+    static let minimumGameSeries = 118
 }
 
 private extension String {

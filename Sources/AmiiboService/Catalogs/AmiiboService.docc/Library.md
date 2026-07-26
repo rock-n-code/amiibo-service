@@ -18,7 +18,7 @@ To use the `AmiiboService` library with your package, then add it as a dependenc
 let package = Package(
     // name, platforms, products, etc.
     dependencies: [
-        .package(url: "https://github.com/rock-n-code/amiibo-service", from: "1.4.1"),
+        .package(url: "https://github.com/rock-n-code/amiibo-service", from: "2.0.0"),
         // other dependencies
     ],
     targets: [
@@ -35,7 +35,32 @@ let package = Package(
 
 It is also possible to use the `AmiiboService` library with your app in Xcode, then add it as a dependency in your Xcode project.
 
-> important: Swift 5.10 or higher is required in order to compile this library.
+> important: Swift 6.2 or higher is required in order to compile this library.
+
+## Usage
+
+Create an ``AmiiboService`` instance and call any of its endpoints. Each endpoint accepts an optional filter and, when omitted, returns the full set of results:
+
+```swift
+import AmiiboService
+
+let service = AmiiboService()
+
+// Fetch all amiibos
+let amiibos = try await service.getAmiibos()
+
+// Fetch amiibos filtered by name
+let zeldaAmiibos = try await service.getAmiibos(.init(name: "zelda"))
+
+// Fetch amiibo series, types, game characters, and game series
+let series = try await service.getAmiiboSeries()
+let types = try await service.getAmiiboTypes()
+let characters = try await service.getGameCharacters()
+let gameSeries = try await service.getGameSeries()
+
+// Fetch the last updated timestamp
+let lastUpdated = try await service.getLastUpdated()
+```
 
 ## Caching
 
