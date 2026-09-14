@@ -24,7 +24,7 @@ extension Amiibo {
         /// The name of this game.
         public let name: String
         
-        /// A list of amiibo usages within this game, if available.
+        /// A list of amiibo usages within this game, or `nil` unless the request sets ``AmiiboFilter/showUsage``.
         public let usages: [Usage]?
         
         // MARK: Initializers

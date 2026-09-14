@@ -14,20 +14,20 @@
 
 import Foundation
 
-/// A type that implements the service that uses a client to make calls.
+/// The entry point for fetching data from the Amiibo API.
 ///
-/// This service forwards every call to the ``AmiiboClient`` client injected during initialization, which defaults to an ``AmiiboLiveClient`` instance. This type is `Sendable`, so an instance can be safely shared across concurrency domains.
+/// This service forwards every call to the ``AmiiboClient`` passed at initialization, which defaults to ``AmiiboLiveClient``. It is `Sendable`, so you can share an instance across concurrency domains.
 public struct AmiiboService: Sendable {
-    
+
     // MARK: Properties
-    
+
     /// A client to interact with the endpoints.
     private let client: any AmiiboClient
-    
+
     // MARK: Initializers
-    
-    /// Initializes this service with a specific client type.
-    /// - Parameter client: A client to use to interact with the endpoints.
+
+    /// Initializes this service with a client.
+    /// - Parameter client: The client that performs the calls. Defaults to ``AmiiboLiveClient``.
     public init(client: some AmiiboClient = AmiiboLiveClient()) {
         self.client = client
     }

@@ -34,7 +34,9 @@ public struct Amiibo: Sendable, Hashable {
     /// The name of this amiibo.
     public let name: String
 
-    /// The game platform data for this amiibo, if available.
+    /// The related games of this amiibo, grouped by platform.
+    ///
+    /// This value is `nil` unless the request sets ``AmiiboFilter/showGames`` or ``AmiiboFilter/showUsage``, or when the amiibo has no related games.
     public let platform: Platform?
     
     /// The release dates of this amiibo across different regions.

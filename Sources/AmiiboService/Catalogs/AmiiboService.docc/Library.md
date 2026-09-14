@@ -1,74 +1,84 @@
 # ``AmiiboService``
 
-A library that provides everything the developer needs to interact with the **Amiibo API** backend service.
+A Swift client for the Amiibo API.
 
 ## Overview
 
-The `amiibo-service` library is a package that allows the developer to interact with the [Amiibo API](https://www.amiiboapi.org) backend service seamlessly, by not only providing the *service* type but also any possible *models*, *filters*, *errors* and *interfaces* types that might be needed during implementation.
+`AmiiboService` fetches data from the [Amiibo API](https://www.amiiboapi.org) and returns it as Swift models.
 
-## Design
-
-Although it could have been possible to generate a one-to-one RESTful client based on the Open API specification document that describe the available endpoints of the backend service, it was decided to design a `AmiiboService` service type that removes the complexities of the API design imposed by the backend service, and provides the developer with a simple interface, and a seamless experience.
+The library does not expose a generated client that maps one-to-one to the REST endpoints. Instead, ``AmiiboService`` offers one method per resource, takes a typed filter, returns sorted models, and throws a single ``AmiiboServiceError`` type.
 
 ## Installation
 
-To use the `AmiiboService` library with your package, then add it as a dependency in the `Package.swift` file:
+Add the package and the `AmiiboService` product to `Package.swift`:
 
 ```swift
 let package = Package(
     // name, platforms, products, etc.
     dependencies: [
         .package(url: "https://github.com/rock-n-code/amiibo-service", from: "2.0.0"),
-        // other dependencies
     ],
     targets: [
         .target(
-            name: "SomeTarget", 
+            name: "SomeTarget",
             dependencies: [
                 .product(name: "AmiiboService", package: "amiibo-service"),
             ]
-        )
-        // other targets
+        ),
     ]
 )
 ```
 
-It is also possible to use the `AmiiboService` library with your app in Xcode, then add it as a dependency in your Xcode project.
+In Xcode, add the package URL under **File › Add Package Dependencies…**.
 
-> important: Swift 6.2 or higher is required in order to compile this library.
+> Important: Requires Swift 6.2 or later, and iOS 13, macOS 10.15, tvOS 13, visionOS 1, or watchOS 6 or later.
 
 ## Usage
 
-Create an ``AmiiboService`` instance and call any of its endpoints. Each endpoint accepts an optional filter and, when omitted, returns the full set of results:
+Create an ``AmiiboService`` and call its methods. When you omit the filter, the method returns every item:
 
 ```swift
 import AmiiboService
 
 let service = AmiiboService()
 
-// Fetch all amiibos
+// All amiibos
 let amiibos = try await service.getAmiibos()
 
-// Fetch amiibos filtered by name
+// Amiibos whose name contains "zelda"
 let zeldaAmiibos = try await service.getAmiibos(.init(name: "zelda"))
 
-// Fetch amiibo series, types, game characters, and game series
+// Amiibo series, types, game characters, and game series
 let series = try await service.getAmiiboSeries()
 let types = try await service.getAmiiboTypes()
 let characters = try await service.getGameCharacters()
 let gameSeries = try await service.getGameSeries()
 
-// Fetch the last updated timestamp
+// Date of the last data update (UTC)
 let lastUpdated = try await service.getLastUpdated()
+```
+
+Results are sorted in ascending order by ``Amiibo/identifier`` or by `key`.
+
+## Error handling
+
+Every method throws ``AmiiboServiceError``. When nothing matches, ``AmiiboService/getAmiibos(_:)`` returns an empty array, while the other list methods throw ``AmiiboServiceError/notFound``:
+
+```swift
+do throws(AmiiboServiceError) {
+    let series = try await service.getAmiiboSeries(.init(key: "0x01"))
+} catch .notFound {
+    // No amiibo series has this key.
+} catch {
+    // .badRequest, .cancelled, .decoding, .notAvailable, .undocumented, or .unknown
+}
 ```
 
 ## Caching
 
-The [Amiibo API](https://www.amiiboapi.org) recommends that consumers who call the API regularly implement caching on their systems. This library does not include a built-in cache, leaving the choice of caching strategy to the consumer. The following examples show two common approaches.
+The library has no built-in cache. The Amiibo API asks regular consumers to cache responses.
 
-### URLCache on the transport layer
-
-Pass a custom `URLSessionTransport` with a cache-configured `URLSession` to ``AmiiboLiveClient``:
+To cache at the HTTP level, give ``AmiiboLiveClient`` a transport backed by a `URLCache`. The cache follows the server's cache headers:
 
 ```swift
 import OpenAPIURLSession
@@ -91,20 +101,16 @@ let service = AmiiboService(
 )
 ```
 
-This leverages HTTP cache headers from the server and persists cached responses to disk.
-
-### Application-level caching
-
-Alternatively, cache the results returned by ``AmiiboService`` directly in your application using any storage mechanism that fits your needs, such as an in-memory dictionary, a database, or a file-based store.
+You can also store the returned models in your own application storage.
 
 ## Testing
 
-The ``AmiiboClient`` protocol enables creating custom mock clients for testing, eliminating the need for network calls in unit tests. Conform to ``AmiiboClient`` and return stubbed data or throw ``AmiiboServiceError`` errors to verify your application's behavior:
+To test without network access, pass a mock ``AmiiboClient`` to ``AmiiboService/init(client:)``. The mock can return stub data or throw ``AmiiboServiceError`` values. ``AmiiboClient`` refines `Sendable`, so the mock must be `Sendable`, too:
 
 ```swift
 import AmiiboService
 
-struct MyMockClient: AmiiboClient {
+struct MockClient: AmiiboClient {
     var error: AmiiboServiceError?
 
     func getAmiibos(
@@ -114,22 +120,10 @@ struct MyMockClient: AmiiboClient {
         return []
     }
 
-    // Implement remaining protocol requirements...
+    // Implement the remaining requirements...
 }
 
-let service = AmiiboService(client: MyMockClient())
-```
-
-Inject the mock client into ``AmiiboService`` via its ``AmiiboService/init(client:)`` initializer to test how your code handles empty results, specific errors, or any other scenario without relying on the live backend.
-
-## Tasks
-
-This library offers a set of ready-to-use tasks that simplify the interaction with the library, which the developer can use from any `Terminal` application. 
-
-> Tip: To show the available list of tasks, plus display some explanations about each and every one of them; please enter the following command:
-
-```bash
-$ make
+let service = AmiiboService(client: MockClient())
 ```
 
 ## Topics

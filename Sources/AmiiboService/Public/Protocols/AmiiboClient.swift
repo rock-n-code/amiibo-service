@@ -14,9 +14,9 @@
 
 import Foundation
 
-/// A protocol that defines API clients containing all available endpoints to interact with.
+/// A protocol that defines a client that fetches data from the Amiibo API.
 ///
-/// Conforming types must be `Sendable`, as clients are expected to be used safely across concurrency domains.
+/// ``AmiiboLiveClient`` is the default implementation. Conform to this protocol to provide another one, such as a mock for tests. Conforming types must be `Sendable`.
 public protocol AmiiboClient: Sendable {
     
     // MARK: Functions

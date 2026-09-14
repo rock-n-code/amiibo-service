@@ -14,7 +14,7 @@
 
 import Foundation
 
-/// A representation of all the possible errors that the ``AmiiboService`` service could throw.
+/// An error thrown by ``AmiiboService`` and ``AmiiboClient`` methods.
 public enum AmiiboServiceError: Error {
     /// The request was malformed or contained invalid filter parameters.
     case badRequest
@@ -25,6 +25,8 @@ public enum AmiiboServiceError: Error {
     /// The backend service is currently unreachable due to a network or server issue.
     case notAvailable
     /// No results were found matching the given filter criteria.
+    ///
+    /// When no amiibos match, ``AmiiboService/getAmiibos(_:)`` returns an empty array instead of throwing this error.
     case notFound
     /// The server returned an undocumented HTTP status code.
     case undocumented(_ statusCode: Int)

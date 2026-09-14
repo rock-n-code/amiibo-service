@@ -3,35 +3,35 @@
 
 # Amiibo Service
 
-A library written entirely with [Swift](https://www.swift.org) that provides everything the developer needs to interact with the [Amiibo API](https://www.amiiboapi.org) backend service.
+A Swift client for the [Amiibo API](https://www.amiiboapi.org).
+
+## Requirements
+
+- Swift 6.2 or later
+- iOS 13, macOS 10.15, tvOS 13, visionOS 1, or watchOS 6 or later
 
 ## Installation
 
-To use this library, add it as a dependency in the `Package.swift` file:
+Add the package and the `AmiiboService` product to `Package.swift`:
 
 ```swift
 let package = Package(
     // name, platforms, products, etc.
     dependencies: [
-        .package(url: "https://github.com/rock-n-code/amiibo-service", from: "1.4.2"),
-        // other dependencies
+        .package(url: "https://github.com/rock-n-code/amiibo-service", from: "2.0.0"),
     ],
     targets: [
         .target(
-            name: "SomeTarget", 
+            name: "SomeTarget",
             dependencies: [
                 .product(name: "AmiiboService", package: "amiibo-service"),
             ]
-        )
-        // other targets
+        ),
     ]
 )
 ```
 
-It is also possible to use this library with your app in Xcode by adding it as a dependency in your Xcode project.
-
-> [!IMPORTANT]
-> Swift 6.2 or higher is required in order to build this library.
+In Xcode, add the package URL under **File › Add Package Dependencies…**.
 
 ## Usage
 
@@ -40,25 +40,41 @@ import AmiiboService
 
 let service = AmiiboService()
 
-// Fetch all amiibos
+// All amiibos
 let amiibos = try await service.getAmiibos()
 
-// Fetch amiibos filtered by name
+// Amiibos whose name contains "zelda"
 let zeldaAmiibos = try await service.getAmiibos(.init(name: "zelda"))
 
-// Fetch amiibo series, types, game characters, and game series
+// Amiibo series, types, game characters, and game series
 let series = try await service.getAmiiboSeries()
 let types = try await service.getAmiiboTypes()
 let characters = try await service.getGameCharacters()
 let gameSeries = try await service.getGameSeries()
 
-// Fetch the last updated timestamp
+// Date of the last data update (UTC)
 let lastUpdated = try await service.getLastUpdated()
+```
+
+Results are sorted in ascending order by identifier (amiibos) or key (everything else).
+
+## Error handling
+
+Every call throws `AmiiboServiceError`. When nothing matches, `getAmiibos(_:)` returns an empty array, while the other list calls throw `AmiiboServiceError.notFound`:
+
+```swift
+do throws(AmiiboServiceError) {
+    let series = try await service.getAmiiboSeries(.init(key: "0x01"))
+} catch .notFound {
+    // No amiibo series has this key.
+} catch {
+    // .badRequest, .cancelled, .decoding, .notAvailable, .undocumented, or .unknown
+}
 ```
 
 ## Caching
 
-The [Amiibo API](https://www.amiiboapi.org) recommends that consumers who call the API regularly implement caching on their systems. Pass a custom `URLSessionTransport` with a cache-configured `URLSession` to `AmiiboLiveClient`:
+The library has no built-in cache. The Amiibo API asks regular consumers to cache responses. To do that, give `AmiiboLiveClient` a transport backed by a `URLCache`:
 
 ```swift
 import OpenAPIURLSession
@@ -83,12 +99,12 @@ let service = AmiiboService(
 
 ## Testing
 
-The `AmiiboClient` protocol enables creating custom mock clients for unit testing without network calls. Conform to `AmiiboClient` and inject it into `AmiiboService` via its `init(client:)` initializer. Since `AmiiboClient` refines `Sendable`, conforming types must be safe to share across concurrency domains:
+To test without network access, pass a mock `AmiiboClient` to `AmiiboService(client:)`. `AmiiboClient` refines `Sendable`, so the mock must be `Sendable`, too:
 
 ```swift
 import AmiiboService
 
-struct MyMockClient: AmiiboClient {
+struct MockClient: AmiiboClient {
     var error: AmiiboServiceError?
 
     func getAmiibos(
@@ -98,22 +114,24 @@ struct MyMockClient: AmiiboClient {
         return []
     }
 
-    // Implement remaining protocol requirements...
+    // Implement the remaining requirements...
 }
 
-let service = AmiiboService(client: MyMockClient())
+let service = AmiiboService(client: MockClient())
 ```
 
-### Running the test suite
+## Development
 
-The unit tests based on a mock client run offline by default. The tests against the live service are skipped unless the `AMIIBO_LIVE_TESTS` environment variable is set to `1`, either in the environment when testing from the command line:
+Run `make` to list the available tasks for building, testing, and generating documentation.
+
+The test suite runs offline by default. Tests against the live service run only if `AMIIBO_LIVE_TESTS` is set to `1`:
 
 ```shell
 AMIIBO_LIVE_TESTS=1 swift test
 ```
 
-or in the `Test` action of the scheme when testing from Xcode.
+In Xcode, set the variable in the scheme's **Test** action.
 
 ## Documentation
 
-Please refer to the [online documentation](https://rock-n-code.github.io/amiibo-service/documentation/amiiboservice/) for further information about this library.
+See the [online documentation](https://rock-n-code.github.io/amiibo-service/documentation/amiiboservice/).

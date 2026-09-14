@@ -12,36 +12,36 @@
 // 
 // ===----------------------------------------------------------------------===
 
-/// A type that contains values to fine-tune a response when requesting game characters.
+/// A filter for game character requests.
 public struct GameCharacterFilter: KeyNameFilter, Sendable {
-    
+
     // TODO: Remove the documentation from the properties and initializers of this type as the `--enable-inherited-docs` flag when generating DocC documentation is not working as intended (?).
-    
+
     // MARK: Properties
 
-    /// A key to return, if any.
+    /// A hexadecimal key in `0x` format, such as `0x0001`, to match exactly, if any.
     public let key: String?
 
-    /// A name to return, if any.
+    /// A name, or part of one, to match, if any.
     public let name: String?
-    
+
     // MARK: Initializers
 
-    /// Initializes this filter without key or name values.
+    /// Initializes a filter that matches every game character.
     public init() {
         self.key = nil
         self.name = nil
     }
 
-    /// Initializes this filter with a key value.
-    /// - Parameter key: A key to return.
+    /// Initializes a filter that matches the game character with a given key.
+    /// - Parameter key: A hexadecimal key in `0x` format, such as `0x0001`.
     public init(key: String) {
         self.key = key
         self.name = nil
     }
 
-    /// Initializes this filter with a name value.
-    /// - Parameter name: A name to return.
+    /// Initializes a filter that matches game characters by name.
+    /// - Parameter name: A name, or part of one.
     public init(name: String) {
         self.key = nil
         self.name = name

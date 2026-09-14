@@ -12,55 +12,57 @@
 // 
 // ===----------------------------------------------------------------------===
 
-/// A type that contains values to fine-tune a response when requesting amiibo items.
+/// A filter for amiibo requests.
+///
+/// Values left as `nil` do not restrict the result.
 public struct AmiiboFilter: Sendable {
-    
+
     // MARK: Properties
-    
-    /// A game character to filter the result, if any.
+
+    /// A game character key or name to match, if any.
     public let gameCharacter: String?
 
-    /// A game series to filter the result, if any.
+    /// A game series key or name to match, if any.
     public let gameSeries: String?
-    
-    /// A first part of an identifier to filter the result, if any.
+
+    /// The first 8 hexadecimal characters of an identifier to match, if any. Shorter values match as a prefix.
     public let head: String?
 
-    /// An amiibo identifier to filter the result, if any.
+    /// A full 16-character hexadecimal identifier to match, if any.
     public let identifier: String?
 
-    /// An amiibo name to filter the result, if any.
+    /// An amiibo name, or part of one, to match, if any.
     public let name: String?
 
-    /// An amiibo series to filter the result, if any.
+    /// An amiibo series key or name to match, if any.
     public let series: String?
 
-    /// A flag indicating whether to include games in the response, if any.
+    /// A flag that indicates whether to include related games in ``Amiibo/platform``. `nil` means `false`.
     public let showGames: Bool?
 
-    /// A flag indicating whether to include amiibo usages in games in the response, if any.
+    /// A flag that indicates whether to include related games and their amiibo usages in ``Amiibo/platform``. `nil` means `false`.
     public let showUsage: Bool?
-    
-    /// A last part of an identifier to filter the result, if any.
+
+    /// The last 8 hexadecimal characters of an identifier to match, if any. Shorter values match as a prefix.
     public let tail: String?
 
-    /// An amiibo type to filter the result, if any.
+    /// An amiibo type key or name to match, if any.
     public let type: String?
-    
+
     // MARK: Initializers
-    
+
     /// Initializes this filter.
     /// - Parameters:
-    ///   - head: A first part of an identifier to filter the result, if any.
-    ///   - tail: A last part of an identifier to filter the result, if any.
-    ///   - identifier: An amiibo identifier to filter the result, if any.
-    ///   - name: An amiibo name to filter the result, if any.
-    ///   - type: An amiibo type to filter the result, if any.
-    ///   - series: An amiibo series to filter the result, if any.
-    ///   - gameCharacter: A game character to filter the result, if any.
-    ///   - gameSeries: A game series to filter the result, if any.
-    ///   - showGames: A flag indicating whether to include games in the response, if any.
-    ///   - showUsage: A flag indicating whether to include amiibo usages in games in the response, if any.
+    ///   - head: The first 8 hexadecimal characters of an identifier to match, if any. Shorter values match as a prefix.
+    ///   - tail: The last 8 hexadecimal characters of an identifier to match, if any. Shorter values match as a prefix.
+    ///   - identifier: A full 16-character hexadecimal identifier to match, if any.
+    ///   - name: An amiibo name, or part of one, to match, if any.
+    ///   - type: An amiibo type key or name to match, if any.
+    ///   - series: An amiibo series key or name to match, if any.
+    ///   - gameCharacter: A game character key or name to match, if any.
+    ///   - gameSeries: A game series key or name to match, if any.
+    ///   - showGames: A flag that indicates whether to include related games in ``Amiibo/platform``. `nil` means `false`.
+    ///   - showUsage: A flag that indicates whether to include related games and their amiibo usages in ``Amiibo/platform``. `nil` means `false`.
     public init(
         head: String? = nil,
         tail: String? = nil,
