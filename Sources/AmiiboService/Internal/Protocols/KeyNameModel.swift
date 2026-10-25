@@ -13,7 +13,7 @@
 // ===----------------------------------------------------------------------===
 
 /// A protocol that defines models containing a `key` and `name` pair.
-protocol KeyNameModel: Sendable, Hashable {
+protocol KeyNameModel: Sendable, Hashable, Codable, Identifiable {
     
     // MARK: Properties
     

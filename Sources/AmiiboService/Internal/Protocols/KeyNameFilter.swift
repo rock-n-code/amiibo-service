@@ -12,8 +12,8 @@
 // 
 // ===----------------------------------------------------------------------===
 
-/// A protocol that defines filters containing optional `key` and/or `name` values for querying resources.
-protocol KeyNameFilter {
+/// A protocol for filters with optional `key` and `name` values.
+protocol KeyNameFilter: Hashable {
     
     // MARK: Properties
     

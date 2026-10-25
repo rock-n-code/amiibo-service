@@ -1,5 +1,6 @@
 [![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Frock-n-code%2Famiibo-service%2Fbadge%3Ftype%3Dswift-versions)](https://swiftpackageindex.com/rock-n-code/amiibo-service)
 [![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Frock-n-code%2Famiibo-service%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/rock-n-code/amiibo-service)
+[![](https://github.com/rock-n-code/amiibo-service/actions/workflows/ci.yml/badge.svg)](https://github.com/rock-n-code/amiibo-service/actions/workflows/ci.yml)
 
 # Amiibo Service
 
@@ -56,7 +57,7 @@ let gameSeries = try await service.getGameSeries()
 let lastUpdated = try await service.getLastUpdated()
 ```
 
-Results are sorted in ascending order by identifier (amiibos) or key (everything else).
+Results are sorted in ascending order by identifier (amiibos) or key (everything else). Models are `Hashable`, `Codable`, and `Identifiable`; filters are `Hashable`.
 
 ## Error handling
 

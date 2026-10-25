@@ -14,17 +14,23 @@
 
 extension Amiibo {
     /// A model that represents the usage of an amiibo within a certain game.
-    public struct Usage: Sendable, Hashable {
+    public struct Usage: Sendable, Hashable, Codable {
         
         // MARK: Properties
         
         /// A description of how the amiibo is used within the game.
         public let explanation: String
         
-        /// A flag that indicates whether the amiibo can save game data.
+        /// Whether the amiibo can save game data.
         public let isWriteable: Bool
         
         // MARK: Initializers
+
+        /// Initializes this model.
+        package init(explanation: String, isWriteable: Bool) {
+            self.explanation = explanation
+            self.isWriteable = isWriteable
+        }
 
         /// Initializes this model from a given payload.
         /// - Parameter payload: A payload that contains the values for the model.

@@ -15,15 +15,15 @@
 import Foundation
 import OpenAPIRuntime
 
-/// A type that allows the decoding and encoding of ISO dates, supporting both the `yyyy-MM-dd'T'HH:mm:ss.SSSSSS` timestamp format and the `yyyy-MM-dd` date-only format.
+/// A transcoder for ISO dates in the `yyyy-MM-dd'T'HH:mm:ss.SSSSSS` timestamp and `yyyy-MM-dd` date-only formats.
 struct ISODateTimeTranscoder {
     
     // MARK: Properties
     
-    /// A formatter to use to decode and encode ISO timestamp dates.
+    /// The ISO timestamp formatter.
     private let timestampFormatter: DateFormatter = .isoTimestamp
-    
-    /// A formatter to use to decode and encode ISO date-only strings.
+
+    /// The ISO date-only formatter.
     private let dateFormatter: DateFormatter = .isoDate
     
 }
@@ -34,17 +34,13 @@ extension ISODateTimeTranscoder: DateTranscoder {
     
     // MARK: Functions
     
-    /// Encodes a date into an ISO timestamp string.
-    /// - Parameter date: A date to encode.
-    /// - Returns: A string representation of the date in `yyyy-MM-dd'T'HH:mm:ss.SSSSSS` format.
+    /// Encodes a date as an ISO timestamp string.
     func encode(_ date: Date) throws -> String {
         timestampFormatter.string(from: date)
     }
     
-    /// Decodes an ISO date string into a date, trying the timestamp format first and falling back to the date-only format.
-    /// - Parameter string: A string to decode.
-    /// - Returns: A date parsed from the string.
-    /// - Throws: A `DecodingError` if the string cannot be parsed into a valid date.
+    /// Decodes an ISO date string, trying the timestamp format before the date-only one.
+    /// - Throws: A `DecodingError` if the string matches neither format.
     func decode(_ string: String) throws -> Date {
         if let date = timestampFormatter.date(from: string) {
             return date

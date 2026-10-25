@@ -15,7 +15,7 @@
 import Foundation
 
 /// A model that represents an amiibo.
-public struct Amiibo: Sendable, Hashable {
+public struct Amiibo: Sendable, Hashable, Codable, Identifiable {
     
     // MARK: Properties
     
@@ -36,7 +36,7 @@ public struct Amiibo: Sendable, Hashable {
 
     /// The related games of this amiibo, grouped by platform.
     ///
-    /// This value is `nil` unless the request sets ``AmiiboFilter/showGames`` or ``AmiiboFilter/showUsage``, or when the amiibo has no related games.
+    /// `nil` unless the request sets ``AmiiboFilter/showGames`` or ``AmiiboFilter/showUsage``, or when there are no related games.
     public let platform: Platform?
     
     /// The release dates of this amiibo across different regions.
@@ -52,7 +52,32 @@ public struct Amiibo: Sendable, Hashable {
     public let type: String
     
     // MARK: Initializers
-    
+
+    /// Initializes this model.
+    package init(
+        head: String,
+        tail: String,
+        name: String,
+        type: String,
+        series: String,
+        gameCharacter: String,
+        gameSeries: String,
+        image: String,
+        release: Release = .init(),
+        platform: Platform? = nil
+    ) {
+        self.gameCharacter = gameCharacter
+        self.gameSeries = gameSeries
+        self.head = head
+        self.image = image
+        self.name = name
+        self.platform = platform
+        self.release = release
+        self.series = series
+        self.tail = tail
+        self.type = type
+    }
+
     /// Initializes this model from a given payload.
     /// - Parameter payload: A payload that contains the values for the model.
     init(_ payload: Components.Schemas.Amiibo) {
@@ -74,7 +99,12 @@ public struct Amiibo: Sendable, Hashable {
     }
     
     // MARK: Computed
-    
+
+    /// The ``identifier`` of this amiibo.
+    public var id: String {
+        identifier
+    }
+
     /// The full 16-character hexadecimal identifier, composed of the ``head`` and ``tail``.
     public var identifier: String {
         head + tail

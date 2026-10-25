@@ -32,7 +32,21 @@ struct AmiiboServiceMockTests {
         // THEN
         #expect(amiibos.isEmpty)
     }
-    
+
+    @Test("returns amiibos when mock provides a list")
+    func getAmiibosList() async throws {
+        // GIVEN
+        let service = AmiiboService(client: AmiiboMockClient(amiibos: Fixtures.amiibos))
+
+        // WHEN
+        let amiibos = try await service.getAmiibos()
+
+        // THEN
+        #expect(amiibos == Fixtures.amiibos)
+        #expect(amiibos.first?.identifier == "0100000000040002")
+        #expect(amiibos.first?.imageURL != nil)
+    }
+
     @Test("throws notFound when mock provides no amiibos")
     func getAmiibosNotFound() async {
         // GIVEN
@@ -70,7 +84,19 @@ struct AmiiboServiceMockTests {
         // THEN
         #expect(amiiboSeries.isEmpty)
     }
-    
+
+    @Test("returns amiibo series when mock provides a list")
+    func getAmiiboSeriesList() async throws {
+        // GIVEN
+        let service = AmiiboService(client: AmiiboMockClient(amiiboSeries: Fixtures.amiiboSeries))
+
+        // WHEN
+        let amiiboSeries = try await service.getAmiiboSeries()
+
+        // THEN
+        #expect(amiiboSeries == Fixtures.amiiboSeries)
+    }
+
     @Test("throws notFound when mock provides no amiibo series")
     func getAmiiboSeriesNotFound() async {
         // GIVEN
@@ -108,7 +134,19 @@ struct AmiiboServiceMockTests {
         // THEN
         #expect(amiiboTypes.isEmpty)
     }
-    
+
+    @Test("returns amiibo types when mock provides a list")
+    func getAmiiboTypesList() async throws {
+        // GIVEN
+        let service = AmiiboService(client: AmiiboMockClient(amiiboTypes: Fixtures.amiiboTypes))
+
+        // WHEN
+        let amiiboTypes = try await service.getAmiiboTypes()
+
+        // THEN
+        #expect(amiiboTypes == Fixtures.amiiboTypes)
+    }
+
     @Test("throws notFound when mock provides no amiibo types")
     func getAmiiboTypesNotFound() async {
         // GIVEN
@@ -146,7 +184,19 @@ struct AmiiboServiceMockTests {
         // THEN
         #expect(gameCharacters.isEmpty)
     }
-    
+
+    @Test("returns game characters when mock provides a list")
+    func getGameCharactersList() async throws {
+        // GIVEN
+        let service = AmiiboService(client: AmiiboMockClient(gameCharacters: Fixtures.gameCharacters))
+
+        // WHEN
+        let gameCharacters = try await service.getGameCharacters()
+
+        // THEN
+        #expect(gameCharacters == Fixtures.gameCharacters)
+    }
+
     @Test("throws notFound when mock provides no game characters")
     func getGameCharactersNotFound() async {
         // GIVEN
@@ -184,7 +234,19 @@ struct AmiiboServiceMockTests {
         // THEN
         #expect(gameSeries.isEmpty)
     }
-    
+
+    @Test("returns game series when mock provides a list")
+    func getGameSeriesList() async throws {
+        // GIVEN
+        let service = AmiiboService(client: AmiiboMockClient(gameSeries: Fixtures.gameSeries))
+
+        // WHEN
+        let gameSeries = try await service.getGameSeries()
+
+        // THEN
+        #expect(gameSeries == Fixtures.gameSeries)
+    }
+
     @Test("throws notFound when mock provides no game series")
     func getGameSeriesNotFound() async {
         // GIVEN

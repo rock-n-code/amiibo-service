@@ -18,7 +18,7 @@ extension Amiibo {
     /// A model that represents the regional release dates of an amiibo.
     ///
     /// The service provides these dates as date-only values, which are decoded as midnight UTC.
-    public struct Release: Sendable, Hashable {
+    public struct Release: Sendable, Hashable, Codable {
         
         // MARK: Properties
         
@@ -35,6 +35,19 @@ extension Amiibo {
         public let japan: Date?
         
         // MARK: Initializers
+
+        /// Initializes this model.
+        package init(
+            america: Date? = nil,
+            australia: Date? = nil,
+            europe: Date? = nil,
+            japan: Date? = nil
+        ) {
+            self.america = america
+            self.australia = australia
+            self.europe = europe
+            self.japan = japan
+        }
 
         /// Initializes this model from a given payload.
         /// - Parameter payload: A payload that contains the values for the model.

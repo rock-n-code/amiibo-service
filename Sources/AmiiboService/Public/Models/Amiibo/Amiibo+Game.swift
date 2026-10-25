@@ -14,7 +14,7 @@
 
 extension Amiibo {
     /// A model that represents a game related to an amiibo.
-    public struct Game: Sendable, Hashable {
+    public struct Game: Sendable, Hashable, Codable {
         
         // MARK: Properties
         
@@ -28,6 +28,17 @@ extension Amiibo {
         public let usages: [Usage]?
         
         // MARK: Initializers
+
+        /// Initializes this model.
+        package init(
+            identifiers: [String],
+            name: String,
+            usages: [Usage]? = nil
+        ) {
+            self.identifiers = identifiers
+            self.name = name
+            self.usages = usages
+        }
 
         /// Initializes this model from a given payload.
         /// - Parameter payload: A payload that contains the values for the model.

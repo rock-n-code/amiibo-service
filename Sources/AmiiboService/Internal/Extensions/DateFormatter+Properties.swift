@@ -18,13 +18,11 @@ extension DateFormatter {
     
     // MARK: Properties
     
-    /// An ISO date formatter.
-    ///
-    /// This formatter implements the `yyyy-MM-dd` date format.
+    /// An ISO date formatter for the `yyyy-MM-dd` format.
     static let isoDate: DateFormatter = {
         let formatter = DateFormatter()
         
-        // A fixed-format date requires the POSIX locale, as the user's locale or 12/24-hour setting could otherwise alter the parsing.
+        // The POSIX locale keeps the user's locale and 12/24-hour setting from altering fixed-format parsing.
         formatter.locale = .init(identifier: "en_US_POSIX")
         formatter.dateFormat = "yyyy-MM-dd"
         formatter.timeZone = .init(secondsFromGMT: 0)
@@ -32,14 +30,13 @@ extension DateFormatter {
         return formatter
     }()
     
-    /// An ISO timestamp formatter.
+    /// An ISO timestamp formatter for the `yyyy-MM-dd'T'HH:mm:ss.SSSSSS` format.
     ///
-    /// This formatter implements the `yyyy-MM-dd'T'HH:mm:ss.SSSSSS` custom date format.
-    /// Within the context of this library, this formatter is solely used to decode a date formatted as a timestamp that is returned by the ``AmiiboService/getLastUpdated()`` function.
+    /// Used only to decode the timestamp returned by ``AmiiboService/getLastUpdated()``.
     static let isoTimestamp: DateFormatter = {
         let formatter = DateFormatter()
         
-        // A fixed-format date requires the POSIX locale, as the user's locale or 12/24-hour setting could otherwise alter the parsing.
+        // The POSIX locale keeps the user's locale and 12/24-hour setting from altering fixed-format parsing.
         formatter.locale = .init(identifier: "en_US_POSIX")
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS"
         formatter.timeZone = .init(secondsFromGMT: 0)

@@ -22,7 +22,7 @@ public enum AmiiboServiceError: Error {
     case cancelled
     /// The response body could not be decoded into the expected model.
     case decoding
-    /// The backend service is currently unreachable due to a network or server issue.
+    /// The service is unreachable due to a network or server issue.
     case notAvailable
     /// No results were found matching the given filter criteria.
     ///
@@ -30,7 +30,7 @@ public enum AmiiboServiceError: Error {
     case notFound
     /// The server returned an undocumented HTTP status code.
     case undocumented(_ statusCode: Int)
-    /// An unexpected error that does not fall into any other category, with a description of the underlying error.
+    /// Any other error, with a description of the underlying one.
     case unknown(_ description: String)
 }
 

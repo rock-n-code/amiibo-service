@@ -1,0 +1,77 @@
+# ===----------------------------------------------------------------------===
+#
+# This source file is part of the Amiibo Service open source project
+#
+# Copyright (c) 2026 Röck+Cöde VoF. and the Amiibo Service project authors
+# Licensed under Apache license v2.0
+#
+# See LICENSE for license information
+# See CONTRIBUTORS for the list of Amiibo Service project authors
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+# ===----------------------------------------------------------------------===
+
+name: Documentation
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: docs-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build documentation
+    runs-on: macos-latest
+    steps:
+      - name: Check out
+        uses: actions/checkout@v4
+
+      # Pinned: swift-docc-plugin 1.5.0 fails to launch its tools under Xcode 27 ("Bad CPU type in executable").
+      - name: Select Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: '26'
+
+      - name: Show toolchain
+        run: swift --version
+
+      - name: Cache build
+        uses: actions/cache@v4
+        with:
+          path: .build
+          key: spm-${{ runner.os }}-${{ hashFiles('Package.resolved') }}
+          restore-keys: spm-${{ runner.os }}-
+
+      - name: Generate
+        run: make doc-generate-github
+
+      - name: Upload
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs
+
+  deploy:
+    name: Deploy to GitHub Pages
+    if: github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - name: Deploy
+        id: deploy
+        uses: actions/deploy-pages@v4

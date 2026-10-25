@@ -25,11 +25,24 @@ public struct GameCharacter: KeyNameModel {
     
     // MARK: Initializers
 
+    /// Initializes this model.
+    package init(key: String, name: String) {
+        self.key = key
+        self.name = name
+    }
+
     /// Initializes this model from a given payload.
     /// - Parameter payload: A payload that contains the values for the model.
     init(_ payload: some KeyNamePayload) {
         self.key = payload.key
         self.name = payload.name
     }
-    
+
+    // MARK: Computed
+
+    /// The ``key`` of this game character.
+    public var id: String {
+        key
+    }
+
 }

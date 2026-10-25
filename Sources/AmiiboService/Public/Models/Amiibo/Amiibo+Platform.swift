@@ -13,8 +13,8 @@
 // ===----------------------------------------------------------------------===
 
 extension Amiibo {
-    /// A model that represents a collection of `Switch`, `Switch 2`, `3DS`, and `Wii U` games related to an amiibo.
-    public struct Platform: Sendable, Hashable {
+    /// A model that groups the games related to an amiibo by platform.
+    public struct Platform: Sendable, Hashable, Codable {
         
         // MARK: Properties
         
@@ -31,8 +31,21 @@ extension Amiibo {
         public let wiiU: [Game]
         
         // MARK: Initializers
-        
+
         /// Initializes this model.
+        package init(
+            `switch`: [Game] = [],
+            switch2: [Game] = [],
+            threeDS: [Game] = [],
+            wiiU: [Game] = []
+        ) {
+            self.switch = `switch`
+            self.switch2 = switch2
+            self.threeDS = threeDS
+            self.wiiU = wiiU
+        }
+
+        /// Initializes this model from the given payloads.
         ///
         /// > important: In case no data is provided, then an instance of this model is not created.
         ///

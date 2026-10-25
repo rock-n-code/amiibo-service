@@ -16,7 +16,7 @@ import Foundation
 
 /// The entry point for fetching data from the Amiibo API.
 ///
-/// This service forwards every call to the ``AmiiboClient`` passed at initialization, which defaults to ``AmiiboLiveClient``. It is `Sendable`, so you can share an instance across concurrency domains.
+/// It forwards every call to the ``AmiiboClient`` given at initialization, which defaults to ``AmiiboLiveClient``. Instances are `Sendable`.
 public struct AmiiboService: Sendable {
 
     // MARK: Properties
@@ -35,9 +35,9 @@ public struct AmiiboService: Sendable {
     // MARK: Functions
     
     /// Gets a list of amiibo items based on a given filter.
-    /// - Parameter filter: A filter to remove unwanted items from the result.
+    /// - Parameter filter: A filter for the result.
     /// - Returns: A list of filtered amiibo items.
-    /// - Throws: An ``AmiiboServiceError`` error in case some issue is encountered while generating the result.
+    /// - Throws: An ``AmiiboServiceError`` if the call fails.
     public func getAmiibos(
         _ filter: AmiiboFilter = .init()
     ) async throws(AmiiboServiceError) -> [Amiibo] {
@@ -45,9 +45,9 @@ public struct AmiiboService: Sendable {
     }
 
     /// Gets a list of amiibo series based on a given filter.
-    /// - Parameter filter: A filter to remove unwanted items from the result.
+    /// - Parameter filter: A filter for the result.
     /// - Returns: A list of filtered amiibo series.
-    /// - Throws: An ``AmiiboServiceError`` error in case some issue is encountered while generating the result.
+    /// - Throws: An ``AmiiboServiceError`` if the call fails.
     public func getAmiiboSeries(
         _ filter: AmiiboSeriesFilter = .init()
     ) async throws(AmiiboServiceError) -> [AmiiboSeries] {
@@ -55,9 +55,9 @@ public struct AmiiboService: Sendable {
     }
 
     /// Gets a list of amiibo types based on a given filter.
-    /// - Parameter filter: A filter to remove unwanted items from the result.
+    /// - Parameter filter: A filter for the result.
     /// - Returns: A list of filtered amiibo types.
-    /// - Throws: An ``AmiiboServiceError`` error in case some issue is encountered while generating the result.
+    /// - Throws: An ``AmiiboServiceError`` if the call fails.
     public func getAmiiboTypes(
         _ filter: AmiiboTypeFilter = .init()
     ) async throws(AmiiboServiceError) -> [AmiiboType] {
@@ -65,9 +65,9 @@ public struct AmiiboService: Sendable {
     }
 
     /// Gets a list of game characters based on a given filter.
-    /// - Parameter filter: A filter to remove unwanted items from the result.
+    /// - Parameter filter: A filter for the result.
     /// - Returns: A list of filtered game characters.
-    /// - Throws: An ``AmiiboServiceError`` error in case some issue is encountered while generating the result.
+    /// - Throws: An ``AmiiboServiceError`` if the call fails.
     public func getGameCharacters(
         _ filter: GameCharacterFilter = .init()
     ) async throws(AmiiboServiceError) -> [GameCharacter] {
@@ -75,9 +75,9 @@ public struct AmiiboService: Sendable {
     }
 
     /// Gets a list of game series based on a given filter.
-    /// - Parameter filter: A filter to remove unwanted items from the result.
+    /// - Parameter filter: A filter for the result.
     /// - Returns: A list of filtered game series.
-    /// - Throws: An ``AmiiboServiceError`` error in case some issue is encountered while generating the result.
+    /// - Throws: An ``AmiiboServiceError`` if the call fails.
     public func getGameSeries(
         _ filter: GameSeriesFilter = .init()
     ) async throws(AmiiboServiceError) -> [GameSeries] {
@@ -86,7 +86,7 @@ public struct AmiiboService: Sendable {
 
     /// Gets the date when the data was last updated.
     /// - Returns: A last updated date, decoded as UTC.
-    /// - Throws: An ``AmiiboServiceError`` error in case some issue is encountered while generating the result.
+    /// - Throws: An ``AmiiboServiceError`` if the call fails.
     public func getLastUpdated() async throws(AmiiboServiceError) -> Date {
         try await client.getLastUpdated()
     }

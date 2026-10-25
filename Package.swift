@@ -35,6 +35,7 @@ let package = Package(
         .package(url: "https://github.com/apple/swift-openapi-generator.git", from: "1.11.0"),
         .package(url: "https://github.com/apple/swift-openapi-runtime", from: "1.5.0"),
         .package(url: "https://github.com/apple/swift-openapi-urlsession", from: "1.0.2"),
+        .package(url: "https://github.com/apple/swift-http-types", from: "1.0.0"),
         .package(url: "https://github.com/swiftlang/swift-docc-plugin", from: "1.1.0"),
     ],
     targets: [
@@ -52,7 +53,9 @@ let package = Package(
         .testTarget(
             name: AmiiboService.test,
             dependencies: [
-                .byName(name: AmiiboService.target)
+                .byName(name: AmiiboService.target),
+                .product(name: "HTTPTypes", package: "swift-http-types"),
+                .product(name: "OpenAPIRuntime", package: "swift-openapi-runtime")
             ],
             path: "Tests/AmiiboService"
         ),

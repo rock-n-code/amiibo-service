@@ -15,7 +15,7 @@
 /// A filter for amiibo requests.
 ///
 /// Values left as `nil` do not restrict the result.
-public struct AmiiboFilter: Sendable {
+public struct AmiiboFilter: Sendable, Hashable {
 
     // MARK: Properties
 
@@ -37,10 +37,10 @@ public struct AmiiboFilter: Sendable {
     /// An amiibo series key or name to match, if any.
     public let series: String?
 
-    /// A flag that indicates whether to include related games in ``Amiibo/platform``. `nil` means `false`.
+    /// Whether to include related games in ``Amiibo/platform``. `nil` means `false`.
     public let showGames: Bool?
 
-    /// A flag that indicates whether to include related games and their amiibo usages in ``Amiibo/platform``. `nil` means `false`.
+    /// Whether to include related games and their usages in ``Amiibo/platform``. `nil` means `false`.
     public let showUsage: Bool?
 
     /// The last 8 hexadecimal characters of an identifier to match, if any. Shorter values match as a prefix.
@@ -61,8 +61,8 @@ public struct AmiiboFilter: Sendable {
     ///   - series: An amiibo series key or name to match, if any.
     ///   - gameCharacter: A game character key or name to match, if any.
     ///   - gameSeries: A game series key or name to match, if any.
-    ///   - showGames: A flag that indicates whether to include related games in ``Amiibo/platform``. `nil` means `false`.
-    ///   - showUsage: A flag that indicates whether to include related games and their amiibo usages in ``Amiibo/platform``. `nil` means `false`.
+    ///   - showGames: Whether to include related games in ``Amiibo/platform``. `nil` means `false`.
+    ///   - showUsage: Whether to include related games and their usages in ``Amiibo/platform``. `nil` means `false`.
     public init(
         head: String? = nil,
         tail: String? = nil,

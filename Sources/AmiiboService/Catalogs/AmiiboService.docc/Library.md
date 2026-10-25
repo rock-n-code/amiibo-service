@@ -6,7 +6,7 @@ A Swift client for the Amiibo API.
 
 `AmiiboService` fetches data from the [Amiibo API](https://www.amiiboapi.org) and returns it as Swift models.
 
-The library does not expose a generated client that maps one-to-one to the REST endpoints. Instead, ``AmiiboService`` offers one method per resource, takes a typed filter, returns sorted models, and throws a single ``AmiiboServiceError`` type.
+``AmiiboService`` offers one method per resource: each takes a typed filter, returns sorted models, and throws ``AmiiboServiceError``.
 
 ## Installation
 
@@ -76,9 +76,7 @@ do throws(AmiiboServiceError) {
 
 ## Caching
 
-The library has no built-in cache. The Amiibo API asks regular consumers to cache responses.
-
-To cache at the HTTP level, give ``AmiiboLiveClient`` a transport backed by a `URLCache`. The cache follows the server's cache headers:
+The library has no built-in cache, and the Amiibo API asks regular consumers to cache responses. To cache at the HTTP level, give ``AmiiboLiveClient`` a transport backed by a `URLCache`:
 
 ```swift
 import OpenAPIURLSession
@@ -101,11 +99,11 @@ let service = AmiiboService(
 )
 ```
 
-You can also store the returned models in your own application storage.
+Models are `Codable`, so you can also store them yourself.
 
 ## Testing
 
-To test without network access, pass a mock ``AmiiboClient`` to ``AmiiboService/init(client:)``. The mock can return stub data or throw ``AmiiboServiceError`` values. ``AmiiboClient`` refines `Sendable`, so the mock must be `Sendable`, too:
+To test without network access, pass a mock ``AmiiboClient`` to ``AmiiboService/init(client:)``. ``AmiiboClient`` refines `Sendable`, so the mock must be `Sendable`, too:
 
 ```swift
 import AmiiboService

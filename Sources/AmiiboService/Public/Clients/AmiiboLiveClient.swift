@@ -16,16 +16,16 @@ import Foundation
 import OpenAPIRuntime
 import OpenAPIURLSession
 
-/// A type that implements a live client to the [Amiibo API](https://www.amiiboapi.org) online service.
+/// A live client for the [Amiibo API](https://www.amiiboapi.org).
 ///
-/// This client maps any transport error or unsuccessful HTTP response to an ``AmiiboServiceError`` error, and sorts the items of the list responses in ascending order by identifier or key.
+/// It maps transport errors and unsuccessful responses to ``AmiiboServiceError``, and sorts list results by identifier or key.
 public struct AmiiboLiveClient: Sendable {
     
     // MARK: Constants
     
-    /// The base URL of the live service, resolved once from the server defined in the OpenAPI specification.
+    /// The base URL of the live service, from the OpenAPI specification.
     ///
-    /// The validity of the URL is guaranteed by the bundled `openapi.yaml` specification and enforced by a unit test, so resolution is not expected to fail at runtime.
+    /// A unit test guards this URL, so resolution is not expected to fail at runtime.
     static let serverURL: URL = {
         guard let url = try? Servers.Server1.url() else {
             fatalError("The server URL defined in the OpenAPI specification could not be resolved. Verify that the 'openapi.yaml' server definition is valid.")
@@ -41,8 +41,8 @@ public struct AmiiboLiveClient: Sendable {
     
     // MARK: Initializers
     
-    /// Initializes this client with a transport for performing HTTP operations.
-    /// - Parameter transport: A transport that performs HTTP operations. Defaults to a `URLSessionTransport` using the shared session.
+    /// Initializes this client.
+    /// - Parameter transport: A transport for HTTP operations. Defaults to a `URLSessionTransport` on the shared session.
     public init(transport: any ClientTransport = URLSessionTransport()) {
         self.client = .init(
             serverURL: Self.serverURL,
@@ -61,9 +61,9 @@ extension AmiiboLiveClient: AmiiboClient {
     // MARK: Functions
     
     /// Gets a list of amiibo items based on a given filter.
-    /// - Parameter filter: A filter to remove unwanted items from the result.
+    /// - Parameter filter: A filter for the result.
     /// - Returns: A list of filtered amiibo items.
-    /// - Throws: An ``AmiiboServiceError`` error in case some issue is encountered while generating the result.
+    /// - Throws: An ``AmiiboServiceError`` if the call fails.
     public func getAmiibos(
         by filter: AmiiboFilter
     ) async throws(AmiiboServiceError) -> [Amiibo] {
@@ -71,9 +71,9 @@ extension AmiiboLiveClient: AmiiboClient {
     }
 
     /// Gets a list of amiibo series based on a given filter.
-    /// - Parameter filter: A filter to remove unwanted items from the result.
+    /// - Parameter filter: A filter for the result.
     /// - Returns: A list of filtered amiibo series.
-    /// - Throws: An ``AmiiboServiceError`` error in case some issue is encountered while generating the result.
+    /// - Throws: An ``AmiiboServiceError`` if the call fails.
     public func getAmiiboSeries(
         by filter: AmiiboSeriesFilter
     ) async throws(AmiiboServiceError) -> [AmiiboSeries] {
@@ -81,9 +81,9 @@ extension AmiiboLiveClient: AmiiboClient {
     }
  
     /// Gets a list of amiibo types based on a given filter.
-    /// - Parameter filter: A filter to remove unwanted items from the result.
+    /// - Parameter filter: A filter for the result.
     /// - Returns: A list of filtered amiibo types.
-    /// - Throws: An ``AmiiboServiceError`` error in case some issue is encountered while generating the result.
+    /// - Throws: An ``AmiiboServiceError`` if the call fails.
     public func getAmiiboTypes(
         by filter: AmiiboTypeFilter
     ) async throws(AmiiboServiceError) -> [AmiiboType] {
@@ -91,9 +91,9 @@ extension AmiiboLiveClient: AmiiboClient {
     }
 
     /// Gets a list of game characters based on a given filter.
-    /// - Parameter filter: A filter to remove unwanted items from the result.
+    /// - Parameter filter: A filter for the result.
     /// - Returns: A list of filtered game characters.
-    /// - Throws: An ``AmiiboServiceError`` error in case some issue is encountered while generating the result.
+    /// - Throws: An ``AmiiboServiceError`` if the call fails.
     public func getGameCharacters(
         by filter: GameCharacterFilter
     ) async throws(AmiiboServiceError) -> [GameCharacter] {
@@ -101,9 +101,9 @@ extension AmiiboLiveClient: AmiiboClient {
     }
 
     /// Gets a list of game series based on a given filter.
-    /// - Parameter filter: A filter to remove unwanted items from the result.
+    /// - Parameter filter: A filter for the result.
     /// - Returns: A list of filtered game series.
-    /// - Throws: An ``AmiiboServiceError`` error in case some issue is encountered while generating the result.
+    /// - Throws: An ``AmiiboServiceError`` if the call fails.
     public func getGameSeries(
         by filter: GameSeriesFilter
     ) async throws(AmiiboServiceError) -> [GameSeries] {
@@ -112,7 +112,7 @@ extension AmiiboLiveClient: AmiiboClient {
 
     /// Gets the date when the data was last updated.
     /// - Returns: A last updated date, decoded as UTC.
-    /// - Throws: An ``AmiiboServiceError`` error in case some issue is encountered while generating the result.
+    /// - Throws: An ``AmiiboServiceError`` if the call fails.
     public func getLastUpdated() async throws(AmiiboServiceError) -> Date {
         try await fetchLastUpdated()
     }
@@ -125,10 +125,7 @@ private extension AmiiboLiveClient {
     
     // MARK: Functions
     
-    /// Fetches a list of amiibo items based on a given filter.
-    /// - Parameter filter: A filter to remove unwanted items from the result.
-    /// - Returns: A list of fetched amiibo items filtered, if requested.
-    /// - Throws: An ``AmiiboServiceError`` error in case some issue is encountered while generating the result.
+    /// Fetches the amiibos matching a filter.
     func fetchAmiibos(
         _ filter: AmiiboFilter
     ) async throws(AmiiboServiceError) -> [Amiibo] {
@@ -174,10 +171,7 @@ private extension AmiiboLiveClient {
         }
     }
 
-    /// Fetches a list of amiibo series based on a given filter.
-    /// - Parameter filter: A filter to remove unwanted items from the result.
-    /// - Returns: A list of fetched amiibo series filtered, if requested.
-    /// - Throws: An ``AmiiboServiceError`` error in case some issue is encountered while generating the result.
+    /// Fetches the amiibo series matching a filter.
     func fetchAmiiboSeries(
         _ filter: AmiiboSeriesFilter
     ) async throws(AmiiboServiceError) -> [AmiiboSeries] {
@@ -210,10 +204,7 @@ private extension AmiiboLiveClient {
         }
     }
     
-    /// Fetches a list of amiibo types based on a given filter.
-    /// - Parameter filter: A filter to remove unwanted items from the result.
-    /// - Returns: A list of fetched amiibo types filtered, if requested.
-    /// - Throws: An ``AmiiboServiceError`` error in case some issue is encountered while generating the result.
+    /// Fetches the amiibo types matching a filter.
     func fetchAmiiboTypes(
         _ filter: AmiiboTypeFilter
     ) async throws(AmiiboServiceError) -> [AmiiboType] {
@@ -246,10 +237,7 @@ private extension AmiiboLiveClient {
         }
     }
     
-    /// Fetches a list of game characters based on a given filter.
-    /// - Parameter filter: A filter to remove unwanted items from the result.
-    /// - Returns: A list of fetched game characters filtered, if requested.
-    /// - Throws: An ``AmiiboServiceError`` error in case some issue is encountered while generating the result.
+    /// Fetches the game characters matching a filter.
     func fetchGameCharacters(
         _ filter: GameCharacterFilter
     ) async throws(AmiiboServiceError) -> [GameCharacter] {
@@ -282,10 +270,7 @@ private extension AmiiboLiveClient {
         }
     }
     
-    /// Fetches a list of game series based on a given filter.
-    /// - Parameter filter: A filter to remove unwanted items from the result.
-    /// - Returns: A list of fetched game series filtered, if requested.
-    /// - Throws: An ``AmiiboServiceError`` error in case some issue is encountered while generating the result.
+    /// Fetches the game series matching a filter.
     func fetchGameSeries(
         _ filter: GameSeriesFilter
     ) async throws(AmiiboServiceError) -> [GameSeries] {
@@ -319,8 +304,6 @@ private extension AmiiboLiveClient {
     }
     
     /// Fetches the date when the data was last updated.
-    /// - Returns: A fetched last updated date, decoded as UTC.
-    /// - Throws: An ``AmiiboServiceError`` error in case some issue is encountered while generating the result.
     func fetchLastUpdated() async throws(AmiiboServiceError) -> Date {
         let response = try await perform {
             try await client.getLastUpdated()
@@ -339,10 +322,7 @@ private extension AmiiboLiveClient {
         }
     }
     
-    /// Performs an API call, mapping any error thrown by the underlying client to an ``AmiiboServiceError`` error.
-    /// - Parameter operation: A closure that performs the API call.
-    /// - Returns: The output of the performed API call.
-    /// - Throws: An ``AmiiboServiceError`` error in case the API call failed.
+    /// Performs an API call, mapping any error to an ``AmiiboServiceError``.
     func perform<Output>(
         _ operation: () async throws -> Output
     ) async throws(AmiiboServiceError) -> Output {
@@ -353,24 +333,23 @@ private extension AmiiboLiveClient {
         }
     }
     
-    /// Maps a list of key-name payloads into a sorted list of models.
-    /// - Parameter payloads: A list of payloads to map into models.
-    /// - Returns: A list of models sorted by their keys in ascending order.
+    /// Maps key-name payloads into models sorted by key.
     func makeModels<Model: KeyNameModel>(from payloads: [some KeyNamePayload]) -> [Model] {
         payloads
             .map { Model($0) }
             .sorted { $0.key < $1.key }
     }
     
-    /// Maps a given error to an ``AmiiboServiceError`` error.
-    /// - Parameter error: An error to map.
-    /// - Throws: An ``AmiiboServiceError`` error that corresponds to the given error.
+    /// Maps an error to the corresponding ``AmiiboServiceError``.
     func handle(error: any Error) throws(AmiiboServiceError) -> Never {
         switch error {
         case is CancellationError:
             throw AmiiboServiceError.cancelled
         case let clientError as ClientError:
+            // The underlying client wraps every error, including cancellation, in a `ClientError`.
             switch clientError.underlyingError {
+            case is CancellationError:
+                throw AmiiboServiceError.cancelled
             case is DecodingError:
                 throw AmiiboServiceError.decoding
             case let urlError as URLError:
