@@ -21,8 +21,8 @@ struct ModelConformanceTests {
 
     // MARK: Identifiable tests
 
-    @Test("identifies an amiibo by its identifier")
-    func amiiboID() {
+    @Test
+    func `identifies an amiibo by its identifier`() {
         // GIVEN
         let amiibos = Fixtures.amiibos
 
@@ -31,8 +31,8 @@ struct ModelConformanceTests {
         #expect(amiibos.map(\.id) == amiibos.map(\.identifier))
     }
 
-    @Test("identifies key-name models by their keys")
-    func keyNameIDs() {
+    @Test
+    func `identifies key-name models by their keys`() {
         // GIVEN
         // WHEN
         // THEN
@@ -44,8 +44,8 @@ struct ModelConformanceTests {
 
     // MARK: Codable tests
 
-    @Test("round-trips amiibos through JSON")
-    func amiibosRoundTrip() throws {
+    @Test
+    func `round-trips amiibos through JSON`() throws {
         // GIVEN
         let amiibos = Fixtures.amiibos
 
@@ -57,8 +57,8 @@ struct ModelConformanceTests {
         #expect(decoded.first?.platform?.switch.first?.usages?.isEmpty == false)
     }
 
-    @Test("round-trips key-name models through JSON")
-    func keyNameRoundTrip() throws {
+    @Test
+    func `round-trips key-name models through JSON`() throws {
         // GIVEN
         // WHEN
         // THEN

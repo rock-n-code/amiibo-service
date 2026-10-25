@@ -54,7 +54,8 @@ public struct AmiiboLiveClient: Sendable {
 }
 
 // MARK: - AmiiboClient
-// TODO: Remove the documentation from the functions inside the following extension as the `--enable-inherited-docs` flag when generating DocC documentation is not working as intended (?).
+// NOTE: The `AmiiboClient` documentation is repeated below on purpose, as the compiler does not inherit
+// documentation for protocol witnesses and DocC would otherwise render these functions undocumented.
 
 extension AmiiboLiveClient: AmiiboClient {
 

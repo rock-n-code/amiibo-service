@@ -20,8 +20,8 @@ struct FilterConformanceTests {
 
     // MARK: Equatable tests
 
-    @Test("compares amiibo filters by value")
-    func amiiboFilterEquality() {
+    @Test
+    func `compares amiibo filters by value`() {
         // GIVEN
         // WHEN
         // THEN
@@ -31,8 +31,8 @@ struct FilterConformanceTests {
         #expect(AmiiboFilter() != AmiiboFilter(showGames: true))
     }
 
-    @Test("compares key-name filters by value")
-    func keyNameFilterEquality() {
+    @Test
+    func `compares key-name filters by value`() {
         // GIVEN
         // WHEN
         // THEN
@@ -46,8 +46,8 @@ struct FilterConformanceTests {
 
     // MARK: Hashable tests
 
-    @Test("hashes equal filters alike")
-    func filterHashing() {
+    @Test
+    func `hashes equal filters alike`() {
         // GIVEN
         let amiiboFilters: Set = [AmiiboFilter(name: "zelda"), AmiiboFilter(name: "zelda"), AmiiboFilter(name: "mario")]
         let seriesFilters: Set = [AmiiboSeriesFilter(key: "0x01"), AmiiboSeriesFilter(key: "0x01"), AmiiboSeriesFilter()]

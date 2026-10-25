@@ -22,8 +22,8 @@ struct AmiiboLiveClientTests {
     
     // MARK: Server URL tests
     
-    @Test("resolves the server URL defined in the OpenAPI specification")
-    func serverURLResolves() throws {
+    @Test
+    func `resolves the server URL defined in the OpenAPI specification`() throws {
         // GIVEN
         // WHEN
         let url = try Servers.Server1.url()
@@ -32,8 +32,8 @@ struct AmiiboLiveClientTests {
         #expect(url.absoluteString == "https://www.amiiboapi.org/api")
     }
     
-    @Test("uses the server URL from the OpenAPI specification")
-    func serverURLMatchesSpecification() throws {
+    @Test
+    func `uses the server URL from the OpenAPI specification`() throws {
         // GIVEN
         let expected = try Servers.Server1.url()
         
@@ -46,14 +46,11 @@ struct AmiiboLiveClientTests {
 
     // MARK: Error mapping tests
 
-    @Test(
-        "maps an error thrown by the transport to the matching service error",
-        arguments: zip(
-            TransportErrors.thrown,
-            TransportErrors.expected
-        )
-    )
-    func mapsTransportError(
+    @Test(arguments: zip(
+        TransportErrors.thrown,
+        TransportErrors.expected
+    ))
+    func `maps an error thrown by the transport to the matching service error`(
         thrown: any Error,
         expected: AmiiboServiceError
     ) async {
@@ -67,14 +64,11 @@ struct AmiiboLiveClientTests {
         }
     }
 
-    @Test(
-        "maps a response status to the matching service error",
-        arguments: zip(
-            Responses.failing,
-            Responses.expected
-        )
-    )
-    func mapsResponseStatus(
+    @Test(arguments: zip(
+        Responses.failing,
+        Responses.expected
+    ))
+    func `maps a response status to the matching service error`(
         response: (status: Int, json: String?),
         expected: AmiiboServiceError
     ) async {
@@ -93,8 +87,8 @@ struct AmiiboLiveClientTests {
 
     // MARK: Get Amiibos tests
 
-    @Test("returns amiibos sorted by identifier")
-    func getAmiibosSorted() async throws {
+    @Test
+    func `returns amiibos sorted by identifier`() async throws {
         // GIVEN
         let client = AmiiboLiveClient(transport: StubTransport(status: .ok, json: JSON.amiibos))
 
@@ -106,8 +100,8 @@ struct AmiiboLiveClientTests {
         #expect(amiibos.map(\.name) == ["Mario", "Zelda"])
     }
 
-    @Test("returns a single amiibo when the response holds an object")
-    func getAmiibosSingle() async throws {
+    @Test
+    func `returns a single amiibo when the response holds an object`() async throws {
         // GIVEN
         let client = AmiiboLiveClient(transport: StubTransport(status: .ok, json: JSON.amiibo))
 
@@ -128,8 +122,8 @@ struct AmiiboLiveClientTests {
         #expect(amiibo.platform == nil)
     }
 
-    @Test("returns no amiibos when the response holds null")
-    func getAmiibosNull() async throws {
+    @Test
+    func `returns no amiibos when the response holds null`() async throws {
         // GIVEN
         let client = AmiiboLiveClient(transport: StubTransport(status: .ok, json: JSON.amiibosNull))
 
@@ -140,8 +134,8 @@ struct AmiiboLiveClientTests {
         #expect(amiibos.isEmpty)
     }
 
-    @Test("returns no amiibos when the response holds an empty list")
-    func getAmiibosEmpty() async throws {
+    @Test
+    func `returns no amiibos when the response holds an empty list`() async throws {
         // GIVEN
         let client = AmiiboLiveClient(transport: StubTransport(status: .ok, json: JSON.amiibosEmpty))
 
@@ -152,8 +146,8 @@ struct AmiiboLiveClientTests {
         #expect(amiibos.isEmpty)
     }
 
-    @Test("decodes release dates as midnight UTC, and missing or null ones as nil")
-    func getAmiibosRelease() async throws {
+    @Test
+    func `decodes release dates as midnight UTC, and missing or null ones as nil`() async throws {
         // GIVEN
         let client = AmiiboLiveClient(transport: StubTransport(status: .ok, json: JSON.amiibos))
 
@@ -171,8 +165,8 @@ struct AmiiboLiveClientTests {
         #expect(zelda.release.japan == nil)
     }
 
-    @Test("maps related games and usages into the platform")
-    func getAmiibosPlatform() async throws {
+    @Test
+    func `maps related games and usages into the platform`() async throws {
         // GIVEN
         let client = AmiiboLiveClient(transport: StubTransport(status: .ok, json: JSON.amiiboWithGames))
 
@@ -192,8 +186,8 @@ struct AmiiboLiveClientTests {
         #expect(platform.wiiU.first?.usages == nil)
     }
 
-    @Test("encodes the amiibo filter as query parameters")
-    func getAmiibosQuery() async throws {
+    @Test
+    func `encodes the amiibo filter as query parameters`() async throws {
         // GIVEN
         let client = AmiiboLiveClient(transport: StubTransport { request in
             let path = request.path ?? ""
@@ -229,8 +223,8 @@ struct AmiiboLiveClientTests {
         ))
     }
 
-    @Test("omits nil filter values from the query")
-    func getAmiibosEmptyQuery() async throws {
+    @Test
+    func `omits nil filter values from the query`() async throws {
         // GIVEN
         let client = AmiiboLiveClient(transport: StubTransport { request in
             #expect(request.path == "/amiibo")
@@ -245,8 +239,8 @@ struct AmiiboLiveClientTests {
 
     // MARK: Key-name endpoints tests
 
-    @Test("returns amiibo series sorted by key")
-    func getAmiiboSeriesSorted() async throws {
+    @Test
+    func `returns amiibo series sorted by key`() async throws {
         // GIVEN
         let client = AmiiboLiveClient(transport: StubTransport(status: .ok, json: JSON.keyNameList))
 
@@ -257,8 +251,8 @@ struct AmiiboLiveClientTests {
         #expect(series == [.init(key: "0x00", name: "Second"), .init(key: "0x01", name: "First")])
     }
 
-    @Test("returns a single amiibo series when the response holds an object")
-    func getAmiiboSeriesSingle() async throws {
+    @Test
+    func `returns a single amiibo series when the response holds an object`() async throws {
         // GIVEN
         let client = AmiiboLiveClient(transport: StubTransport { request in
             #expect(request.path == "/amiiboseries?key=0x01")
@@ -273,8 +267,8 @@ struct AmiiboLiveClientTests {
         #expect(series == [.init(key: "0x01", name: "First")])
     }
 
-    @Test("returns amiibo types sorted by key")
-    func getAmiiboTypesSorted() async throws {
+    @Test
+    func `returns amiibo types sorted by key`() async throws {
         // GIVEN
         let client = AmiiboLiveClient(transport: StubTransport { request in
             #expect(request.path == "/type")
@@ -289,8 +283,8 @@ struct AmiiboLiveClientTests {
         #expect(types == [.init(key: "0x00", name: "Second"), .init(key: "0x01", name: "First")])
     }
 
-    @Test("returns game characters sorted by key")
-    func getGameCharactersSorted() async throws {
+    @Test
+    func `returns game characters sorted by key`() async throws {
         // GIVEN
         let client = AmiiboLiveClient(transport: StubTransport { request in
             #expect(request.path == "/character?name=First")
@@ -305,8 +299,8 @@ struct AmiiboLiveClientTests {
         #expect(characters == [.init(key: "0x00", name: "Second"), .init(key: "0x01", name: "First")])
     }
 
-    @Test("returns game series sorted by key")
-    func getGameSeriesSorted() async throws {
+    @Test
+    func `returns game series sorted by key`() async throws {
         // GIVEN
         let client = AmiiboLiveClient(transport: StubTransport { request in
             #expect(request.path == "/gameseries")
@@ -321,8 +315,8 @@ struct AmiiboLiveClientTests {
         #expect(series == [.init(key: "0x00", name: "Second"), .init(key: "0x01", name: "First")])
     }
 
-    @Test("throws notFound when a key-name endpoint matches nothing")
-    func getKeyNameNotFound() async {
+    @Test
+    func `throws notFound when a key-name endpoint matches nothing`() async {
         // GIVEN
         let client = AmiiboLiveClient(transport: StubTransport(status: .notFound, json: JSON.notFound))
 
@@ -335,8 +329,8 @@ struct AmiiboLiveClientTests {
 
     // MARK: Get Last Updated tests
 
-    @Test("returns the last updated timestamp as UTC")
-    func getLastUpdated() async throws {
+    @Test
+    func `returns the last updated timestamp as UTC`() async throws {
         // GIVEN
         let client = AmiiboLiveClient(transport: StubTransport { request in
             #expect(request.path == "/lastupdated")
@@ -351,8 +345,8 @@ struct AmiiboLiveClientTests {
         #expect(lastUpdated == .utc(2026, 7, 24, 12, 34, 56))
     }
 
-    @Test("throws notAvailable when the last updated endpoint fails")
-    func getLastUpdatedNotAvailable() async {
+    @Test
+    func `throws notAvailable when the last updated endpoint fails`() async {
         // GIVEN
         let client = AmiiboLiveClient(transport: StubTransport(status: .internalServerError))
 

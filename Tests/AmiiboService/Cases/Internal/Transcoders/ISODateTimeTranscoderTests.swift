@@ -25,8 +25,8 @@ struct ISODateTimeTranscoderTests {
 
     // MARK: Decode tests
 
-    @Test("decodes a timestamp as UTC")
-    func decodesTimestamp() throws {
+    @Test
+    func `decodes a timestamp as UTC`() throws {
         // GIVEN
         let string = "2026-07-24T12:34:56.123000"
 
@@ -37,8 +37,8 @@ struct ISODateTimeTranscoderTests {
         #expect(abs(date.timeIntervalSince(.utc(2026, 7, 24, 12, 34, 56)) - 0.123) < 0.001)
     }
 
-    @Test("decodes a date-only string as midnight UTC")
-    func decodesDate() throws {
+    @Test
+    func `decodes a date-only string as midnight UTC`() throws {
         // GIVEN
         let string = "2014-11-21"
 
@@ -49,10 +49,10 @@ struct ISODateTimeTranscoderTests {
         #expect(date == .utc(2014, 11, 21))
     }
 
-    @Test("throws a decoding error for an unsupported string", arguments: [
+    @Test(arguments: [
         "", "2014-11", "2014-11-21T12:34:56", "2014-11-21T12:34:56Z", "21/11/2014", "yesterday"
     ])
-    func throwsForUnsupportedString(string: String) {
+    func `throws a decoding error for an unsupported string`(string: String) {
         // GIVEN
         // WHEN
         // THEN
@@ -63,8 +63,8 @@ struct ISODateTimeTranscoderTests {
 
     // MARK: Encode tests
 
-    @Test("encodes a date as a timestamp")
-    func encodesTimestamp() throws {
+    @Test
+    func `encodes a date as a timestamp`() throws {
         // GIVEN
         let date: Date = .utc(2026, 7, 24, 12, 34, 56)
 

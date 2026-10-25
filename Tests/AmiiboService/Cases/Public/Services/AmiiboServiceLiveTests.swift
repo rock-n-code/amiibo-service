@@ -181,8 +181,8 @@ struct AmiiboServiceLiveTests {
     @Test
     func `get the last updated timestamp`() async throws {
         try await assertLastUpdated(
-            onOrAfterDay: 24,
-            month: 7,
+            onOrAfterDay: 22,
+            month: 10,
             year: 2026
         )
     }
@@ -221,8 +221,7 @@ private extension AmiiboServiceLiveTests {
 
         if filter.showUsage == true {
             #expect(firstAmiiboPlatform.switch.first?.usages?.isEmpty == false)
-            // Given the live data is still not returning any Switch 2 games.
-            #expect(firstAmiiboPlatform.switch2.isEmpty == true)
+            #expect(firstAmiiboPlatform.switch2.first?.usages?.isEmpty == false)
             #expect(firstAmiiboPlatform.threeDS.first?.usages?.isEmpty == false)
             #expect(firstAmiiboPlatform.wiiU.first?.usages?.isEmpty == false)
         }
@@ -584,16 +583,16 @@ enum Output {
 // MARK: - Constants
 
 private extension Int {
-    /// A number that represents the minimum number of amiibo items expected from the live service, as of July 2026.
-    static let minimumAmiibos = 946
-    /// A number that represents the minimum number of amiibo series expected from the live service, as of July 2026.
-    static let minimumAmiiboSeries = 31
-    /// A number that represents the minimum number of amiibo types expected from the live service, as of July 2026.
+    /// A number that represents the minimum number of amiibo items expected from the live service, as of October 2026.
+    static let minimumAmiibos = 952
+    /// A number that represents the minimum number of amiibo series expected from the live service, as of October 2026.
+    static let minimumAmiiboSeries = 32
+    /// A number that represents the minimum number of amiibo types expected from the live service, as of October 2026.
     static let minimumAmiiboTypes = 5
-    /// A number that represents the minimum number of game characters expected from the live service, as of July 2026.
-    static let minimumGameCharacters = 681
-    /// A number that represents the minimum number of game series expected from the live service, as of July 2026.
-    static let minimumGameSeries = 118
+    /// A number that represents the minimum number of game characters expected from the live service, as of October 2026.
+    static let minimumGameCharacters = 685
+    /// A number that represents the minimum number of game series expected from the live service, as of October 2026.
+    static let minimumGameSeries = 119
 }
 
 private extension String {

@@ -133,6 +133,16 @@ AMIIBO_LIVE_TESTS=1 swift test
 
 In Xcode, set the variable in the scheme's **Test** action.
 
+The live tests compare the responses against baselines recorded from the service: minimum item counts per endpoint and the earliest accepted last-updated date. These live in the `Int` extension at the bottom of `AmiiboServiceLiveTests.swift` and in the `get the last updated timestamp` test. Refresh them occasionally by fetching the current totals and the current timestamp from the service, then updating the constants and their `as of` notes:
+
+```shell
+for endpoint in amiibo amiiboseries type character gameseries; do
+  printf '%s: ' "$endpoint"
+  curl -s "https://www.amiiboapi.org/api/$endpoint/" | python3 -c 'import json,sys; print(len(json.load(sys.stdin)["amiibo"]))'
+done
+curl -s https://www.amiiboapi.org/api/lastupdated/
+```
+
 ## Documentation
 
 See the [online documentation](https://rock-n-code.github.io/amiibo-service/documentation/amiiboservice/).
